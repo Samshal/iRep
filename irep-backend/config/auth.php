@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'api',
-        'passwords' => 'accounts',
+        'passwords' => 'citizens',
     ],
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ return [
     'guards' => [
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'accounts',
+            'provider' => 'citizens',
         ],
     ],
     /*
@@ -63,10 +63,15 @@ return [
             //     'model' => env('AUTH_MODEL', App\Models\User::class),
             // ],
 
-            'accounts' => [
+            'citizens' => [
                 'driver' => 'database',
-                'table' => 'accounts',
+                'table' => 'citizens',
             ],
+            'representatives' => [
+                'driver' => 'database',
+                'table' => 'representatives',
+            ],
+
         ],
 
         /*
@@ -89,8 +94,8 @@ return [
     */
 
         'passwords' => [
-            'accounts' => [
-                'provider' => 'users',
+            'citizens' => [
+                'provider' => 'citizens',
                 'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
                 'expire' => 60,
                 'throttle' => 60,

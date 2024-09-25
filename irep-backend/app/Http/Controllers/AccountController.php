@@ -3,26 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateAccountRequest;
-use Database\Models\Account;
-use Illuminate\Support\Facades\DB;
+use Database\Factories\AccountFactory;
+use Illuminate\Support\Facades\Log;
 
 class AccountController extends Controller
 {
-    protected $db;
-
-    public function __construct()
-    {
-        $this->db = DB::connection()->getPdo();
-    }
-
-    public function create(CreateAccountRequest $request)
+    public function register(CreateAccountRequest $request)
     {
         try {
-            $accountModel = new Account($this->db);
-            $accountId = $accountModel->insertAccount($request->validated());
+
+            Log::info('Creating account.', ['request' => $request->validated()]);
+
+            $accountFactory = new AccountFactory();
+            $accountId = $accountFactory->createAccount($request->validated());
+
+            Log::info('Account created successfully.', ['account_id' => $accountId]);
 
             return response()->json(['account_id' => $accountId], 201);
         } catch (\Exception $e) {
+            Log::error('Account creation failed.', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Account creation failed.'], 500);
         }
     }

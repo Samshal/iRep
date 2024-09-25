@@ -1,36 +1,49 @@
 <?php
 
-namespace Database\Models;
+namespace App\Models;
 
-/**
- * Class Citizen represents the Citizen model in the database
- */
-class Citizen
+class Citizen extends BaseAccount
 {
-    protected $accountId;
-    protected $occupation;
-    protected $address;
+    protected $db;
 
-    public function __construct($accountId, $data)
+    public function __construct($db, array $data)
     {
-        $this->accountId = $accountId;
+        $this->db = $db;
+        $this->name = $data['name'];
+        $this->email = $data['email'];
+        $this->password = bcrypt($data['password']);
+        $this->account_type_id = $this->getAccountTypeId($db, $data['account_type']);
+        $this->phone_number = $data['phone_number'];
+        $this->dob = $data['dob'];
+        $this->state = $data['state'];
+        $this->local_government = $data['local_government'];
         $this->occupation = $data['occupation'];
-        $this->address = $data['address'];
+        $this->location = $data['location'];
     }
 
-    /**
-     * Insert a new citizen into the database
-     *
-     * @param \PDO $db
-     * @return void
-     */
-    public function insert($db)
+    public function insert()
     {
         $query = "
-        INSERT INTO citizens (account_id, occupation, address)
-        VALUES (?, ?, ?)";
+        INSERT INTO citizens
+        (name, email, password, account_type_id, phone_number, dob, state,
+        local_government, occupation, location)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $stmt = $db->prepare($query);
-        $stmt->execute([$this->accountId, $this->occupation, $this->address]);
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([
+            $this->name,
+            $this->email,
+            $this->password,
+            $this->account_type_id,
+            $this->phone_number,
+            $this->dob,
+            $this->state,
+            $this->local_government,
+            $this->occupation,
+            $this->location
+        ]);
+
+        return $this->db->lastInsertId();
     }
+
 }
