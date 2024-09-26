@@ -14,7 +14,7 @@ return new class () extends Migration {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name VARCHAR(255) UNIQUE
             )
-            ");
+        ");
 
         // Seed the account_types table
         DB::table('account_types')->insert([
@@ -23,9 +23,8 @@ return new class () extends Migration {
             ['name' => 'admin'],
         ]);
 
-
         DB::statement("
-            CREATE TABLE citizens (
+            CREATE TABLE accounts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 photo_url VARCHAR(255),
                 name VARCHAR(255),
@@ -34,39 +33,35 @@ return new class () extends Migration {
                 dob DATE,
                 state VARCHAR(255),
                 local_government VARCHAR(255),
-                password VARCHAR(255),
                 polling_unit VARCHAR(255),
-                occupation VARCHAR(255),
-                location VARCHAR(255),
+                password VARCHAR(255),
                 email_verified BOOLEAN DEFAULT FALSE,
-                account_type INTEGER NOT NULL,
                 remember_token VARCHAR(100) NULL,
+                account_type INTEGER NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ");
 
         DB::statement("
+            CREATE TABLE citizens (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                occupation VARCHAR(255),
+                location VARCHAR(255),
+                account_id INTEGER NOT NULL,
+                FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE
+            )
+        ");
+
+        DB::statement("
             CREATE TABLE representatives (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                photo_url VARCHAR(255),
-                name VARCHAR(255),
-                email VARCHAR(255) UNIQUE,
-                phone_number VARCHAR(20) UNIQUE,
-                dob DATE,
-                state VARCHAR(255),
-                local_government VARCHAR(255),
-                polling_unit VARCHAR(255),
-                password VARCHAR(255),
                 position VARCHAR(255),
                 constituency VARCHAR(255),
                 party VARCHAR(255),
                 bio TEXT,
-                email_verified BOOLEAN DEFAULT FALSE,
-                remember_token VARCHAR(100) NULL,
-                account_type INTEGER,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                account_id INTEGER,
+                FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE
             )
         ");
 

@@ -23,22 +23,28 @@ class CreateAccountRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:citizens,email|unique:representatives,email',
-            'phone_number' => 'required|string|max:20|unique:citizens,phone_number|unique:representatives,phone_number',
-            'dob' => 'required|date',
-            'password' => 'required|string|min:6',
-            'account_type' => 'required|string|exists:account_types,name',
+            'email' => 'required|email|unique:accounts,email|max:255',
+            'phone_number' => 'required|string|unique:accounts,phone_number|max:20',
+            'dob' => 'required|date|before:today',
             'state' => 'required|string|max:255',
             'local_government' => 'required|string|max:255',
-            'photo_url' => 'string|max:255|nullable',
-            'polling_unit' => 'string|max:255|nullable',
-            'occupation' => 'required_if:account_type,citizen|string|max:255',
-            'location' => 'required_if:account_type,citizen|string|max:255',
-            'position' => 'required_if:account_type,representative|string|max:255',
-            'party' => 'required_if:account_type,representative|string|max:255',
-            'constituency' => 'required_if:account_type,representative|string|max:255',
+            'password' => 'required|string|min:8|',
+            'account_type' => 'required|string|exists:account_types,name',
+            'occupation' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'party' => 'nullable|string|max:255',
+            'constituency' => 'nullable|string|max:255',
+
+            //'occupation' => 'required_if:account_type,citizen|string|max:255',
+            //'location' => 'required_if:account_type,citizen|string|max:255',
+            //'position' => 'required_if:account_type,representative|string|max:255',
+            //'party' => 'required_if:account_type,representative|string|max:255',
+            //'constituency' => 'required_if:account_type,representative|string|max:255',
+
         ];
     }
+
     /*
     * Custom validation error message
     */

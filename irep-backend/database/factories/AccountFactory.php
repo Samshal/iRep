@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Account;
 use App\Models\Citizen;
 use App\Models\Representative;
 use Illuminate\Support\Facades\DB;
@@ -32,10 +33,17 @@ class AccountFactory
 
             log::info('Transaction started.');
 
+            $account = new Account($this->db, $data);
+            $accountId = $account->insertAccount();
+
+            log::info('Initial account created.', ['account_id' => $accountId]);
+
             if ($data['account_type'] === 'citizen') {
-                $result = (new Citizen($this->db, $data))->insert($this->db);
+                $result = (new Citizen($accountId, $data))->insert($this->db);
             } elseif ($data['account_type'] === 'representative') {
-                $result = (new Representative($this->db, $data))->insert($this->db);
+                $result = (new Representative($accountId, $data))->insert($this->db);
+            } else {
+                throw new \Exception('Invalid account type.');
             }
 
             log::info('Transaction completed.');

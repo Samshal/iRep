@@ -2,48 +2,32 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Hash;
-
-class Citizen extends BaseAccount
+class Citizen
 {
-    public function __construct($db = null, array $data = [])
+    protected $accountId;
+    protected $occupation;
+    protected $location;
+
+    public function __construct($accountId, $data)
     {
-        parent::__construct($db, $data);
-        $this->name = $data['name'];
-        $this->email = $data['email'];
-        $this->password = $data['password'];
-        $this->account_type = $this->getAccountTypeId($data['account_type']);
-        $this->phone_number = $data['phone_number'];
-        $this->dob = $data['dob'];
-        $this->state = $data['state'];
-        $this->local_government = $data['local_government'];
+        $this->accountId = $accountId;
         $this->occupation = $data['occupation'];
         $this->location = $data['location'];
     }
-
-    public function insert()
+    /**
+     * Insert a new citizen into the database
+     *
+     * @param \PDO $db
+     * @return void
+     */
+    public function insert($db)
     {
         $query = "
-        INSERT INTO citizens
-        (name, email, password, account_type, phone_number, dob, state,
-        local_government, occupation, location)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        INSERT INTO citizens (account_id, occupation, location)
+        VALUES (?, ?, ?)";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$this->accountId, $this->occupation, $this->location]);
 
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([
-            $this->name,
-            $this->email,
-            Hash::make($this->password),
-            $this->account_type,
-            $this->phone_number,
-            $this->dob,
-            $this->state,
-            $this->local_government,
-            $this->occupation,
-            $this->location
-        ]);
-
-        return $this->db->lastInsertId();
+        return $this->accountId;
     }
-
 }

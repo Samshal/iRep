@@ -7,10 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateAccountRequest;
 use Database\Factories\AccountFactory;
 use Illuminate\Support\Facades\Log;
-use App\Models\Citizen;
-use App\Models\Representative;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -48,9 +48,13 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        $user = Citizen::findByEmail($credentials['email']) ?? Representative::findByEmail($credentials['email']);
+        $db = DB::connection()->getPdo();
+
+        $user = Account::getAccountByEmail($db, $credentials['email']);
 
         if ($user && Hash::check($credentials['password'], $user->password)) {
+
+            log::info('User authenticated');
 
             $token = auth()->login($user);
 
