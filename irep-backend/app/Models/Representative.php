@@ -11,7 +11,7 @@ class Representative extends BaseAccount
 {
     public function __construct($db, array $data)
     {
-        parent::__construct($db);
+        parent::__construct($db, $data);
         $this->name = $data['name'];
         $this->email = $data['email'];
         $this->password = $data['password'];
@@ -38,7 +38,7 @@ class Representative extends BaseAccount
         INSERT INTO representatives
         (name, email, password, account_type, phone_number, dob, state,
         local_government, position, party, constituency)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->db->prepare($query);
         $stmt->execute([
@@ -58,8 +58,4 @@ class Representative extends BaseAccount
         return $this->db->lastInsertId();
     }
 
-    public function getTable(): string
-    {
-        return 'representatives';
-    }
 }

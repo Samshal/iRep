@@ -8,7 +8,7 @@ class Citizen extends BaseAccount
 {
     public function __construct($db = null, array $data = [])
     {
-        parent::__construct($db);
+        parent::__construct($db, $data);
         $this->name = $data['name'];
         $this->email = $data['email'];
         $this->password = $data['password'];
@@ -43,9 +43,7 @@ class Citizen extends BaseAccount
             $this->location
         ]);
 
-        $id = $this->db->lastInsertId();
-        $this->id = $id;
-        return $id;
+        return $this->db->lastInsertId();
     }
 
 }

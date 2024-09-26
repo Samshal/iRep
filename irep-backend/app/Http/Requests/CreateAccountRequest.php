@@ -32,11 +32,11 @@ class CreateAccountRequest extends FormRequest
             'local_government' => 'required|string|max:255',
             'photo_url' => 'string|max:255|nullable',
             'polling_unit' => 'string|max:255|nullable',
-            'occupation' => 'required_if:account_type_id,1|string|max:255',
-            'location' => 'required_if:account_type_id,1|string|max:255',
-            'position' => 'required_if:account_type_id,2|string|max:255',
-            'party' => 'required_if:account_type_id,2|string|max:255',
-            'constituency' => 'required_if:account_type_id,2|string|max:255',
+            'occupation' => 'required_if:account_type,citizen|string|max:255',
+            'location' => 'required_if:account_type,citizen|string|max:255',
+            'position' => 'required_if:account_type,representative|string|max:255',
+            'party' => 'required_if:account_type,representative|string|max:255',
+            'constituency' => 'required_if:account_type,representative|string|max:255',
         ];
     }
     /*

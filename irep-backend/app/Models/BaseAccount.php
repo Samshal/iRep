@@ -14,16 +14,17 @@ class BaseAccount extends Authenticatable implements JWTSubject
 
     protected $account_type;
     protected $db;
-    protected $id;
+    public $email;
 
-    public function __construct($db = null)
+    public function __construct($db = null, array $data = [])
     {
         $this->db = $db;
+        $this->email = $data['email'];
     }
 
     public function getJWTIdentifier(): mixed
     {
-        return 1;
+        return $this->email;
     }
 
     public function getJWTCustomClaims(): array
@@ -41,11 +42,7 @@ class BaseAccount extends Authenticatable implements JWTSubject
 
         $accountTypeId = $stmt->fetchColumn();
 
-        if ($accountTypeId === false) {
-            $accountTypeId = 1;
-        }
-
-        Log::info("Account type id: $accountTypeId");
+        log::info('Account type id retrieved.', ['account_type_id' => $accountTypeId]);
 
         $this->account_type = $accountTypeId;
         return $accountTypeId;
@@ -55,16 +52,12 @@ class BaseAccount extends Authenticatable implements JWTSubject
     {
         $db = DB::connection()->getPdo();
         $className = static::class;
-        Log::info("Class name: $className");
         $table = strtolower((new \ReflectionClass($className))->getShortName()) . 's';
-        Log::info("Table name: $table");
 
         $query = "SELECT * FROM $table WHERE email = ?";
         $stmt = $db->prepare($query);
         $stmt->execute([$email]);
         $data = $stmt->fetch(\PDO::FETCH_ASSOC);
-
-        log::info($data);
 
         if ($data) {
             return new $className($db, $data);

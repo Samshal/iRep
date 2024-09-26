@@ -39,7 +39,7 @@ return new class () extends Migration {
                 occupation VARCHAR(255),
                 location VARCHAR(255),
                 email_verified BOOLEAN DEFAULT FALSE,
-                account_type INTEGER DEFAULT 1,
+                account_type INTEGER NOT NULL,
                 remember_token VARCHAR(100) NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -28,11 +28,8 @@ class AuthController extends Controller
     {
         try {
 
-            Log::info('Creating account.', ['request' => $request->validated()]);
-
             $accountFactory = new AccountFactory();
             $accountId = $accountFactory->createAccount($request->validated());
-
             Log::info('Account created successfully.', ['account_id' => $accountId]);
 
             return response()->json(['account_id' => $accountId], 201);
@@ -51,14 +48,9 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        $user = Citizen::findByEmail($credentials['email']);
-
-        log::info($user);
-        log::info($credentials['password']);
-        log::info($user->password);
+        $user = Citizen::findByEmail($credentials['email']) ?? Representative::findByEmail($credentials['email']);
 
         if ($user && Hash::check($credentials['password'], $user->password)) {
-            log::info('User authenticated.');
 
             $token = auth()->login($user);
 
