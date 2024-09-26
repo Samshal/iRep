@@ -39,7 +39,7 @@ return new class () extends Migration {
                 occupation VARCHAR(255),
                 location VARCHAR(255),
                 email_verified BOOLEAN DEFAULT FALSE,
-                account_type_id INTEGER DEFAULT 1,
+                account_type INTEGER DEFAULT 1,
                 remember_token VARCHAR(100) NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -64,7 +64,7 @@ return new class () extends Migration {
                 bio TEXT,
                 email_verified BOOLEAN DEFAULT FALSE,
                 remember_token VARCHAR(100) NULL,
-                account_type_id INTEGER,
+                account_type INTEGER,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )

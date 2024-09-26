@@ -2,20 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Hash;
+
 /**
  * Class Representative represents the Representative model in the database
  */
 class Representative extends BaseAccount
 {
-    protected $db;
-
     public function __construct($db, array $data)
     {
-        $this->db = $db;
+        parent::__construct($db);
         $this->name = $data['name'];
         $this->email = $data['email'];
-        $this->password = bcrypt($data['password']);
-        $this->account_type_id = $this->getAccountTypeId($db, $data['account_type']);
+        $this->password = $data['password'];
+        $this->account_type = $this->getAccountTypeId($data['account_type']);
         $this->phone_number = $data['phone_number'];
         $this->dob = $data['dob'];
         $this->state = $data['state'];
@@ -44,8 +44,8 @@ class Representative extends BaseAccount
         $stmt->execute([
             $this->name,
             $this->email,
-            $this->password,
-            $this->account_type_id,
+            Hash::make($this->password),
+            $this->account_type,
             $this->phone_number,
             $this->dob,
             $this->state,
@@ -58,4 +58,8 @@ class Representative extends BaseAccount
         return $this->db->lastInsertId();
     }
 
+    public function getTable(): string
+    {
+        return 'representatives';
+    }
 }

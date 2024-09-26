@@ -43,7 +43,6 @@ class AccountFactory
             log::info('Transaction committed.');
 
             return $result;
-
         } catch (\Exception $e) {
             $this->db->rollBack();
             throw $e;

@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PingController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AccountController;
 
 Route::group([
     'middleware' => 'api',
@@ -14,7 +13,7 @@ Route::group([
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
 
-    Route::post('register', [AccountController::class, 'register']);
+    Route::post('register', [AuthController::class, 'register']);
 });
 
 Route::get('/', [PingController::class, 'ping']);

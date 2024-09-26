@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateAccountRequest;
+use Database\Factories\AccountFactory;
+use Illuminate\Support\Facades\Log;
+use App\Models\Citizen;
+use App\Models\Representative;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -12,9 +19,27 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    # public function __construct()
+    # {
+    #     $this->middleware('auth:api', ['except' => ['login']]);
+    # }
+
+    public function register(CreateAccountRequest $request)
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        try {
+
+            Log::info('Creating account.', ['request' => $request->validated()]);
+
+            $accountFactory = new AccountFactory();
+            $accountId = $accountFactory->createAccount($request->validated());
+
+            Log::info('Account created successfully.', ['account_id' => $accountId]);
+
+            return response()->json(['account_id' => $accountId], 201);
+        } catch (\Exception $e) {
+            Log::error('Account creation failed.', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Account creation failed.'], 500);
+        }
     }
 
     /**
@@ -22,17 +47,30 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = $request->only('email', 'password');
 
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $user = Citizen::findByEmail($credentials['email']);
+
+        log::info($user);
+        log::info($credentials['password']);
+        log::info($user->password);
+
+        if ($user && Hash::check($credentials['password'], $user->password)) {
+            log::info('User authenticated.');
+
+            $token = auth()->login($user);
+
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ]);
         }
 
-        return $this->respondWithToken($token);
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
-
     /**
      * Get the authenticated User.
      *

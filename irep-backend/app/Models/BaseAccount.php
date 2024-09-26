@@ -6,28 +6,26 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
-abstract class BaseAccount extends Authenticatable implements JWTSubject
+class BaseAccount extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
     protected $account_type;
+    protected $db;
+    protected $id;
 
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier(): mixed
+    public function __construct($db = null)
     {
-        return $this->getKey();
+        $this->db = $db;
     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
+    public function getJWTIdentifier(): mixed
+    {
+        return 1;
+    }
+
     public function getJWTCustomClaims(): array
     {
         return [
@@ -35,17 +33,10 @@ abstract class BaseAccount extends Authenticatable implements JWTSubject
         ];
     }
 
-    /**
-     * Get the account type id
-     *
-     * @param \PDO $db
-     * @param string $accountType
-     * @return int
-     */
-    protected function getAccountTypeId($db, string $accountType): int
+    protected function getAccountTypeId(string $accountType): int
     {
         $query = "SELECT id FROM account_types WHERE name = ?";
-        $stmt = $db->prepare($query);
+        $stmt = $this->db->prepare($query);
         $stmt->execute([$accountType]);
 
         $accountTypeId = $stmt->fetchColumn();
@@ -54,9 +45,31 @@ abstract class BaseAccount extends Authenticatable implements JWTSubject
             $accountTypeId = 1;
         }
 
-        log::info($accountTypeId);
+        Log::info("Account type id: $accountTypeId");
 
         $this->account_type = $accountTypeId;
         return $accountTypeId;
+    }
+
+    public static function findByEmail(string $email): mixed
+    {
+        $db = DB::connection()->getPdo();
+        $className = static::class;
+        Log::info("Class name: $className");
+        $table = strtolower((new \ReflectionClass($className))->getShortName()) . 's';
+        Log::info("Table name: $table");
+
+        $query = "SELECT * FROM $table WHERE email = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$email]);
+        $data = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        log::info($data);
+
+        if ($data) {
+            return new $className($db, $data);
+        }
+
+        return null;
     }
 }
