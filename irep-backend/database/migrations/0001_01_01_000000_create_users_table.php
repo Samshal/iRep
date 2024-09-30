@@ -11,16 +11,17 @@ return new class () extends Migration {
     {
         DB::statement("
             CREATE TABLE account_types (
-                id INT AUTO_INCREMENT PRIMARY KEY,
+                id INT PRIMARY KEY,
                 name VARCHAR(255) UNIQUE NOT NULL
             )
         ");
 
         // Seed the account_types table
         DB::table('account_types')->insert([
-            ['name' => 'citizen'],
-            ['name' => 'representative'],
-            ['name' => 'admin'],
+            ['id' => 0, 'name' => 'social'],
+            ['id' => 1, 'name' => 'citizen'],
+            ['id' => 2, 'name' => 'representative'],
+            ['id' => 3, 'name' => 'admin'],
         ]);
 
         DB::statement("
@@ -29,7 +30,7 @@ return new class () extends Migration {
                 photo_url VARCHAR(255),
                 name VARCHAR(255) NOT NULL,
                 email VARCHAR(255) UNIQUE NOT NULL,
-                phone_number VARCHAR(20) UNIQUE NOT NULL,
+                phone_number VARCHAR(20) UNIQUE,
                 dob DATE,
                 state VARCHAR(255),
                 local_government VARCHAR(255),
@@ -37,7 +38,7 @@ return new class () extends Migration {
                 password VARCHAR(255) NOT NULL,
                 email_verified BOOLEAN DEFAULT FALSE,
                 remember_token VARCHAR(100),
-                account_type INT NOT NULL,
+                account_type INT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 FOREIGN KEY (account_type) REFERENCES account_types(id) ON DELETE CASCADE

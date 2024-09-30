@@ -16,10 +16,10 @@ class AuthController extends Controller
     public function register(CreateAccountRequest $request)
     {
         try {
-            $accountId = $this->accountFactory->createAccount($request->validated());
-            Log::info('Account created successfully.', ['account_id' => $accountId]);
+            $account = $this->accountFactory->createAccount($request->validated());
+            Log::info('Account created successfully.', ['account_id' => $account->id]);
 
-            return response()->json(['account_id' => $accountId], 201);
+            return response()->json(['account_id' => $account->id], 201);
         } catch (\Exception $e) {
             Log::error('Account creation failed.', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Account creation failed.'], 500);
@@ -37,7 +37,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Invalid OTP'], 400);
         }
 
-        $token = auth()->login($user);
+        $token = auth()->login($verified);
         return $this->tokenResponse($token);
 
     }
@@ -49,29 +49,26 @@ class AuthController extends Controller
 
         $user = Account::getAccountByEmail($this->db, $credentials['email']);
 
-        if ($user && Hash::check($credentials['password'], $user->password)) {
-            Log::info('User authenticated');
-            $token = auth()->login($user);
+        if ($user) {
+            if (Hash::check($credentials['password'], $user->password)) {
+                Log::info('User authenticated');
+                $token = auth()->login($user);
 
-            return $this->tokenResponse($token);
+                return $this->tokenResponse($token);
+            } else {
+                return response()->json(['error' => 'Incorrect credentials'], 401);
+            }
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json(['error' => 'Incorrect credentials'], 401);
     }
 
     public function redirect($provider)
     {
         if ($provider == 'twitter') {
-            // Get the Twitter driver
             $twitter = Socialite::driver($provider);
-
-            // Get the request token for Twitter OAuth 1.0
             $requestToken = $twitter->getRequestToken();
-
-            // Store the request token in Redis or Cache with a unique key (using IP as an example)
             Cache::put('oauth_request_token_' . request()->ip(), $requestToken, now()->addMinutes(10));
-
-            // Redirect to Twitter with the authorization URL
             return redirect()->away($twitter->getAuthorizationUrl($requestToken));
         }
 
@@ -86,7 +83,6 @@ class AuthController extends Controller
         } else {
             $socialUser = Socialite::driver($provider)->stateless()->user();
         }
-
         Log::info('Social User Info:', ['socialUser' => json_encode($socialUser)]);
 
         $user = Account::getAccountByEmail($this->db, $socialUser->getEmail());
@@ -96,9 +92,10 @@ class AuthController extends Controller
                 'name' => $socialUser->getName(),
                 'email' => $socialUser->getEmail(),
                 'photo_url' => $socialUser->getAvatar(),
-                'account_type' => 'citizen',
+                'account_type' => 'social',
             ];
             $user = $this->accountFactory->createAccount($userData);
+            $this->accountFactory->setEmailVerified($user->id);
         }
 
         $token = auth()->login($user);

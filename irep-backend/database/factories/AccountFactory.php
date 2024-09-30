@@ -36,32 +36,36 @@ class AccountFactory
 
             log::info('Transaction started.');
 
+
             $account = new Account($this->db, $data);
             $accountId = $account->insertAccount();
 
             log::info('Initial account created.', ['account_id' => $accountId]);
 
             if ($data['account_type'] === 'citizen') {
-                $result = (new Citizen($accountId, $data))->insert($this->db);
+                (new Citizen($accountId, $data))->insert($this->db);
             } elseif ($data['account_type'] === 'representative') {
-                $result = (new Representative($accountId, $data))->insert($this->db);
+                (new Representative($accountId, $data))->insert($this->db);
+            } elseif ($data['account_type'] === 'social') {
+                // Do nothing
             } else {
                 throw new \Exception('Invalid account type.');
             }
 
-            $otp = Str::random(6);
-            $this->saveVerificationToken($accountId, $otp);
+            if ($data['account_type'] !== 'social') {
+                $otp = Str::random(6);
+                $this->saveVerificationToken($accountId, $otp);
 
-            $templateVariables = [
-                'otp' => $otp,
-            ];
-            $emailService->sendNewUserVerification($data['email'], $data['name'], $templateVariables);
-
+                $templateVariables = [
+                    'otp' => $otp,
+                ];
+                $emailService->sendNewUserVerification($data['email'], $data['name'], $templateVariables);
+            }
             log::info('Transaction completed.');
             $this->db->commit();
             log::info('Transaction committed.');
 
-            return $result;
+            return new Account($this->db, ['id' => $accountId, 'account_type' => $data['account_type']]);
         } catch (\Exception $e) {
             $this->db->rollBack();
             throw $e;
@@ -95,7 +99,7 @@ class AccountFactory
         try {
             $query = 'SELECT vt.account_id, a.account_type FROM verification_tokens vt
                   JOIN accounts a ON vt.account_id = a.id
-                  WHERE LOWER(a.email) = LOWER(?) AND LOWER(vt.token) = LOWER(?)';
+                  WHERE a.email = ? AND vt.token = ?';
             $stmt = $this->db->prepare($query);
 
             // Execute the query and log the result
@@ -136,7 +140,7 @@ class AccountFactory
      * @param int $accountId
      * @return void
      */
-    protected function setEmailVerified($accountId)
+    public function setEmailVerified($accountId)
     {
         $query = 'UPDATE accounts SET email_verified = ? WHERE id = ?';
         $stmt = $this->db->prepare($query);
