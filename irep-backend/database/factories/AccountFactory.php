@@ -120,7 +120,7 @@ class AccountFactory
             $stmt = $this->db->prepare($query);
 
             // Execute the query and log the result
-            $executionResult = $stmt->execute([trim($email), trim($otp)]);
+            $stmt->execute([trim($email), trim($otp)]);
 
             if ($stmt->rowCount() > 0) {
                 $result = $stmt->fetch(\PDO::FETCH_ASSOC);

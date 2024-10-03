@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PetitionController;
 
 Route::get('/', function () {
     return response()->json([
@@ -27,4 +28,14 @@ Route::group([
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
         Route::get('profile', [AuthController::class, 'profile'])->name('profile');
     });
+});
+
+Route::group([
+    'prefix' => 'petitions'
+], function () {
+    Route::get('/', [PetitionController::class, 'index'])->name('index');
+    Route::post('/', [PetitionController::class, 'create'])->name('create');
+    Route::get('/{id}', [PetitionController::class, 'show'])->name('show');
+    Route::put('/{id}', [PetitionController::class, 'update'])->name('update');
+    Route::delete('/{id}', [PetitionController::class, 'delete'])->name('delete');
 });
