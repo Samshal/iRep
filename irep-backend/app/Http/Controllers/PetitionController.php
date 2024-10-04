@@ -6,6 +6,7 @@ use App\Models\Petition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PetitionRequest;
+use App\Http\Requests\CommentRequest;
 use App\Http\Resources\PetitionResource;
 
 class PetitionController extends Controller
@@ -47,7 +48,7 @@ class PetitionController extends Controller
         return response()->json(new PetitionResource($petition));
     }
 
-    public function sign($id)
+    public function sign($id, CommentRequest $request)
     {
         $petitionData = $this->petition->findById($id);
 
@@ -59,7 +60,9 @@ class PetitionController extends Controller
             return response()->json(['message' => 'You have already signed this petition'], 400);
         }
 
-        $this->petition->insertSignature($id, auth()->id());
+        $comment = $request->input('comment');
+
+        $this->petition->insertSignature($id, auth()->id(), $comment);
         $this->petition->incrementSignatureCount($id);
 
         return response()->json(['message' => 'Petition signed successfully']);

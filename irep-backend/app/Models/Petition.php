@@ -67,14 +67,30 @@ class Petition
         return $stmt->fetchColumn() > 0;
     }
 
-    public function insertSignature($petitionId, $accountId)
+    public function insertSignature($petitionId, $accountId, $comment = null)
     {
         $query = "
         INSERT INTO petition_signatures (petition_id, account_id, signed_at)
         VALUES (?, ?, ?)";
+
         $stmt = $this->db->prepare($query);
         $stmt->execute([$petitionId, $accountId, now()]);
+
+        if ($comment) {
+            $this->insertComment($petitionId, $accountId, $comment);
+        }
     }
+
+    public function insertComment($petitionId, $accountId, $comment)
+    {
+        $query = "
+        INSERT INTO petition_comments (petition_id, account_id, comment, commented_at)
+        VALUES (?, ?, ?, ?)";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$petitionId, $accountId, $comment, now()]);
+    }
+
 
     public function incrementSignatureCount($id)
     {

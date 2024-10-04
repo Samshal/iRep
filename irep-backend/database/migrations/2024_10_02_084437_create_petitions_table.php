@@ -36,6 +36,18 @@ return new class () extends Migration {
                 FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
                 UNIQUE (petition_id, account_id)
             )
+            ");
+
+        DB::statement("
+            CREATE TABLE petition_comments (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                petition_id INT NOT NULL,
+                account_id INT NOT NULL,
+                comment TEXT NOT NULL,
+                commented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (petition_id) REFERENCES petitions(id) ON DELETE CASCADE,
+                FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
+            )
         ");
     }
 
@@ -44,6 +56,7 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+        DB::statement("DROP TABLE petition_comments");
         DB::statement("DROP TABLE petition_signatures");
         DB::statement("DROP TABLE petitions");
     }
