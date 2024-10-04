@@ -25,16 +25,27 @@ class Petition
 
     public function createPetition()
     {
-        \Log::info('Creating petition', ['title' => $this->title]);
-        \Log::info('Creating petition', ['description' => $this->description]);
-        \Log::info('Creating petition', ['creator_id' => $this->creatorId]);
-        \Log::info('Creating petition', ['target_representative_id' => $this->targetRepresentativeId]);
-
         $query = "
         INSERT INTO petitions (title, description, creator_id, target_representative_id)
         VALUES (?, ?, ?, ?)";
+
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$this->title, $this->description, $this->creatorId, $this->targetRepresentativeId]);
+
+        try {
+            $stmt->execute([$this->title, $this->description, $this->creatorId, $this->targetRepresentativeId]);
+            return $this->db->lastInsertId();
+        } catch (\PDOException $e) {
+            if (str_contains($e->getMessage(), 'Duplicate entry')) {
+                throw new \Exception('A petition with this title already exists.', 409);
+            }
+        }
+    }
+
+    public function signPetition($petitionId, $userId)
+    {
+        $query = "INSERT INTO petition_signatures (petition_id, user_id) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$petitionId, $userId]);
 
         return $this->db->lastInsertId();
     }

@@ -120,8 +120,6 @@ class Account extends Authenticatable implements JWTSubject
 
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        Log::info('In getAccount', ['result' => $result]);
-
         if ($result) {
             // Return an instance of the Account class
             return new self($db, $result);
