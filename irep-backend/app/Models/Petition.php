@@ -12,7 +12,7 @@ class Petition
     protected $creatorId;
     protected $targetRepresentativeId;
 
-    public function __construct($db = null, $data)
+    public function __construct($db = null, $data = [])
     {
         $this->db = $db ?: DB::connection()->getPdo();
 
@@ -23,7 +23,7 @@ class Petition
         }
     }
 
-    public function createPetition()
+    public function createPetition($data)
     {
         $query = "
         INSERT INTO petitions (title, description, creator_id, target_representative_id)
@@ -32,7 +32,7 @@ class Petition
         $stmt = $this->db->prepare($query);
 
         try {
-            $stmt->execute([$this->title, $this->description, $this->creatorId, $this->targetRepresentativeId]);
+            $stmt->execute([$data['title'], $data['description'], $data['creatorId'], $data['target_representative_id']]);
             return $this->db->lastInsertId();
         } catch (\PDOException $e) {
             if (str_contains($e->getMessage(), 'Duplicate entry')) {
@@ -41,12 +41,48 @@ class Petition
         }
     }
 
-    public function signPetition($petitionId, $userId)
+    public function getAllPetitions()
     {
-        $query = "INSERT INTO petition_signatures (petition_id, user_id) VALUES (?, ?)";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([$petitionId, $userId]);
+        $query = "SELECT * FROM petitions";
+        $stmt = $this->db->query($query);
+        return $stmt->fetchAll();
+    }
 
-        return $this->db->lastInsertId();
+    public function findById($id)
+    {
+        $query = "SELECT * FROM petitions WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
+
+    public function hasUserSigned($petitionId, $accountId)
+    {
+        $query = "
+        SELECT COUNT(*)
+        FROM petition_signatures
+        WHERE petition_id = ? AND account_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$petitionId, $accountId]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function insertSignature($petitionId, $accountId)
+    {
+        $query = "
+        INSERT INTO petition_signatures (petition_id, account_id, signed_at)
+        VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$petitionId, $accountId, now()]);
+    }
+
+    public function incrementSignatureCount($id)
+    {
+        $query = "
+        UPDATE petitions
+        SET signature_count = signature_count + 1
+        WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$id]);
     }
 }

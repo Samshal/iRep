@@ -10,10 +10,16 @@ use App\Http\Resources\PetitionResource;
 
 class PetitionController extends Controller
 {
+    protected $petition;
+
+    public function __construct()
+    {
+        $this->petition = new Petition();
+    }
+
     public function index()
     {
-        $petitions = DB::table('petitions')->get();
-
+        $petitions = $this->petition->getAllPetitions();
         return response()->json(PetitionResource::collection($petitions));
     }
 
@@ -23,9 +29,7 @@ class PetitionController extends Controller
         $validated['creatorId'] = auth()->id();
         $validated['targetRepresentativeId'] = $validated['target_representative_id'];
 
-        $petition = new Petition(null, $validated);
-
-        $petitionId = $petition->createPetition();
+        $petitionId = $this->petition->createPetition($validated);
 
         return response()->json([
             'message' => 'Petition created successfully',
@@ -35,13 +39,30 @@ class PetitionController extends Controller
 
     public function show($id)
     {
-        $petition = DB::table('petitions')->where('id', $id)->first();
-
+        $petition = $this->petition->findById($id);
         if (!$petition) {
             return response()->json(['message' => 'Petition not found'], 404);
         }
 
         return response()->json(new PetitionResource($petition));
+    }
+
+    public function sign($id)
+    {
+        $petitionData = $this->petition->findById($id);
+
+        if (!$petitionData) {
+            return response()->json(['message' => 'Petition not found'], 404);
+        }
+
+        if ($this->petition->hasUserSigned($id, auth()->id())) {
+            return response()->json(['message' => 'You have already signed this petition'], 400);
+        }
+
+        $this->petition->insertSignature($id, auth()->id());
+        $this->petition->incrementSignatureCount($id);
+
+        return response()->json(['message' => 'Petition signed successfully']);
     }
 
 }

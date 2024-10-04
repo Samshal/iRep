@@ -15,6 +15,7 @@ Route::group([
     'prefix' => 'auth'
 ], function () {
     Route::post('register', [AuthController::class, 'register'])->name('register');
+    Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::get('redirect/{provider}', [AuthController::class, 'redirect'])->name('redirect');
     Route::get('callback/{provider}', [AuthController::class, 'callback'])->name('callback');
     Route::post('activate', [AuthController::class, 'activateAccount'])->name('activate');
@@ -23,7 +24,6 @@ Route::group([
     Route::group([
             'middleware' => ['auth:api', 'verified']
     ], function () {
-        Route::post('login', [AuthController::class, 'login'])->name('login')->withoutMiddleware(['auth:api']);
         Route::post('refresh', [AuthController::class, 'refresh'])->name('refresh');
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
         Route::get('profile', [AuthController::class, 'profile'])->name('profile');
@@ -36,6 +36,5 @@ Route::group([
     Route::get('/', [PetitionController::class, 'index'])->name('index');
     Route::post('/', [PetitionController::class, 'create'])->name('create');
     Route::get('/{id}', [PetitionController::class, 'show'])->name('show');
-    Route::put('/{id}', [PetitionController::class, 'update'])->name('update');
-    Route::delete('/{id}', [PetitionController::class, 'delete'])->name('delete');
+    Route::post('/sign/{id}', [PetitionController::class, 'sign'])->name('sign');
 });
