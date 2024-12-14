@@ -48,7 +48,6 @@ class PostResource extends JsonResource
             'author_badge' => $badge,
             'author_photo_url' => $data->author_photo ?? null,
             'reported' => $data->reported ?? null,
-            'petition_status' => $data->petition_status ?? null,
             'post_status' => $data->post_status ?? null,
             'created_at' => $data->created_at,
             'media' => property_exists($data, 'media') ? json_decode($data->media, true) : null,
@@ -81,6 +80,10 @@ class PostResource extends JsonResource
             ->select('comments.*', 'accounts.id AS author_id', 'accounts.name AS author_name', 'accounts.photo_url AS author_photo_url')
             ->get();
 
+        if (isset($postData['petition_status'])) {
+            $responseArray['petition_status'] = $postData['petition_status'];
+        }
+
         if (isset($postData['approvals'])) {
             $responseArray['approvals'] = $postData['approvals'];
         }
@@ -101,9 +104,6 @@ class PostResource extends JsonResource
             $responseArray['target_signatures'] = $postData['target_signatures'];
         }
 
-        if (isset($postData['petition_status'])) {
-            $responseArray['petition_status'] = $postData['petition_status'];
-        }
 
         if ($comments->isNotEmpty()) {
             $nestedComments = $comments->map(function ($comment) use ($request) {

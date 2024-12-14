@@ -22,7 +22,7 @@ class HomePageFactory extends PostFactory
             return [];
         };
 
-        $indexes = ['posts', 'accounts', 'news_feed'];
+        $indexes = ['posts', 'accounts'];
         $page = $criteria['page'] ?? 1;
         $pageSize = $criteria['page_size'] ?? 10;
         $offset = ($page - 1) * $pageSize;
@@ -30,27 +30,39 @@ class HomePageFactory extends PostFactory
         $sortOrder = $criteria['sort_order'] ?? 'desc';
         $filters = $criteria['filters'] ?? [];
 
-        $searchParams = [
-            'filter' => $this->buildFilters($filters),
-            'limit' => (int) $pageSize,
-            'offset' => (int) $offset,
-            # 'sort' => ["$sortBy:$sortOrder"],
-            'attributesToRetrieve' => ['*'],
-        ];
-
         $categorizedResults = [];
 
         foreach ($indexes as $indexName) {
+            $indexFilters = $filters;
+
+            if ($indexName === 'accounts') {
+                $indexFilters['state'] = $criteria['state'] ?? null;
+                $indexFilters['local_government'] = $criteria['local_government'] ?? null;
+                $indexFilters['id'] = $criteria['representative_id'] ?? null;
+            }
+
+            if ($indexName === 'posts') {
+                $indexFilters['author_state'] = $criteria['state'] ?? null;
+                $indexFilters['author_local_government'] = $criteria['local_government'] ?? null;
+                $indexFilters['author_id'] = $criteria['representative_id'] ?? null;
+            }
+
+            $searchParams = [
+                'filter' => $this->buildFilters($indexFilters),
+                'limit' => (int) $pageSize,
+                'offset' => (int) $offset,
+                # 'sort' => ["$sortBy:$sortOrder"],
+                'attributesToRetrieve' => ['*'],
+            ];
+
             $results = app('search')->search($indexName, $query, $searchParams);
             $hits = $results['hits'] ?? [];
             $totalCount = $results['nbHits'] ?? 0;
 
             foreach ($hits as &$hit) {
-                if ($indexName === 'accounts' && isset($hit['photo_url'])) {
-                    $hit['photo_url'] = json_decode($hit['photo_url'], true);
-                }
                 if ($indexName === 'posts' && isset($hit['media'])) {
                     $hit['media'] = json_decode($hit['media'], true);
+                    unset($hit['target_representatives']);
                 }
             }
 

@@ -87,8 +87,8 @@ class AccountFactory
 
             $sortableAttributes = ['created_at', 'name', 'account_type'];
             $filterableAttributes = [
-                'account_type', 'position', 'constituency', 'party',
-                'district', 'state', 'local_government'
+                'account_type', 'position', 'constituency', 'party', 'name',
+                'district', 'state', 'local_government', 'id'
             ];
 
             $total = app('search')->indexData(
@@ -126,7 +126,7 @@ class AccountFactory
         LEFT JOIN states s ON a.state_id = s.id
         LEFT JOIN local_governments lg ON a.local_government_id = lg.id
         LEFT JOIN positions p ON r.position_id = p.id
-        LEFT JOIN constituencies c ON r.constituency_id = c.id
+		LEFT JOIN constituencies c ON r.constituency_id = c.id
         LEFT JOIN parties pa ON r.party_id = pa.id
         LEFT JOIN districts d ON r.district_id = d.id
         LEFT JOIN account_types at ON a.account_type = at.id

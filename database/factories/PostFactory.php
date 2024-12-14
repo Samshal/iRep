@@ -57,6 +57,8 @@ class PostFactory extends CommentFactory
                 'author_kyced' => $fetchedPost->author_kyced,
                 'author' => $fetchedPost->author,
                 'author_id' => $fetchedPost->author_id,
+                'author_state' => $fetchedPost->author_state,
+                'author_local_government' => $fetchedPost->author_local_government,
                 'target_representatives' => $postData['target_representatives'] ?? null,
                 'status' => $postData['status'] ?? null,
                 'reported' => $fetchedPost->reported ?? null,
@@ -68,7 +70,8 @@ class PostFactory extends CommentFactory
             ];
 
             $sortableAttributes = ['created_at', 'title', 'post_type'];
-            $filterableAttributes = ['status', 'category', 'post_type', 'author'];
+            $filterableAttributes = ['status', 'category', 'post_type', 'author',
+            'author_state', 'author_local_government', 'author_id'];
 
             $total = app('search')->indexData(
                 'posts',
@@ -94,7 +97,9 @@ class PostFactory extends CommentFactory
             p.context,
             p.media,
             p.post_type,
-            a.name AS author,
+			a.name AS author,
+			s.name AS author_state,
+			lg.name AS author_local_government,
             a.photo_url AS author_photo,
             a.kyced AS author_kyced,
             a.account_type AS author_account_type,
@@ -126,7 +131,9 @@ class PostFactory extends CommentFactory
         FROM posts p
         LEFT JOIN petitions pe ON p.id = pe.post_id
         LEFT JOIN eye_witness_reports ew ON p.id = ew.post_id
-        LEFT JOIN accounts a ON p.creator_id = a.id
+		LEFT JOIN accounts a ON p.creator_id = a.id
+		LEFT JOIN states s ON a.state_id = s.id
+		LEFT JOIN local_governments lg ON a.local_government_id = lg.id
         LEFT JOIN petition_representatives pr ON pe.id = pr.petition_id
         LEFT JOIN accounts rep ON pr.representative_id = rep.id
         LEFT JOIN reports r ON r.entity_id = p.id AND r.entity_type = 'post'
@@ -135,7 +142,7 @@ class PostFactory extends CommentFactory
             p.status, p.created_at, a.name, a.photo_url, a.kyced,
             a.id, a.account_type, pe.target_signatures, pe.signatures,
 			a.account_type, pe.id, ew.id, r.reason, pe.status, ew.approvals,
-			ew.category";
+			ew.category, s.name, lg.name";
 
         $stmt = $this->db->prepare($query);
         $stmt->execute([$postId]);

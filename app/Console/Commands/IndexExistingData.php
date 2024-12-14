@@ -53,7 +53,7 @@ class IndexExistingData extends Command
             $sortableAttributes = ['created_at', 'name', 'account_type'];
             $filterableAttributes = [
                 'account_type', 'position', 'constituency', 'party',
-                'district', 'state', 'local_government'
+                'district', 'state', 'local_government', 'id', 'name'
             ];
 
             // Index account data in Meilisearch
@@ -88,6 +88,8 @@ class IndexExistingData extends Command
 					p.media,
 					a.name AS author,
 					a.id AS author_id,
+					s.name AS author_state,
+					lg.name AS author_local_government,
 					a.photo_url AS author_photo_url,
 					a.kyced AS author_kyced,
 					a.account_type AS author_account_type,
@@ -110,12 +112,14 @@ class IndexExistingData extends Command
 				LEFT JOIN accounts rep ON pr.representative_id = rep.id
 				LEFT JOIN eye_witness_reports ewr ON p.id = ewr.post_id
 				LEFT JOIN accounts a ON p.creator_id = a.id
+				LEFT JOIN states s ON a.state_id = s.id
+				LEFT JOIN local_governments lg ON a.local_government_id = lg.id
 				LEFT JOIN reports r ON r.entity_id = p.id AND r.entity_type = 'post'
 				GROUP BY p.id, p.title, p.context, p.post_type, p.status, p.media,
 						a.name, a.id, a.photo_url, a.kyced,
 						a.account_type, pe.status, pe.signatures,
 						pe.target_signatures, ewr.category,
-						p.created_at, r.reason
+						p.created_at, r.reason, s.name, lg.name
 			");
 
             $postsDataArray = json_decode(json_encode($postsData), true);
@@ -126,6 +130,9 @@ class IndexExistingData extends Command
                 'category',
                 'post_type',
                 'author',
+                'author_state',
+                'author_local_government',
+                'author_id',
             ];
 
             $total = $this->searchEngine->indexData(

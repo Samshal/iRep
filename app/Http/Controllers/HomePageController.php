@@ -11,7 +11,8 @@ class HomePageController extends Controller
     {
         try {
             $criteria = $request->only([
-                'search', 'sort_by', 'sort_order', 'page', 'page_size'
+                'search', 'sort_by', 'sort_order', 'page', 'page_size',
+                'state', 'local_government', 'representative_id'
             ]);
             $result = $this->homeFactory->globalSearch($criteria);
 
