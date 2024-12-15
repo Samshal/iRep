@@ -116,7 +116,7 @@ class AccountController extends Controller
 
         $account = $this->findEntity('account', $id);
 
-        return response()->json((new AccountResource($account))->toArray($request), 200);
+        return response()->json((new AccountResource($account))->toProfileArray($request), 200);
 
     }
 

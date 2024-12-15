@@ -64,6 +64,7 @@ class AccountResource extends JsonResource
         $responseArray = $this->toArray($request);
 
         $profileArray = [
+            'id' => $responseArray['id'],
             'account_type' => $responseArray['account_type'],
             'photo_url' => $responseArray['photo_url'] ?? null,
             'cover_photo_url' => $responseArray['cover_photo_url'] ?? null,
