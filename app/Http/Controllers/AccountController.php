@@ -18,12 +18,11 @@ class AccountController extends Controller
      */
     public function profile(Request $request)
     {
-        $currentUser = Auth::user();
+        $userId = $request->query('account_id', Auth::id());
 
-        $account = $this->findEntity('account', $currentUser->id);
+        $account = $this->findEntity('account', $userId);
 
         return response()->json((new AccountResource($account))->toProfileArray($request), 200);
-
     }
 
     public function status()
@@ -116,7 +115,7 @@ class AccountController extends Controller
 
         $account = $this->findEntity('account', $id);
 
-        return response()->json((new AccountResource($account))->toProfileArray($request), 200);
+        return response()->json((new AccountResource($account))->toArray($request), 200);
 
     }
 
