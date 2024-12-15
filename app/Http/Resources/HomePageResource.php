@@ -109,9 +109,15 @@ class HomePageResource extends JsonResource
             'likes' => $likesCount,
             'reposts' => $repostsCount,
             'bookmarks' => $bookmarksCount,
-            'signatures' => $data->signatures ?? null,
-            'target_signatures' => $data->target_signatures ?? null,
         ];
+
+        if ($data->post_type === 'petition') {
+
+            $responseArray['signatures'] = $postData->signatures ?? $data->signatures ?? 0;
+            $responseArray['target_signatures'] = $postData->target_signatures ?? $data->target_signatures ?? 0;
+            $responseArray['target_representatives'] = $postData->target_representatives ?? $data->target_representatives ?? [];
+        }
+
 
         $filteredArray = app('utils')->filterNullValues([$responseArray]);
 

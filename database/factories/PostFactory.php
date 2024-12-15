@@ -159,7 +159,7 @@ class PostFactory extends CommentFactory
         $params = [];
 
         $query = "
-		SELECT
+		SELECT DISTINCT
 			p.id,
 			p.title,
 			p.context,
@@ -220,6 +220,10 @@ class PostFactory extends CommentFactory
         $totalCountStmt = $this->db->prepare($countQuery);
         $totalCountStmt->execute($countParams);
         $totalCount = $totalCountStmt->fetchColumn();
+
+        foreach ($posts as $post) {
+            $post->target_representatives = json_decode($post->target_representatives);
+        }
 
         return [
             'data' => $posts,

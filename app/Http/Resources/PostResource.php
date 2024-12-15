@@ -59,10 +59,9 @@ class PostResource extends JsonResource
 
         if ($data->post_type === 'petition') {
 
-            if ($postData && isset($postData->signatures) && isset($postData->target_signatures)) {
-                $responseArray['signatures'] = $postData->signatures;
-                $responseArray['target_signatures'] = $postData->target_signatures;
-            }
+            $responseArray['signatures'] = $postData->signatures ?? $data->signatures ?? 0;
+            $responseArray['target_signatures'] = $postData->target_signatures ?? $data->target_signatures ?? 0;
+            $responseArray['target_representatives'] = $postData->target_representatives ?? $data->target_representatives ?? [];
         }
         return $responseArray;
     }

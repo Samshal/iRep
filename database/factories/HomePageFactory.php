@@ -62,7 +62,11 @@ class HomePageFactory extends PostFactory
             foreach ($hits as &$hit) {
                 if ($indexName === 'posts' && isset($hit['media'])) {
                     $hit['media'] = json_decode($hit['media'], true);
-                    unset($hit['target_representatives']);
+                    $hit['target_representatives'] = json_decode($hit['target_representatives'], true);
+
+                    if ($hit['post_type'] === 'eyewitness') {
+                        unset($hit['target_representatives']);
+                    }
                 }
             }
 
@@ -105,12 +109,19 @@ class HomePageFactory extends PostFactory
             ];
 
             $results = app('search')->search('posts', $query, $searchParams);
+            $hits = $results['hits'] ?? [];
 
             $totalCount = $results['nbHits'] ?? 0;
             $lastPage = ceil($totalCount / $pageSize);
 
+            foreach ($hits as &$hit) {
+                if (isset($hit['target_representatives'])) {
+                    $hit['target_representatives'] = json_decode($hit['target_representatives'], true);
+                }
+            }
+
             return [
-                'data' => $results['hits'] ?? [],
+                'data' => $hits,
                 'total' => $totalCount,
                 'current_page' => $page,
                 'last_page' => $lastPage,
