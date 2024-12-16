@@ -4,9 +4,49 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PostResource extends JsonResource
 {
+    public static function getPostInteractionData($postId, $accountId): array
+    {
+        return [
+            'comment_count' => DB::table('comments')
+                ->where('post_id', $postId)
+                ->count() ?? 0,
+
+            'likes_count' => DB::table('likes')
+                ->where('entity_id', $postId)
+                ->count() ?? 0,
+
+            'reposts_count' => DB::table('reposts')
+                ->where('entity_id', $postId)
+                ->count() ?? 0,
+
+            'bookmarks_count' => DB::table('bookmarks')
+                ->where('entity_id', $postId)
+                ->count() ?? 0,
+
+            'current_user_liked' => DB::table('likes')
+                ->where('entity_id', $postId)
+                ->where('entity_type', 'post')
+                ->where('account_id', $accountId)
+                ->exists(),
+
+            'current_user_reposted' => DB::table('reposts')
+                ->where('entity_id', $postId)
+                ->where('entity_type', 'post')
+                ->where('account_id', $accountId)
+                ->exists(),
+
+            'current_user_bookmarked' => DB::table('bookmarks')
+                ->where('entity_id', $postId)
+                ->where('entity_type', 'post')
+                ->where('account_id', $accountId)
+                ->exists(),
+        ];
+    }
+
     public function toArray($request)
     {
         $data = is_object($this->resource) ? $this->resource : (object) $this->resource;
@@ -16,35 +56,7 @@ class PostResource extends JsonResource
             ->where('post_id', $data->id)
             ->count() ?? 0;
 
-        $likesCount = DB::table('likes')
-            ->where('entity_id', $data->id)
-            ->count() ?? 0;
-
-        $repostsCount = DB::table('reposts')
-            ->where('entity_id', $data->id)
-            ->count() ?? 0;
-
-        $bookmarksCount = DB::table('bookmarks')
-            ->where('entity_id', $data->id)
-            ->count() ?? 0;
-
-        $currentUserLiked = DB::table('likes')
-            ->where('entity_id', $data->id)
-            ->where('entity_type', 'post')
-            ->where('account_id', $data->author_id)
-            ->exists();
-
-        $currentUserReposted = DB::table('reposts')
-            ->where('entity_id', $data->id)
-            ->where('entity_type', 'post')
-            ->where('account_id', $data->author_id)
-            ->exists();
-
-        $currentUserBookmarked = DB::table('bookmarks')
-            ->where('entity_id', $data->id)
-            ->where('entity_type', 'post')
-            ->where('account_id', $data->author_id)
-            ->exists();
+        $postInteractionData = self::getPostInteractionData($data->id, Auth::id());
 
         $badge = 0;
         if ($data->author_kyced) {
@@ -70,12 +82,12 @@ class PostResource extends JsonResource
             'created_at' => $data->created_at,
             'media' => property_exists($data, 'media') ? json_decode($data->media, true) : null,
             'comments' => $commentCount,
-            'likes' => $likesCount,
-            'reposts' => $repostsCount,
-            'bookmarks' => $bookmarksCount,
-            'current_user_liked' => $currentUserLiked,
-            'current_user_reposted' => $currentUserReposted,
-            'current_user_bookmarked' => $currentUserBookmarked,
+            'likes' => $postInteractionData['likes_count'],
+            'reposts' => $postInteractionData['reposts_count'],
+            'bookmarks' => $postInteractionData['bookmarks_count'],
+            'current_user_liked' => $postInteractionData['current_user_liked'],
+            'current_user_reposted' => $postInteractionData['current_user_reposted'],
+            'current_user_bookmarked' => $postInteractionData['current_user_bookmarked'],
         ];
 
         if ($data->post_type === 'petition') {

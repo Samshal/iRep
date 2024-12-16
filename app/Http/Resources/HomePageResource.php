@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class HomePageResource extends JsonResource
 {
@@ -70,36 +71,8 @@ class HomePageResource extends JsonResource
             ->where('post_id', $data->id)
             ->count() ?? 0;
 
-        $likesCount = DB::table('likes')
-            ->where('entity_id', $data->id)
-            ->count() ?? 0;
 
-        $repostsCount = DB::table('reposts')
-            ->where('entity_id', $data->id)
-            ->count() ?? 0;
-
-        $bookmarksCount = DB::table('bookmarks')
-            ->where('entity_id', $data->id)
-            ->count() ?? 0;
-
-        $currentUserLiked = DB::table('likes')
-            ->where('entity_id', $data->id)
-            ->where('entity_type', 'post')
-            ->where('account_id', $data->author_id)
-            ->exists();
-
-        $currentUserReposted = DB::table('reposts')
-            ->where('entity_id', $data->id)
-            ->where('entity_type', 'post')
-            ->where('account_id', $data->author_id)
-            ->exists();
-
-        $currentUserBookmarked = DB::table('bookmarks')
-            ->where('entity_id', $data->id)
-            ->where('entity_type', 'post')
-            ->where('account_id', $data->author_id)
-            ->exists();
-
+        $postInteractionData = PostResource::getPostInteractionData($data->id, Auth::id());
 
         $badge = null;
         $accountType = (int) $data->author_account_type ?? null;
@@ -125,12 +98,12 @@ class HomePageResource extends JsonResource
             'created_at' => $data->created_at,
             'media' => property_exists($data, 'media') ? json_decode($data->media, true) : null,
             'comments' => $commentCount,
-            'likes' => $likesCount,
-            'reposts' => $repostsCount,
-            'bookmarks' => $bookmarksCount,
-            'current_user_liked' => $currentUserLiked,
-            'current_user_reposted' => $currentUserReposted,
-            'current_user_bookmarked' => $currentUserBookmarked,
+            'likes' => $postInteractionData['likes_count'],
+            'reposts' => $postInteractionData['reposts_count'],
+            'bookmarks' => $postInteractionData['bookmarks_count'],
+            'current_user_liked' => $postInteractionData['current_user_liked'],
+            'current_user_reposted' => $postInteractionData['current_user_reposted'],
+            'current_user_bookmarked' => $postInteractionData['current_user_bookmarked'],
         ];
 
         if ($data->post_type === 'petition') {

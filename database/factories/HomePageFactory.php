@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Auth;
 
 class HomePageFactory extends PostFactory
 {
@@ -61,6 +63,15 @@ class HomePageFactory extends PostFactory
 
             foreach ($hits as &$hit) {
                 if ($indexName === 'posts' && isset($hit['media'])) {
+                    $postInteractionData = PostResource::getPostInteractionData($hit['id'], Auth::id());
+
+                    $hit['likes'] = $postInteractionData['likes_count'];
+                    $hit['reposts'] = $postInteractionData['reposts_count'];
+                    $hit['bookmarks'] = $postInteractionData['bookmarks_count'];
+                    $hit['current_user_liked'] = $postInteractionData['current_user_liked'];
+                    $hit['current_user_reposted'] = $postInteractionData['current_user_reposted'];
+                    $hit['current_user_bookmarked'] = $postInteractionData['current_user_bookmarked'];
+
                     $hit['media'] = json_decode($hit['media'], true);
                     $hit['target_representatives'] = json_decode($hit['target_representatives'], true);
 
