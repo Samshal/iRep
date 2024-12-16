@@ -28,6 +28,24 @@ class PostResource extends JsonResource
             ->where('entity_id', $data->id)
             ->count() ?? 0;
 
+        $currentUserLiked = DB::table('likes')
+            ->where('entity_id', $data->id)
+            ->where('entity_type', 'post')
+            ->where('account_id', $data->author_id)
+            ->exists();
+
+        $currentUserReposted = DB::table('reposts')
+            ->where('entity_id', $data->id)
+            ->where('entity_type', 'post')
+            ->where('account_id', $data->author_id)
+            ->exists();
+
+        $currentUserBookmarked = DB::table('bookmarks')
+            ->where('entity_id', $data->id)
+            ->where('entity_type', 'post')
+            ->where('account_id', $data->author_id)
+            ->exists();
+
         $badge = 0;
         if ($data->author_kyced) {
             $accountType = (int) $data->author_account_type;
@@ -55,6 +73,9 @@ class PostResource extends JsonResource
             'likes' => $likesCount,
             'reposts' => $repostsCount,
             'bookmarks' => $bookmarksCount,
+            'current_user_liked' => $currentUserLiked,
+            'current_user_reposted' => $currentUserReposted,
+            'current_user_bookmarked' => $currentUserBookmarked,
         ];
 
         if ($data->post_type === 'petition') {
