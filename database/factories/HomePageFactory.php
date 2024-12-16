@@ -73,7 +73,9 @@ class HomePageFactory extends PostFactory
                     $hit['current_user_bookmarked'] = $postInteractionData['current_user_bookmarked'];
 
                     $hit['media'] = json_decode($hit['media'], true);
-                    $hit['target_representatives'] = json_decode($hit['target_representatives'], true);
+                    if (isset($hit['target_representatives'])) {
+                        $hit['target_representatives'] = json_decode($hit['target_representatives'], true);
+                    }
 
                     if ($hit['post_type'] === 'eyewitness') {
                         unset($hit['target_representatives']);
@@ -126,8 +128,14 @@ class HomePageFactory extends PostFactory
             $lastPage = ceil($totalCount / $pageSize);
 
             foreach ($hits as &$hit) {
-                if (isset($hit['target_representatives'])) {
-                    $hit['target_representatives'] = json_decode($hit['target_representatives'], true);
+                if (
+                    isset($hit['target_representatives']) &&
+                    is_string($hit['target_representatives'])
+                ) {
+                    $hit['target_representatives'] = json_decode(
+                        $hit['target_representatives'],
+                        true
+                    );
                 }
             }
 
