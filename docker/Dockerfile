@@ -37,10 +37,6 @@ COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 # Make the entrypoint script executable
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Fix the session issue (replace user_id with account_id)
-RUN sed -i "/protected function addUserInformation/,/return \$this;/ s/\['user_id'\]/['account_id']/" ./vendor/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php
-
-
 # Set the entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 

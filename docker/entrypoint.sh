@@ -36,6 +36,9 @@ php artisan route:clear && php artisan config:clear && php artisan cache:clear &
 # Set permissions for the storage and bootstrap/cache directories
 chown -R www-data:www-data storage bootstrap/cache
 
+# Fix the session issue (replace user_id with account_id)
+sed -i "/protected function addUserInformation/,/return \$this;/ s/\['user_id'\]/['account_id']/" ./vendor/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php
+
 # Start Supervisor to manage background processes
 echo "Starting Supervisor..."
 exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
