@@ -411,6 +411,7 @@ class PostFactory extends CommentFactory
                     'postId' => $postId,
                     'accountId' => $accountId,
                     'comment' => $comment,
+                    'supporter' => true
                 ];
                 $this->insertComment($data);
             }
@@ -450,6 +451,7 @@ class PostFactory extends CommentFactory
                     'postId' => $postId,
                     'accountId' => $accountId,
                     'comment' => $comment,
+                    'supporter' => true
                 ];
                 $this->insertComment($data);
             }

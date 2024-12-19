@@ -17,8 +17,10 @@ class CommentFactory
     {
         $query = "
 		INSERT INTO comments
-		(post_id, account_id, comment, parent_id)
-		VALUES (?, ?, ?, ?)";
+		(post_id, account_id, comment, parent_id, supporter)
+		VALUES (?, ?, ?, ?, ?)";
+
+        $supporter = isset($data['supporter']) && $data['supporter'] ? 1 : 0;
 
         $stmt = $this->db->prepare($query);
         $stmt->execute([
@@ -26,6 +28,7 @@ class CommentFactory
             $data['accountId'],
             $data['comment'],
             $data['parentId'] ?? null,
+            $supporter,
         ]);
 
         return $this->db->lastInsertId();

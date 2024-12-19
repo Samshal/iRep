@@ -76,6 +76,7 @@ class PostResource extends JsonResource
             'context' => $data->context,
             'post_type' => $data->post_type,
             'author' => $data->author,
+            'author_id' => $data->author_id ?? null,
             'author_badge' => $badge,
             'author_photo_url' => $data->author_photo ?? null,
             'reported' => $data->reported ?? null,
@@ -106,12 +107,39 @@ class PostResource extends JsonResource
 
         $responseArray = $this->toArray($request);
 
+        // Get the author_id of the post
+        $authorId = $responseArray['author_id'] ?? null;
+
+        // Get regular comments
         $comments = DB::table('comments')
             ->leftJoin('accounts', 'comments.account_id', '=', 'accounts.id')
             ->where('post_id', $responseArray['id'])
             ->whereNull('parent_id')
-            ->select('comments.*', 'accounts.id AS author_id', 'accounts.name AS author_name', 'accounts.photo_url AS author_photo_url')
+            ->where('comments.supporter', false)
+            ->select(
+                'comments.*',
+                'accounts.id AS author_id',
+                'accounts.name AS author_name',
+                'accounts.photo_url AS author_photo_url'
+            )
             ->get();
+
+        // Get supporter comments only if the post author is the authenticated user
+        $supporterComments = collect([]);
+        if ($authorId == Auth::id()) {
+            $supporterComments = DB::table('comments')
+                ->leftJoin('accounts', 'comments.account_id', '=', 'accounts.id')
+                ->where('post_id', $responseArray['id'])
+                ->whereNull('parent_id')
+                ->where('comments.supporter', true)
+                ->select(
+                    'comments.*',
+                    'accounts.id AS author_id',
+                    'accounts.name AS author_name',
+                    'accounts.photo_url AS author_photo_url'
+                )
+                ->get();
+        }
 
         if (isset($postData['petition_status'])) {
             $responseArray['petition_status'] = $postData['petition_status'];
@@ -137,14 +165,24 @@ class PostResource extends JsonResource
             $responseArray['target_signatures'] = $postData['target_signatures'];
         }
 
-
+        // Handle regular comments
         if ($comments->isNotEmpty()) {
-            $nestedComments = $comments->map(function ($comment) use ($request) {
+            $nestedComments = collect($comments)->map(function ($comment) use ($request) {
                 return (new CommentResource($comment))->toDetailArray($request);
             });
 
             $responseArray['comments'] = $nestedComments;
         }
+
+        // Handle supporter comments
+        if ($supporterComments->isNotEmpty()) {
+            $supporterNestedComments = collect($supporterComments)->map(function ($comment) use ($request) {
+                return (new CommentResource($comment))->toDetailArray($request);
+            });
+
+            $responseArray['supporters'] = $supporterNestedComments;
+        }
+
         return $responseArray;
     }
 }

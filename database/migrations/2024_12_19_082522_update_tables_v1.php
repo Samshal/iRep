@@ -39,6 +39,16 @@ return new class () extends Migration {
         } catch (\Exception $e) {
             Log::error("Failed to add created_at to bookmarks table: " . $e->getMessage());
         }
+
+        // Add supporter column to comments table
+        try {
+            DB::statement("
+				ALTER TABLE comments
+				ADD COLUMN supporter BOOLEAN DEFAULT FALSE;
+			");
+        } catch (\Exception $e) {
+            Log::error("Failed to add created_at to comments table: " . $e->getMessage());
+        }
     }
 
     /**
