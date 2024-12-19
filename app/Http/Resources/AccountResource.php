@@ -84,10 +84,10 @@ class AccountResource extends JsonResource
         $post = $postResponse->original['data'] ?? $postResponse;
 
         $repliesResponse = \app('App\Http\Controllers\AccountController')->userComments($request);
-        $replies = $repliesResponse->original ?? $repliesResponse;
+        $replies = $repliesResponse->original['data'] ?? $repliesResponse;
 
-        $bookmarksResponse = \app('App\Http\Controllers\AccountController')->getUserBookmarks();
-        $bookmarks = $bookmarksResponse->original ?? $bookmarksResponse;
+        $bookmarksResponse = \app('App\Http\Controllers\AccountController')->getUserBookmarks($request);
+        $bookmarks = $bookmarksResponse->original['data'] ?? $bookmarksResponse;
 
 
         $profileArray['petition'] = $petition;
