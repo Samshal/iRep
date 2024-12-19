@@ -70,6 +70,7 @@ class PostResource extends JsonResource
         }
 
         $responseArray = [
+            'post_source' => $data->post_source ?? null,
             'id' => $data->id,
             'title' => $data->title,
             'context' => $data->context,

@@ -147,6 +147,7 @@ class AccountController extends Controller
             $userId = $request->query('account_id', Auth::id());
             $criteria['creator_id'] = $userId;
             $criteria['filter'] = $filter;
+            $criteria['repost'] = true;
 
             $result = $this->postFactory->getPosts($criteria);
 

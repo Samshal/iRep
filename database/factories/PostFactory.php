@@ -185,19 +185,23 @@ class PostFactory extends CommentFactory
 			), JSON_ARRAY()) AS target_representatives,
 			ewr.category,
 			p.created_at,
-			r.reason AS reported
+			r.reason AS reported,
+			CASE
+				WHEN rp.id IS NOT NULL THEN 'repost'
+				ELSE 'original'
+			END AS post_source
 		FROM posts p
 		LEFT JOIN petitions pe ON p.id = pe.post_id
 		LEFT JOIN eye_witness_reports ewr ON p.id = ewr.post_id
 		LEFT JOIN accounts a ON p.creator_id = a.id
 		LEFT JOIN reports r ON r.entity_id = p.id AND r.entity_type = 'post'
+		LEFT JOIN reposts rp ON rp.entity_id = p.id AND rp.entity_type = 'post'
 		WHERE 1=1
 		";
 
         list($query, $params) = $this->applyFilters($query, $params, $criteria);
         $query = $this->applySorting($query, $criteria);
 
-        // Pagination logic
         $query .= " LIMIT ? OFFSET ?";
         $params[] = $pageSize;
         $params[] = $offset;
@@ -206,12 +210,12 @@ class PostFactory extends CommentFactory
         $stmt->execute($params);
         $posts = $stmt->fetchAll(\PDO::FETCH_CLASS);
 
-        // Total count query (distinct count of posts)
         $countQuery = "
 		SELECT COUNT(DISTINCT p.id) AS total
 		FROM posts p
 		LEFT JOIN petitions pe ON p.id = pe.post_id
 		LEFT JOIN eye_witness_reports ew ON p.id = ew.post_id
+		LEFT JOIN reposts rp ON rp.entity_id = p.id AND rp.entity_type = 'post'
 		WHERE 1=1
 		";
 
@@ -239,6 +243,7 @@ class PostFactory extends CommentFactory
         $search = $criteria['search'] ?? null;
         $filter = $criteria['filter'] ?? null;
         $creatorId = $criteria['creator_id'] ?? null;
+        $repost = $criteria['repost'] ?? null;
 
         if (!empty($search)) {
             $searchTerm = "%{$search}%";
@@ -253,8 +258,17 @@ class PostFactory extends CommentFactory
         }
 
         if (!empty($creatorId)) {
-            $query .= " AND p.creator_id = ?";
+            $query .= " AND (p.creator_id = ? OR rp.account_id = ?)";
             $params[] = $creatorId;
+            $params[] = $creatorId;
+        }
+
+        // Include reposts only if the 'repost' parameter is passed
+        if (!empty($repost)) {
+            $query .= " AND (rp.id IS NOT NULL OR p.creator_id = ?)";
+            $params[] = $creatorId;
+        } else {
+            $query .= " AND rp.id IS NULL";
         }
 
         return [$query, $params];
