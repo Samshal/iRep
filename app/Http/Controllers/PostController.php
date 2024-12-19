@@ -8,7 +8,6 @@ use App\Http\Requests\CommentRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\PostResource;
 use App\Jobs\SendNotification;
-use App\Http\Resources\HomePageResource;
 
 class PostController extends Controller
 {
@@ -39,52 +38,6 @@ class PostController extends Controller
             return response()->json(['error' => 'Post creation failed ' . $e->getMessage()], 500);
         }
     }
-
-    public function getUserPosts(Request $request)
-    {
-        try {
-            $criteria = $request->only(['search', 'filter', 'sort_by', 'sort_order', 'page', 'page_size']);
-            $criteria['creator_id'] = Auth::id();
-            $result = $this->postFactory->getPosts($criteria);
-
-            $posts = $result['data'];
-            $total = $result['total'];
-            $currentPage = $result['current_page'];
-            $lastPage = $result['last_page'];
-
-            return response()->json([
-                'data' => PostResource::collection($posts),
-                'meta' => [
-                    'total' => (int) $total,
-                    'current_page' => (int) $currentPage,
-                    'last_page' => (int) $lastPage,
-                    'page_size' => $criteria['page_size'] ?? 10,
-                ],
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch posts ' . $e->getMessage()], 500);
-        }
-    }
-
-    public function getUserBookmarks()
-    {
-        try {
-            $result = $this->postFactory->getBookmarkedPosts(Auth::id());
-
-            return response()->json(
-                HomePageResource::collection($result)
-                    ->map(fn ($item) => $item->toPostArray())
-                    ->flatten(1),
-                200
-            );
-        } catch (\Exception $e) {
-            return response()->json(
-                ['error' => 'Failed to fetch bookmarks: ' . $e->getMessage()],
-                500
-            );
-        }
-    }
-
 
     public function show($id, Request $request)
     {

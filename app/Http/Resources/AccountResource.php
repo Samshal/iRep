@@ -76,17 +76,17 @@ class AccountResource extends JsonResource
         ];
 
         $request->merge(['filter' => 'petition']);
-        $petitionResponse = \app('App\Http\Controllers\PostController')->getUserPosts($request);
+        $petitionResponse = \app('App\Http\Controllers\AccountController')->getUserPosts($request);
         $petition = $petitionResponse->original['data'] ?? $petitionResponse;
 
         $request->merge(['filter' => 'eyewitness']);
-        $postResponse = \app('App\Http\Controllers\PostController')->getUserPosts($request);
+        $postResponse = \app('App\Http\Controllers\AccountController')->getUserPosts($request);
         $post = $postResponse->original['data'] ?? $postResponse;
 
-        $repliesResponse = \app('App\Http\Controllers\CommentController')->index($request);
+        $repliesResponse = \app('App\Http\Controllers\AccountController')->userComments($request);
         $replies = $repliesResponse->original ?? $repliesResponse;
 
-        $bookmarksResponse = \app('App\Http\Controllers\PostController')->getUserBookmarks();
+        $bookmarksResponse = \app('App\Http\Controllers\AccountController')->getUserBookmarks();
         $bookmarks = $bookmarksResponse->original ?? $bookmarksResponse;
 
 

@@ -275,52 +275,78 @@ class PostFactory extends CommentFactory
         return $query;
     }
 
-    public function getBookmarkedPosts($accountId)
+    public function getBookmarkedPosts($accountId, $criteria = [])
     {
+        $page = $criteria['page'] ?? 1;
+        $pageSize = $criteria['page_size'] ?? 10;
+        $offset = ($page - 1) * $pageSize;
+
+        $countQuery = "
+			SELECT COUNT(DISTINCT p.id) AS total
+			FROM bookmarks
+			JOIN posts p ON bookmarks.entity_id = p.id AND bookmarks.entity_type = 'post'
+			WHERE bookmarks.account_id = ?
+		";
+
+        $countStmt = $this->db->prepare($countQuery);
+        $countStmt->execute([$accountId]);
+        $total = $countStmt->fetchColumn();
+
         $query = "
-        SELECT DISTINCT
-            p.id,
-            p.title,
-            p.context,
-            p.post_type,
-            p.media,
-            a.name AS author,
-            a.id AS author_id,
-            a.photo_url AS author_photo_url,
-            a.kyced AS author_kyced,
-            a.account_type AS author_account_type,
-            pe.status,
-            pe.signatures,
-            pe.target_signatures,
-            IFNULL(
-                JSON_ARRAYAGG(
-                    JSON_OBJECT('id', rep.id, 'name', rep.name, 'photo_url', rep.photo_url)
-                ),
-                JSON_ARRAY()
-            ) AS target_representatives,
-            ew.category,
-            p.created_at,
-            r.reason AS reported
-        FROM bookmarks
-        JOIN posts p ON bookmarks.entity_id = p.id AND bookmarks.entity_type = 'post'
-        LEFT JOIN petitions pe ON p.id = pe.post_id
-        LEFT JOIN eye_witness_reports ew ON p.id = ew.post_id
-        LEFT JOIN accounts a ON p.creator_id = a.id
-        LEFT JOIN petition_representatives pr ON pe.id = pr.petition_id
-        LEFT JOIN accounts rep ON pr.representative_id = rep.id
-        LEFT JOIN reports r ON r.entity_id = p.id AND r.entity_type = 'post'
-        WHERE bookmarks.account_id = ?
-        GROUP BY p.id, p.title, p.context, p.post_type, p.media,
-            a.name, a.id, a.photo_url, a.kyced,
-            a.account_type, pe.status, pe.signatures,
-            pe.target_signatures, ew.category,
-            p.created_at, r.reason";
+			SELECT DISTINCT
+				p.id,
+				p.title,
+				p.context,
+				p.post_type,
+				p.media,
+				a.name AS author,
+				a.id AS author_id,
+				a.photo_url AS author_photo_url,
+				a.kyced AS author_kyced,
+				a.account_type AS author_account_type,
+				pe.status,
+				pe.signatures,
+				pe.target_signatures,
+				IFNULL(
+					JSON_ARRAYAGG(
+						JSON_OBJECT('id', rep.id, 'name', rep.name, 'photo_url', rep.photo_url)
+					),
+					JSON_ARRAY()
+				) AS target_representatives,
+				ew.category,
+				p.created_at,
+				r.reason AS reported
+			FROM bookmarks
+			JOIN posts p ON bookmarks.entity_id = p.id AND bookmarks.entity_type = 'post'
+			LEFT JOIN petitions pe ON p.id = pe.post_id
+			LEFT JOIN eye_witness_reports ew ON p.id = ew.post_id
+			LEFT JOIN accounts a ON p.creator_id = a.id
+			LEFT JOIN petition_representatives pr ON pe.id = pr.petition_id
+			LEFT JOIN accounts rep ON pr.representative_id = rep.id
+			LEFT JOIN reports r ON r.entity_id = p.id AND r.entity_type = 'post'
+			WHERE bookmarks.account_id = ?
+			GROUP BY p.id, p.title, p.context, p.post_type, p.media,
+				a.name, a.id, a.photo_url, a.kyced,
+				a.account_type, pe.status, pe.signatures,
+				pe.target_signatures, ew.category,
+				p.created_at, r.reason
+			LIMIT ? OFFSET ?
+		";
 
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$accountId]);
+        $stmt->execute([$accountId, $pageSize, $offset]);
         $posts = $stmt->fetchAll(\PDO::FETCH_CLASS);
 
-        return $posts;
+        foreach ($posts as $post) {
+            $post->target_representatives = json_decode($post->target_representatives);
+            $post->media = json_decode($post->media);
+        }
+        return [
+            'data' => $posts,
+            'total' => (int) $total,
+            'current_page' => (int) $page,
+            'last_page' => (int) ceil($total / $pageSize),
+        ];
     }
 
     public function hasUserSigned($postId, $accountId)

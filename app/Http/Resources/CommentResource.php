@@ -74,4 +74,5 @@ class CommentResource extends JsonResource
 
         return $responseArray;
     }
+
 }

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\ApplyForRepRequest;
+use App\Http\Resources\HomePageResource;
+use App\Http\Resources\PostResource;
 
 class AccountController extends Controller
 {
@@ -128,4 +130,85 @@ class AccountController extends Controller
         return response()->json($notifications, 200);
     }
 
+    public function userComments(Request $request)
+    {
+        $criteria = $request->only(['page', 'page_size']);
+
+        $userId = $request->query('account_id', Auth::id());
+
+        $comments = $this->commentFactory->getCommentsByUser($userId, $criteria);
+        return response()->json($comments);
+    }
+
+    public function getUserContent(Request $request, $filter)
+    {
+        try {
+            $criteria = $request->only(['search', 'sort_by', 'sort_order', 'page', 'page_size']);
+            $userId = $request->query('account_id', Auth::id());
+            $criteria['creator_id'] = $userId;
+            $criteria['filter'] = $filter;
+
+            $result = $this->postFactory->getPosts($criteria);
+
+            $posts = $result['data'];
+            $total = $result['total'];
+            $currentPage = $result['current_page'];
+            $lastPage = $result['last_page'];
+
+            return response()->json([
+                'data' => PostResource::collection($posts),
+                'meta' => [
+                    'total' => (int) $total,
+                    'current_page' => (int) $currentPage,
+                    'last_page' => (int) $lastPage,
+                    'page_size' => $criteria['page_size'] ?? 10,
+                ],
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch posts: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function getUserPosts(Request $request)
+    {
+        return $this->getUserContent($request, 'eyewitness');
+    }
+
+    public function getUserPetitions(Request $request)
+    {
+        return $this->getUserContent($request, 'petition');
+    }
+
+
+    public function getUserBookmarks(Request $request)
+    {
+        try {
+            $criteria = $request->only(['page', 'page_size']);
+            $userId = $request->query('account_id', Auth::id());
+
+            $result = $this->postFactory->getBookmarkedPosts($userId, $criteria);
+
+            $bookmarks = $result['data'];
+            $total = $result['total'];
+            $currentPage = $result['current_page'];
+            $lastPage = $result['last_page'];
+
+            // Convert stdClass objects to arrays if necessary
+            $bookmarks = collect($bookmarks)->map(function ($item) {
+                return (array) $item;
+            });
+
+            return response()->json([
+                'data' => HomePageResource::collection($bookmarks),
+                'meta' => [
+                    'total' => (int) $total,
+                    'current_page' => (int) $currentPage,
+                    'last_page' => (int) $lastPage,
+                    'page_size' => (int) ($criteria['page_size'] ?? 10),
+                ],
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch posts: ' . $e->getMessage()], 500);
+        }
+    }
 }
