@@ -5,8 +5,8 @@ services:
       dockerfile: docker/Dockerfile
     container_name: irep
     ports:
+      - "8000:8000"
       - "8080:8080"
-      - "80:8000"
     volumes:
       - .:/workspace/irep
       - ./storage/logs:/workspace/irep/storage/logs
@@ -70,6 +70,28 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+
+  nginx:
+    image: nginx:latest
+    container_name: irep_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./docker/nginx/ssl:/etc/nginx/certs:ro
+    depends_on:
+      - app
+    networks:
+      - network
+    environment:
+      NGINX_HOST: irep.0ps.tech
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://localhost"]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 10s
 
 volumes:
   dbdata:

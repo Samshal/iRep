@@ -1,9 +1,28 @@
 #!/bin/bash
 
+mkdir -p "$DB_BACKUP_PATH"
+BACKUP_FILE="$DB_BACKUP_PATH/$(date +%F_%T)_backup.sql"
+
 # Install Composer dependencies if not already installed
 if [ ! -d "vendor" ]; then
 	composer install
 fi
+
+backup_database() {
+	mysqldump -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" >"$BACKUP_FILE"
+	if [ $? -eq 0 ]; then
+		echo "Backup successfully created: $BACKUP_FILE"
+	else
+		echo "Backup failed"
+	fi
+}
+
+# Create a backup of the database
+backup_database
+
+# Cron job setup
+echo "0 2 * * * root /bin/bash -c 'backup_database'" >>/etc/crontab
+cron && echo "Cron started"
 
 # Run Laravel migrate and seed database
 #php artisan migrate:refresh --seed --force

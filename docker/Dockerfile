@@ -9,6 +9,8 @@ RUN apt-get update && \
         libfreetype6-dev \
         unzip \
         supervisor \
+        cron \
+        mariadb-client \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure pcntl --enable-pcntl \
     && docker-php-ext-install gd mysqli pdo pdo_mysql zip pcntl \
@@ -29,6 +31,13 @@ RUN composer install
 
 # Expose the port for the Laravel application
 EXPOSE 8000 8080
+
+# Set appropriate permissions on storage and bootstrap/cache directories
+RUN chmod -R 755 storage bootstrap/cache
+
+# Set permissions for docker directory
+RUN find ./docker -type d -exec chmod 755 {} \; \
+    && find ./docker -type f -exec chmod 644 {} \;
 
 # Copy Supervisor config file and entrypoint script into the image
 COPY docker/supervisord.conf /etc/supervisor/supervisord.conf
