@@ -291,5 +291,51 @@ class AdminFactory
         return $stmt->fetchObject();
     }
 
+    public function getAdminActivities(int $adminId)
+    {
+        $query = "
+		SELECT
+			aa.id,
+			aa.admin_id,
+			aa.entity_type,
+			aa.entity_id,
+			aa.action,
+			aa.description,
+			aa.created_at,
+			a.username AS admin_username,
+			a.photo_url AS admin_photo,
+			e.username AS entity_username,
+			e.photo_url AS entity_photo,
+			CASE
+				WHEN aa.entity_type = 'account' THEN JSON_OBJECT(
+					'email_verified', ac.email_verified,
+					'phone_verified', ac.phone_verified,
+					'account_type', ac.account_type
+				)
+				WHEN aa.entity_type = 'post' THEN JSON_OBJECT(
+					'title', p.title,
+					'context', p.context,
+					'status', p.status
+				)
+				WHEN aa.entity_type = 'comment' THEN JSON_OBJECT(
+					'content', c.content,
+					'status', c.status
+				)
+			END AS entity_data
+		FROM admin_activities aa
+		LEFT JOIN admins a ON aa.admin_id = a.id
+		LEFT JOIN accounts e ON aa.entity_id = e.id AND aa.entity_type = 'account'
+		LEFT JOIN posts p ON aa.entity_id = p.id AND aa.entity_type = 'post'
+		LEFT JOIN comments c ON aa.entity_id = c.id AND aa.entity_type = 'comment'
+		LEFT JOIN accounts ac ON e.id = ac.id
+		WHERE aa.admin_id = ?
+		ORDER BY aa.created_at DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$adminId]);
+
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
 
 }

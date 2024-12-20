@@ -57,6 +57,7 @@ Route::group([
         Route::post('/districts', [ActionController::class, 'addDistrict'])->name('admin.addDistrict');
         Route::post('/positions', [ActionController::class, 'addPosition'])->name('admin.addPosition');
         Route::post('/parties', [ActionController::class, 'addParty'])->name('admin.addParty');
+        Route::get('/activities/{id}', [AdminController::class, 'activities'])->name('admin.activities');
         Route::put('/states/{id}', [ActionController::class, 'updateState'])->name('admin.updateState');
         Route::put('/local-governments/{id}', [ActionController::class, 'updateLocalGovernment'])->name('admin.updateLocalGovernment');
         Route::put('/constituencies/{id}', [ActionController::class, 'updateConstituency'])->name('admin.updateConstituency');

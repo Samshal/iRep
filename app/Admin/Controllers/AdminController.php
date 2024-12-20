@@ -95,4 +95,11 @@ class AdminController extends Controller
         return response()->json($admins);
     }
 
+    public function activities($id)
+    {
+        $activities = $this->adminFactory->getAdminActivities($id);
+
+        return response()->json($activities);
+    }
+
 }
