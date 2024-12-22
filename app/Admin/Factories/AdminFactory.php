@@ -120,6 +120,13 @@ class AdminFactory
 
         $params = [];
 
+        if (!empty($filter['search'])) {
+            $searchTerm = '%' . $filter['search'] . '%';
+            $query .= " AND (a.username LIKE ? OR a.email LIKE ?)";
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+        }
+
         if (isset($filter['account_type'])) {
             $query .= " AND a.account_type = ?";
             $params[] = $filter['account_type'];
@@ -152,10 +159,10 @@ class AdminFactory
 
         foreach ($admins as &$admin) {
             $permissionsQuery = "
-            SELECT p.id, p.name
-            FROM permissions p
-            LEFT JOIN admin_permissions ap ON p.id = ap.permission_id
-            WHERE ap.admin_id = ?";
+			SELECT p.id, p.name
+			FROM permissions p
+			LEFT JOIN admin_permissions ap ON p.id = ap.permission_id
+			WHERE ap.admin_id = ?";
             $permissionsStmt = $this->db->prepare($permissionsQuery);
             $permissionsStmt->execute([$admin['id']]);
             $admin['permissions'] = $permissionsStmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -183,16 +190,25 @@ class AdminFactory
 		WHERE a.account_type = 3
 		AND a.id NOT IN (SELECT entity_id FROM deleted_entities)";
 
+        $params = [];
+
+        if (!empty($filter['search'])) {
+            $searchTerm = '%' . $filter['search'] . '%';
+            $countQuery .= " AND (a.username LIKE ? OR a.email LIKE ?)";
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+        }
+
         if (isset($filter['account_type'])) {
             $countQuery .= " AND a.account_type = ?";
+            $params[] = $filter['account_type'];
         }
 
         if (!empty($permissionFilters)) {
             $placeholders = implode(', ', array_fill(0, count($permissionFilters), '?'));
             $countQuery .= " AND p.name IN ($placeholders)";
+            $params = array_merge($params, $permissionFilters);
         }
-
-        $params = $permissionFilters;
 
         $countStmt = $this->db->prepare($countQuery);
         $countStmt->execute($params);
@@ -244,6 +260,32 @@ class AdminFactory
         $result = $stmt->fetch(\PDO::FETCH_OBJ);
 
         return $result;
+    }
+
+    public function getDataCounts()
+    {
+        $query = "
+			SELECT
+				COUNT(CASE WHEN a.account_type = 1 THEN 1 END) AS total_civilians,
+				COUNT(CASE WHEN a.account_type = 2 THEN 1 END) AS total_representatives,
+				COUNT(CASE WHEN p.post_type = 'petition' THEN 1 END) AS total_petitions,
+				COUNT(CASE WHEN p.post_type = 'eyewitness' THEN 1 END) AS total_reports
+			FROM accounts a
+			LEFT JOIN posts p ON p.creator_id = a.id
+		";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return [
+            'total_accounts' => (int) ($result['total_civilians'] ?? 0) + (int) ($result['total_representatives'] ?? 0),
+            'total_civilians' => (int) ($result['total_civilians'] ?? 0),
+            'total_representatives' => (int) ($result['total_representatives'] ?? 0),
+            'total_posts' => (int) ($result['total_petitions'] ?? 0) + (int) ($result['total_reports'] ?? 0),
+            'total_petitions' => (int) ($result['total_petitions'] ?? 0),
+            'total_reports' => (int) ($result['total_reports'] ?? 0),
+        ];
     }
 
     public function getActivity(int $activityId)

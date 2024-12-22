@@ -91,8 +91,12 @@ class AdminController extends Controller
     public function dashboard()
     {
         $admins = $this->adminFactory->getAdminCounts();
+        $data = $this->adminFactory->getDataCounts();
 
-        return response()->json($admins);
+        return response()->json([
+            'admins' => $admins,
+            'app_data' => $data,
+        ]);
     }
 
     public function activities($id)

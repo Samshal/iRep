@@ -85,8 +85,9 @@ class ContentModerationFactory
 
             if ($criteria['post_type'] === 'petition') {
                 $postTypeJoin = "
-                LEFT JOIN petitions pe ON p.id = pe.post_id
-                LEFT JOIN accounts rep ON pe.target_representative_id = rep.id
+				LEFT JOIN petitions pe ON p.id = pe.post_id
+				LEFT JOIN petition_representatives pr ON pe.id = pr.petition_id
+                LEFT JOIN accounts rep ON pr.representative_id = rep.id
                 LEFT JOIN states s ON rep.state_id = s.id";
                 $postTypeFields = "
                 JSON_OBJECT(
@@ -124,7 +125,7 @@ class ContentModerationFactory
 				a.photo_url AS author_photo,
 				p.created_at,
 				r.reason AS reported,
-				p.status,
+				p.status AS post_status,
 				$postTypeFields
 			FROM posts p
 			LEFT JOIN accounts a ON p.creator_id = a.id
@@ -149,6 +150,16 @@ class ContentModerationFactory
         $stmt->execute();
         $posts = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
+        $uniquePosts = [];
+        $seenIds = [];
+
+        foreach ($posts as $post) {
+            if (!in_array($post['id'], $seenIds)) {
+                $uniquePosts[] = $post;
+                $seenIds[] = $post['id'];
+            }
+        }
+
         $totalCount = $this->getPostCount(
             $stateFilter,
             $statusFilter,
@@ -158,7 +169,7 @@ class ContentModerationFactory
         );
 
         return [
-            'data' => $posts,
+            'data' => $uniquePosts,
             'meta' => [
                 'current_page' => (int) $page,
                 'page_size' => (int) $pageSize,

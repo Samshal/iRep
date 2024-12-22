@@ -53,7 +53,7 @@ class UserManagementFactory
 				 WHEN a.status = 'suspended' THEN 'suspended'
 				 WHEN a.kyced IS TRUE THEN 'verified'
 				 WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'unverified'
-				 ELSE 'active'
+				 ELSE 'no-kyc'
 			END AS status
 		";
 

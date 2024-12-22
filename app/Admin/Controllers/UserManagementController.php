@@ -7,8 +7,9 @@ use App\Admin\Factories\UserManagementFactory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\AccountResource;
+use App\Http\Controllers\AccountController;
 
-class UserManagementController extends Controller
+class UserManagementController extends AccountController
 {
     protected $userManagementFactory;
 
