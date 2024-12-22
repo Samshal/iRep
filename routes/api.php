@@ -87,6 +87,7 @@ Route::group([
         Route::post('/accounts/reinstate/{accountId}', [UserManagementController::class, 'reinstateAccount'])->name('admin.reinstate');
         Route::delete('/accounts/delete/{accountId}', [UserManagementController::class, 'deleteAccount'])->name('admin.delete');
         Route::get('/accounts/{accountId}', [UserManagementController::class, 'showAccount'])->name('admin.account');
+        Route::delete('/{id}', [AdminController::class, 'delete'])->name('admin.delete');
     });
 });
 

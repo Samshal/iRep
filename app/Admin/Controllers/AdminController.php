@@ -41,6 +41,19 @@ class AdminController extends Controller
         ], 201);
     }
 
+    public function delete($id)
+    {
+        $account_type = Auth::user()->account_type;
+
+        if ($account_type !== 4) {
+            return response()->json(['error' => 'Not Authorized.'], 401);
+        }
+
+        $this->adminFactory->deleteAdmin($id);
+
+        return response()->noContent();
+    }
+
     public function createSuperAdmin(Request $request)
     {
         $validatedData = $request->validate([
@@ -74,6 +87,7 @@ class AdminController extends Controller
 
         return response()->json(array_merge(
             $this->tokenResponse($token)->original,
+            ['account_id' => $admin->id],
             ['account_type' => $admin->account_type],
             ['permissions' => $permissions]
         ));
@@ -99,9 +113,12 @@ class AdminController extends Controller
         ]);
     }
 
-    public function activities($id)
+    public function activities($id, Request $request)
     {
-        $activities = $this->adminFactory->getAdminActivities($id);
+        $filter = $request->only(['page', 'page_size', 'sort_by',
+            'sort_order', 'action']);
+
+        $activities = $this->adminFactory->getAdminActivities($id, $filter);
 
         return response()->json($activities);
     }

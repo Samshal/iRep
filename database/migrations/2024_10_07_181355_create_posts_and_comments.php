@@ -80,6 +80,8 @@ return new class () extends Migration {
 			");
 
         DB::statement("
+			-- Updated with supporter and status columns
+
 			CREATE TABLE comments (
 			id INT AUTO_INCREMENT PRIMARY KEY,
 			parent_id INT,
@@ -94,6 +96,8 @@ return new class () extends Migration {
 
         DB::statement("
 			CREATE TABLE likes (
+			-- Updated with created_at column
+
 			id INT AUTO_INCREMENT PRIMARY KEY,
 			entity_id INT NOT NULL,
 			entity_type ENUM('post', 'comment') NOT NULL,
@@ -106,6 +110,8 @@ return new class () extends Migration {
 
         DB::statement("
 			CREATE TABLE reposts (
+			-- Updated with created_at column
+
 			id INT AUTO_INCREMENT PRIMARY KEY,
 			entity_id INT NOT NULL,
 			entity_type ENUM('post', 'comment') NOT NULL,
@@ -118,6 +124,8 @@ return new class () extends Migration {
 
         DB::statement("
 			CREATE TABLE bookmarks (
+			-- Updated with created_at column
+
 			id INT AUTO_INCREMENT PRIMARY KEY,
 			entity_id INT NOT NULL,
 			entity_type ENUM('post', 'comment') NOT NULL,

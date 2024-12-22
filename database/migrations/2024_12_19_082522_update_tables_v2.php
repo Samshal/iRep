@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     /**
@@ -40,15 +41,25 @@ return new class () extends Migration {
             Log::error("Failed to add created_at to bookmarks table: " . $e->getMessage());
         }
 
-        // Add supporter column to comments table
+        // Add supporter and status column to comments table
         try {
-            DB::statement("
-				ALTER TABLE comments
-				ADD COLUMN supporter BOOLEAN DEFAULT FALSE;
-			");
+            if (!Schema::hasColumn('comments', 'status')) {
+                DB::statement("
+            ALTER TABLE comments
+            ADD COLUMN status ENUM('active', 'inactive') DEFAULT 'active';
+        ");
+            }
+
+            if (!Schema::hasColumn('comments', 'supporter')) {
+                DB::statement("
+            ALTER TABLE comments
+            ADD COLUMN supporter BOOLEAN DEFAULT FALSE;
+        ");
+            }
         } catch (\Exception $e) {
-            Log::error("Failed to add created_at to comments table: " . $e->getMessage());
+            Log::error("Failed to add columns to comments table: " . $e->getMessage());
         }
+
     }
 
     /**

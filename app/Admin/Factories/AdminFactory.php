@@ -32,6 +32,25 @@ class AdminFactory
         return $result;
     }
 
+    public function deleteAdmin(int $adminId)
+    {
+        $query = "
+			INSERT INTO deleted_entities (entity_id, entity_type)
+			VALUES (?, 'admin')
+		";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$adminId]);
+
+        $query = "
+			DELETE FROM admins
+			WHERE id = ?
+		";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$adminId]);
+
+        return true;
+    }
+
     public function createSuperAdmin(array $data)
     {
         $permissions = $this->getAdminPermissions();
@@ -91,7 +110,6 @@ class AdminFactory
         if (!$data) {
             return null;
         }
-
         return new Admin($this->db, $data);
     }
 
@@ -333,11 +351,32 @@ class AdminFactory
         return $stmt->fetchObject();
     }
 
-    public function getAdminActivities(int $adminId)
+    public function getAdminActivities(int $adminId, array $filter = [])
     {
+        $page = $filter['page'] ?? 1;
+        $pageSize = $filter['page_size'] ?? 10;
+        $offset = ($page - 1) * $pageSize;
+
+        $sortBy = $filter['sort_by'] ?? 'aa.created_at';
+        $sortOrder = $filter['sort_order'] ?? 'DESC';
+
+        $sortOrder = strtoupper($sortOrder) === 'ASC' ? 'ASC' : 'DESC';
+
+        $conditions = "WHERE aa.admin_id = ?";
+        $bindings = [$adminId];
+
+        if (isset($filter['entity_type']) && !empty($filter['entity_type'])) {
+            $conditions .= " AND aa.entity_type = ?";
+            $bindings[] = $filter['entity_type'];
+        }
+
+        if (isset($filter['action']) && !empty($filter['action'])) {
+            $conditions .= " AND aa.action = ?";
+            $bindings[] = $filter['action'];
+        }
+
         $query = "
 		SELECT
-			aa.id,
 			aa.admin_id,
 			aa.entity_type,
 			aa.entity_id,
@@ -346,23 +385,27 @@ class AdminFactory
 			aa.created_at,
 			a.username AS admin_username,
 			a.photo_url AS admin_photo,
-			e.username AS entity_username,
-			e.photo_url AS entity_photo,
 			CASE
 				WHEN aa.entity_type = 'account' THEN JSON_OBJECT(
-					'email_verified', ac.email_verified,
-					'phone_verified', ac.phone_verified,
-					'account_type', ac.account_type
+					'kyc', ac.kyc
 				)
-				WHEN aa.entity_type = 'post' THEN JSON_OBJECT(
+				WHEN aa.entity_type = 'post' AND p.post_type = 'petition' THEN JSON_OBJECT(
+					'post_type', p.post_type,
+					'title', p.title,
+					'context', p.context,
+					'status', p.status
+				)
+				WHEN aa.entity_type = 'post' AND p.post_type = 'eyewitness' THEN JSON_OBJECT(
+					'post_type', p.post_type,
 					'title', p.title,
 					'context', p.context,
 					'status', p.status
 				)
 				WHEN aa.entity_type = 'comment' THEN JSON_OBJECT(
-					'content', c.content,
+					'comment', c.comment,
 					'status', c.status
 				)
+				ELSE JSON_ARRAY()
 			END AS entity_data
 		FROM admin_activities aa
 		LEFT JOIN admins a ON aa.admin_id = a.id
@@ -370,14 +413,69 @@ class AdminFactory
 		LEFT JOIN posts p ON aa.entity_id = p.id AND aa.entity_type = 'post'
 		LEFT JOIN comments c ON aa.entity_id = c.id AND aa.entity_type = 'comment'
 		LEFT JOIN accounts ac ON e.id = ac.id
-		WHERE aa.admin_id = ?
-		ORDER BY aa.created_at DESC";
+		$conditions
+		ORDER BY $sortBy $sortOrder
+		LIMIT $offset, $pageSize";
 
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$adminId]);
+        $stmt->execute($bindings);
 
-        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+        $results = $stmt->fetchAll(\PDO::FETCH_OBJ);
+
+        $filteredResults = [];
+        $uniqueKeys = [];
+
+        foreach ($results as $result) {
+            $uniqueKey = $result->entity_id . '_' . $result->admin_id . '_' . $result->action;
+
+            if (!isset($uniqueKeys[$uniqueKey])) {
+                $uniqueKeys[$uniqueKey] = true;
+                $filteredResults[] = $result;
+            }
+        }
+
+        foreach ($filteredResults as $result) {
+            if (!empty($result->entity_data)) {
+                $result->entity_data = json_decode($result->entity_data);
+            }
+        }
+
+        $totalRecords = $this->getAdminActivitiesCount($adminId, $filter);
+
+        return [
+            'data' => $filteredResults,
+            'meta' => [
+                'current_page' => (int) $page,
+                'page_size' => (int) $pageSize,
+                'total_records' => $totalRecords,
+                'total_pages' => ceil($totalRecords / $pageSize),
+            ],
+        ];
     }
 
+    public function getAdminActivitiesCount(int $adminId, array $filter = [])
+    {
+        $conditions = "WHERE aa.admin_id = ?";
+        $bindings = [$adminId];
 
+        if (isset($filter['entity_type']) && !empty($filter['entity_type'])) {
+            $conditions .= " AND aa.entity_type = ?";
+            $bindings[] = $filter['entity_type'];
+        }
+
+        if (isset($filter['action']) && !empty($filter['action'])) {
+            $conditions .= " AND aa.action = ?";
+            $bindings[] = $filter['action'];
+        }
+
+        $countQuery = "
+		SELECT COUNT(DISTINCT aa.entity_id, aa.admin_id, aa.action)
+		FROM admin_activities aa
+		$conditions";
+
+        $stmt = $this->db->prepare($countQuery);
+        $stmt->execute($bindings);
+
+        return $stmt->fetchColumn();
+    }
 }
