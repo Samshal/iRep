@@ -76,17 +76,18 @@ class PostController extends Controller
         $validatedData = $request->validated();
         $comment = $validatedData['comment'];
 
-        $status = $this->postFactory->insertSignature($id, Auth::id(), $comment);
+        $status = $this->postFactory->insertSignature($id, Auth::id(), $comment, $entityData->author_id);
 
-        $notificationData = [
-            'entity_id' => $id,
-            'account_id' => $entityData->author_id,
-            'title' => 'New signature on your petition',
-            'body' => Auth::user()->name . ' signed your petition',
-        ];
+        $replacements = ['{name}' => Auth::user()->name, '{entity}' => 'petition'];
 
-        SendNotification::dispatch('petition', $notificationData);
-
+        app('notification')->send(
+            entityType: 'petition',
+            entityId: $id,
+            accountId: $entityData->author_id,
+            titleTemplate: 'New signature on your {entity}',
+            bodyTemplate: '{name} signed your {entity}',
+            replacements: $replacements
+        );
 
         return response()->json(['message' => 'success', 'status' => $status]);
     }
@@ -104,14 +105,16 @@ class PostController extends Controller
 
         $this->postFactory->insertApproval($id, Auth::id(), $comment);
 
-        $notificationData = [
-            'entity_id' => $id,
-            'account_id' => $entityData->author_id,
-            'title' => 'New approval on your report',
-            'body' => Auth::user()->name . ' approved your report',
-        ];
+        $replacements = ['{name}' => Auth::user()->name, '{entity}' => 'report'];
 
-        SendNotification::dispatch('report', $notificationData);
+        app('notification')->send(
+            entityType: 'report',
+            entityId: $id,
+            accountId: $entityData->author_id,
+            titleTemplate: 'New approval on your {entity}',
+            bodyTemplate: '{name} approved your {entity}',
+            replacements: $replacements
+        );
 
         return response()->json(['message' => 'success']);
     }

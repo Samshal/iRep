@@ -68,27 +68,38 @@ class AuthController extends Controller
     public function onboard(OnboardAccountRequest $request)
     {
         $user = Auth::user();
-
         $validated = $request->validated();
         $validated['id'] = $user->id;
 
         if ($request->hasFile('kyc')) {
             $kycFiles = $request->file('kyc');
-
-            if (!is_array($kycFiles)) {
-                $kycFiles = [$kycFiles];
-            }
-            $validated['kyc'] = $kycFiles;
+            $validated['kyc'] = is_array($kycFiles) ? $kycFiles : [$kycFiles];
         }
-
-        \Log::info('OnboardAccountRequest', ['validated' => $validated]);
-
 
         $account = $this->accountFactory->insertAccountDetails($validated);
         $this->accountFactory->indexAccount($account->id);
 
-        return response()->json(['account_id' => $account->id], 201);
+        $noKycMessage =
+            "Please complete your onboarding process to get the full experience on iRep.";
+        $kycMessage = "Have fun exploring iRep!";
 
+        $replacement = [
+            "{name}" => $account->name,
+            "{message}" => $validated['kyc'] ? $kycMessage : $noKycMessage,
+        ];
+
+        app('notification')->send(
+            entityType: 'welcome',
+            entityId: $account->id,
+            accountId: $account->id,
+            titleTemplate: 'Welcome Message',
+            bodyTemplate:
+                'Hello {name}, Welcome to iRep! We are excited to have you on board. '
+                . '{message}',
+            replacements: $replacement
+        );
+
+        return response()->json(['account_id' => $account->id], 201);
     }
 
     public function indexOnboard()

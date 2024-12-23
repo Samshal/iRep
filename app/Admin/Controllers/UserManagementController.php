@@ -56,12 +56,30 @@ class UserManagementController extends AccountController
     {
         $account = $this->userManagementFactory->approveAccount($accountId);
 
+        app('notification')->send(
+            entityType: 'account',
+            entityId: $accountId,
+            accountId: $accountId,
+            titleTemplate: 'Account Verified',
+            bodyTemplate:
+                'Your account has been verified. You can now access all the features of the platform.'
+        );
+
         return response()->json($account);
     }
 
     public function declineAccount($accountId)
     {
         $account = $this->userManagementFactory->disapproveAccount($accountId);
+
+        app('notification')->send(
+            entityType: 'account',
+            entityId: $accountId,
+            accountId: $accountId,
+            titleTemplate: 'Account Verification Declined',
+            bodyTemplate:
+                'Your account has been declined. Please contact support for more information.'
+        );
 
         return response()->json($account);
     }

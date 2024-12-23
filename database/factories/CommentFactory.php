@@ -4,12 +4,13 @@ namespace Database\Factories;
 
 use Illuminate\Support\Facades\DB;
 
-class CommentFactory
+class CommentFactory extends BaseFactory
 {
     protected $db;
 
     public function __construct($db = null)
     {
+        parent::__construct();
         $this->db = $db ?: DB::connection()->getPdo();
     }
 

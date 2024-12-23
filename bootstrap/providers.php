@@ -8,4 +8,5 @@ return [
     App\Providers\PushNotificationServiceProvider::class,
     App\Providers\SearchEngineServiceProvider::class,
     App\Providers\UtilServiceProvider::class,
+    App\Providers\NotificationServiceProvider::class,
 ];

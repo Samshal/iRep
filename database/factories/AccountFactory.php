@@ -157,6 +157,8 @@ class AccountFactory
 
             $this->db->commit();
 
+            // To-do: Send notification to admin.
+
             return new Account($this->db, ['id' => $accountId]);
         } catch (\Exception $e) {
             $this->db->rollBack();

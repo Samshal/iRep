@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Petition;
 use App\Models\EyeWitnessReport;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class PostFactory extends CommentFactory
 {
@@ -32,6 +33,26 @@ class PostFactory extends CommentFactory
             }
 
             $this->db->commit();
+
+            $entity = $data['post_type'] === 'petition' ? 'petition' : 'eyewitness';
+
+            $replacement = ['{entity}' => $entity, '{name}' => Auth::user()->name, '{title}' => $data['title']];
+            $location = $this->getPetitionLocation($postId);
+
+            $criteria = $location && isset($location['local_government_id'])
+            ? ['local_government_id' => $location['local_government_id']]
+            : [];
+
+            app('notification')->broadcast(
+                entityType: 'petition',
+                entityId: $postId,
+                titleTemplate: 'New petition created',
+                bodyTemplate: '{name} created a new {entity} [{title}]',
+                replacements: $replacement,
+                criteria: $criteria
+            );
+
+
             return $postId;
 
         } catch (\Exception $e) {
@@ -425,7 +446,7 @@ class PostFactory extends CommentFactory
     }
 
 
-    public function insertSignature($postId, $accountId, $comment = null)
+    public function insertSignature($postId, $accountId, $comment = null, $authorId = null)
     {
         try {
             $this->db->beginTransaction();
@@ -458,7 +479,7 @@ class PostFactory extends CommentFactory
 
             $this->db->commit();
 
-            $status = $this->checkAndUpdatePetitionStatus($postId);
+            $status = $this->checkAndUpdatePetitionStatus($postId, $authorId);
 
             $this->indexPost($postId);
             return $status;
@@ -468,7 +489,7 @@ class PostFactory extends CommentFactory
         }
     }
 
-    private function checkAndUpdatePetitionStatus($postId)
+    private function checkAndUpdatePetitionStatus($postId, $authorId = null)
     {
         $statusQuery = "
 		SELECT signatures, target_signatures, status
@@ -489,7 +510,20 @@ class PostFactory extends CommentFactory
             $updateStatusStmt->execute([$postId]);
 
             $result['status'] = 'submitted';
-        }
+        };
+
+        $replacement = ['{target_signatures}' => $result['target_signatures']];
+
+        app('notification')->send(
+            entityType: 'petition',
+            entityId: $postId,
+            accountId: $authorId,
+            titleTemplate: 'Signature Milestone Reached',
+            bodyTemplate:
+                'Congratulations! Your petition has reached {target_signatures} signatures,' .
+                ' keep sharing to gain more support',
+            replacements: $replacement
+        );
 
         return $result['status'];
     }

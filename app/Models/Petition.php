@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
+
 class Petition
 {
     protected $postId;
     protected $targetSignatures;
     protected $targetRepresentativeIds;
     protected $signatures;
+    protected $title;
 
     public function __construct($postId, $data)
     {
@@ -51,6 +54,14 @@ class Petition
                 VALUES (?, ?)";
             $stmt = $db->prepare($query);
             $stmt->execute([$petitionId, $representativeId]);
+
+            app('notification')->send(
+                entityType: 'petition',
+                entityId: $petitionId,
+                accountId: $representativeId,
+                titleTemplate: 'New petition for your constituency',
+                bodyTemplate: 'A new petition has been created for your constituency'
+            );
         }
 
         return $petitionId;

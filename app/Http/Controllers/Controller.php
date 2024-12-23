@@ -86,33 +86,36 @@ abstract class Controller extends BaseController
             $notificationMessages = [
                 'likes' => [
                     'title' => 'Someone liked your {entity}',
-                    'body'  => Auth::user()->name . ' liked your {entity}',
+                    'body'  => '{name} liked your {entity}',
                 ],
                 'reposts' => [
                     'title' => 'Someone reposted your {entity}',
-                    'body'  => Auth::user()->name . ' reposted your {entity}',
+                    'body'  => '{name} reposted your {entity}',
                 ],
                 'bookmarks' => [
                     'title' => 'Someone bookmarked your {entity}',
-                    'body'  => Auth::user()->name . ' bookmarked your {entity}',
+                    'body'  => '{name} bookmarked your {entity}',
                 ],
             ];
 
-            $entityType = $entity;
             $notificationTemplate = $notificationMessages[$actionType] ?? [
                 'title' => 'Activity on your {entity}',
-                'body'  => Auth::user()->name . ' interacted with your {entity}',
+                'body'  => '{name} interacted with your {entity}',
             ];
 
-            $notification = [
-                'account_id' => $entityData->author_id,
-                'entity_id'  => $id,
-                'title'      => str_replace('{entity}', $entityType, $notificationTemplate['title']),
-                'body'       => str_replace('{entity}', $entityType, $notificationTemplate['body']),
+            $replacements = [
+                '{name}' => Auth::user()->name,
+                '{entity}' => $entity,
             ];
 
-            \Illuminate\Support\Facades\Log::info('Notification data: ' . json_encode($notification));
-            SendNotification::dispatch($entity, $notification);
+            app('notification')->send(
+                entityType: $entity,
+                entityId: $id,
+                accountId: $entityData->author_id,
+                titleTemplate: $notificationTemplate['title'],
+                bodyTemplate: $notificationTemplate['body'],
+                replacements: $replacements
+            );
         }
 
         return response()->json(['message' => $result], 200);
