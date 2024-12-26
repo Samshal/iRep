@@ -14,10 +14,11 @@ class NotificationService
         string $bodyTemplate,
         array $replacements = [],
         array $userIds = null,
-        array $criteria = []
+        array $criteria = [],
+        string $table = 'accounts',
     ): void {
         if (is_null($userIds)) {
-            $query = DB::table('accounts');
+            $query = DB::table($table);
 
             foreach ($criteria as $key => $value) {
                 if (is_array($value)) {

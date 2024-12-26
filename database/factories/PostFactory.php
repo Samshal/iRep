@@ -479,6 +479,18 @@ class PostFactory extends CommentFactory
 
             $this->db->commit();
 
+            $replacements = ['{name}' => Auth::user()->name, '{entity}' => 'petition'];
+
+            app('notification')->send(
+                entityType: 'petition',
+                entityId: $postId,
+                accountId: $authorId,
+                titleTemplate: 'New signature on your {entity}',
+                bodyTemplate: '{name} signed your {entity}',
+                replacements: $replacements
+            );
+
+
             $status = $this->checkAndUpdatePetitionStatus($postId, $authorId);
 
             $this->indexPost($postId);
@@ -492,38 +504,60 @@ class PostFactory extends CommentFactory
     private function checkAndUpdatePetitionStatus($postId, $authorId = null)
     {
         $statusQuery = "
-		SELECT signatures, target_signatures, status
-		FROM petitions
-		WHERE post_id = ?";
+        SELECT signatures, target_signatures, status
+        FROM petitions
+        WHERE post_id = ?";
 
         $statusStmt = $this->db->prepare($statusQuery);
         $statusStmt->execute([$postId]);
         $result = $statusStmt->fetch(\PDO::FETCH_ASSOC);
 
-        if ($result['signatures'] >= $result['target_signatures'] && $result['status'] != 'submitted') {
+        $isTargetReached =
+            $result['signatures'] >= $result['target_signatures'];
+        $isStatusPending =
+            $result['status'] != 'submitted' && $result['status'] != 'approved';
+
+        if ($isTargetReached && $isStatusPending) {
             $updateStatusQuery = "
-			UPDATE petitions
-			SET status = 'submitted'
-			WHERE post_id = ?";
+            UPDATE petitions
+            SET status = 'submitted'
+            WHERE post_id = ?";
 
             $updateStatusStmt = $this->db->prepare($updateStatusQuery);
             $updateStatusStmt->execute([$postId]);
 
             $result['status'] = 'submitted';
-        };
 
-        $replacement = ['{target_signatures}' => $result['target_signatures']];
+            $post = $this->getPost($postId);
+            $replacement = [
+                '{target_signatures}' => $result['target_signatures'],
+                '{title}' => $post->title,
+            ];
 
-        app('notification')->send(
-            entityType: 'petition',
-            entityId: $postId,
-            accountId: $authorId,
-            titleTemplate: 'Signature Milestone Reached',
-            bodyTemplate:
-                'Congratulations! Your petition has reached {target_signatures} signatures,' .
-                ' keep sharing to gain more support',
-            replacements: $replacement
-        );
+            app('notification')->send(
+                entityType: 'petition',
+                entityId: $postId,
+                accountId: $authorId,
+                titleTemplate: 'Signature Milestone Reached',
+                bodyTemplate:
+                    'Congratulations! Your petition has reached {target_signatures} ' .
+                    'signatures, keep sharing to gain more support',
+                replacements: $replacement
+            );
+
+            app('notification')->broadcast(
+                entityType: 'petition',
+                entityId: $postId,
+                titleTemplate: 'Signature Milestone Reached',
+                bodyTemplate:
+                    '{title} has reached {target_signatures} signatures, keep sharing ' .
+                    'to gain more support',
+                replacements: $replacement,
+                criteria: ['post_id' => $postId],
+                table: 'petition_signatures'
+            );
+
+        }
 
         return $result['status'];
     }

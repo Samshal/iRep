@@ -78,17 +78,6 @@ class PostController extends Controller
 
         $status = $this->postFactory->insertSignature($id, Auth::id(), $comment, $entityData->author_id);
 
-        $replacements = ['{name}' => Auth::user()->name, '{entity}' => 'petition'];
-
-        app('notification')->send(
-            entityType: 'petition',
-            entityId: $id,
-            accountId: $entityData->author_id,
-            titleTemplate: 'New signature on your {entity}',
-            bodyTemplate: '{name} signed your {entity}',
-            replacements: $replacements
-        );
-
         return response()->json(['message' => 'success', 'status' => $status]);
     }
 
