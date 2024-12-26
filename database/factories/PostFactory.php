@@ -37,16 +37,16 @@ class PostFactory extends CommentFactory
             $entity = $data['post_type'] === 'petition' ? 'petition' : 'eyewitness';
 
             $replacement = ['{entity}' => $entity, '{name}' => Auth::user()->name, '{title}' => $data['title']];
-            $location = $this->getPetitionLocation($postId);
+            $location = $this->getAccountByEntity($entity, $postId);
 
             $criteria = $location && isset($location['local_government_id'])
             ? ['local_government_id' => $location['local_government_id']]
             : [];
 
             app('notification')->broadcast(
-                entityType: 'petition',
+                entityType: $entity,
                 entityId: $postId,
-                titleTemplate: 'New petition created',
+                titleTemplate: 'New {entity} created',
                 bodyTemplate: '{name} created a new {entity} [{title}]',
                 replacements: $replacement,
                 criteria: $criteria

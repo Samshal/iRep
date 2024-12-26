@@ -3,10 +3,9 @@
 namespace App\Admin\Factories;
 
 use Illuminate\Support\Facades\DB;
-use App\Admin\Models\Admin;
-use Illuminate\Support\Facades\Log;
+use Database\Factories\BaseFactory;
 
-class ContentModerationFactory
+class ContentModerationFactory extends BaseFactory
 {
     protected $db;
 
@@ -239,6 +238,19 @@ class ContentModerationFactory
         $stmt->bindParam(':id', $postId, \PDO::PARAM_INT);
         $stmt->bindParam(':post_type', $postType, \PDO::PARAM_STR);
         $stmt->execute();
+
+        $replacement = ['{entity}' => $postType];
+        $account = $this->getAccountByEntity($postType, $postId);
+
+        app('notification')->send(
+            entityType: $postType,
+            entityId: $postId,
+            accountId: $account['id'],
+            titleTemplate: 'Your {entity} has been removed',
+            bodyTemplate: 'Your {entity} has been removed for violating our community guidelines',
+            replacements: $replacement
+        );
+
         return $stmt->rowCount();
     }
 
@@ -250,6 +262,7 @@ class ContentModerationFactory
         $stmt->bindParam(':id', $postId, \PDO::PARAM_INT);
         $stmt->bindParam(':post_type', $postType, \PDO::PARAM_STR);
         $stmt->execute();
+
         return $stmt->rowCount();
     }
 }

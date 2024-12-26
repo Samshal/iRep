@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BaseFactory
 {
@@ -16,17 +17,27 @@ class BaseFactory
         $this->db = DB::connection()->getPdo();
     }
 
-    public function getPetitionLocation($petitionId)
+    public function getAccountByEntity(string $entity, int $id)
     {
+        if ($entity === 'petition') {
+            $table = 'petitions';
+        } elseif ($entity === 'eyewitness') {
+            $table = 'eye_witness_reports';
+        } else {
+            return null;
+        }
+
         try {
+
             $query = "
 				SELECT
+					a.id,
 					a.state_id,
 					a.local_government_id
 				FROM
-					petitions p
+					{$table} t
 				JOIN
-					posts ps ON ps.id = p.post_id
+					posts ps ON ps.id = t.post_id
 				JOIN
 					accounts a ON a.id = ps.creator_id
 				WHERE
@@ -34,14 +45,14 @@ class BaseFactory
 			";
 
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$petitionId]);
+            $stmt->execute([$id]);
 
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
             return $result ?: null;
 
         } catch (\Exception $e) {
-            \Log::error("Failed to fetch petition location: " . $e->getMessage());
+            Log::error("Failed to fetch location: " . $e->getMessage());
             return null;
         }
     }

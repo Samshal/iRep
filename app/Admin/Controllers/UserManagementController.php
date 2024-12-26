@@ -54,18 +54,64 @@ class UserManagementController extends AccountController
 
     public function approveAccount($accountId)
     {
-        $account = $this->userManagementFactory->approveAccount($accountId);
+        $this->userManagementFactory->approveAccount($accountId);
 
-        app('notification')->send(
-            entityType: 'account',
-            entityId: $accountId,
-            accountId: $accountId,
-            titleTemplate: 'Account Verified',
-            bodyTemplate:
-                'Your account has been verified. You can now access all the features of the platform.'
-        );
+        $account = $this->findEntity('account', $accountId);
 
-        return response()->json($account);
+        try {
+            // General notification for regular account approval
+            if ($account->account_type == 1) {
+                $this->sendNotification(
+                    entityType: 'account',
+                    entityId: $accountId,
+                    accountId: $accountId,
+                    titleTemplate: 'Account Verified',
+                    bodyTemplate:
+                        'Your account has been verified. You can now access all the features of the platform.'
+                );
+            }
+
+            // Representative-specific notifications
+            if ($account->account_type == 2) {
+                $this->sendNotification(
+                    entityType: 'account',
+                    entityId: $accountId,
+                    accountId: $accountId,
+                    titleTemplate: 'Application Approved',
+                    bodyTemplate:
+                        'Your application to become a representative has been approved. You can now interact with civilians.'
+                );
+
+                // Broadcast notification for new representatives
+                $criteria = [];
+
+                if ($account->local_government_id) {
+                    $criteria['local_government_id'] = $account->local_government_id;
+                }
+
+                if ($account->state_id) {
+                    $criteria['state_id'] = $account->state_id;
+                }
+
+                $this->broadcastNotification(
+                    entityType: 'account',
+                    entityId: $account->id,
+                    accountId: $accountId,
+                    titleTemplate: '{name} is now on iRep',
+                    bodyTemplate: '{name} just joined iRep as a representative. You can now interact with them.',
+                    replacements: [
+                        '{name}' => ($account->accountData->position ?? '') . $account->name
+                    ],
+                    criteria: $criteria
+                );
+            }
+
+            return response()->json($accountId);
+
+        } catch (\Exception $e) {
+            Log::error("Failed to send notifications for account approval: " . $e->getMessage());
+            return response()->json(['error' => 'Notification failed'], 500);
+        }
     }
 
     public function declineAccount($accountId)

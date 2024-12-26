@@ -26,14 +26,14 @@ WORKDIR /workspace/irep
 # Copy the application files to the working directory
 COPY . .
 
+# Set appropriate permissions on storage and bootstrap/cache directories
+RUN chmod -R 775 storage bootstrap/cache
+
 # Install Laravel dependencies
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader
 
 # Expose the port for the Laravel application
 EXPOSE 8000 8080
-
-# Set appropriate permissions on storage and bootstrap/cache directories
-RUN chmod -R 755 storage bootstrap/cache
 
 # Set permissions for docker directory
 RUN find ./docker -type d -exec chmod 755 {} \; \
@@ -48,4 +48,3 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Set the entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
