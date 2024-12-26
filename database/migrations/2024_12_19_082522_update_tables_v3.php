@@ -60,6 +60,18 @@ return new class () extends Migration {
             Log::error("Failed to add columns to comments table: " . $e->getMessage());
         }
 
+        // Add approved column to representatives table
+        try {
+            if (!Schema::hasColumn('representatives', 'approved')) {
+                DB::statement("
+			ALTER TABLE representatives
+			ADD COLUMN approved BOOLEAN DEFAULT FALSE;
+		");
+            }
+        } catch (\Exception $e) {
+            Log::error("Failed to add approved column to representatives table: " . $e->getMessage());
+        }
+
     }
 
     /**

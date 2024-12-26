@@ -117,7 +117,8 @@ class AccountFactory
                     'constituency', c.name,
                     'party', pa.name,
                     'district', d.name,
-                    'bio', r.bio
+					'bio', r.bio,
+					'proof_of_office', r.proof_of_office
                 )
                 ELSE NULL
             END AS account_data

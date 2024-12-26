@@ -58,6 +58,8 @@ chown -R www-data:www-data storage bootstrap/cache
 # Fix the session issue (replace user_id with account_id)
 sed -i "/protected function addUserInformation/,/return \$this;/ s/\['user_id'\]/['account_id']/" ./vendor/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php
 
+echo -e "\nMerge update tables migration into the main migration when moving to production for clean deployment\n"
+
 # Start Supervisor to manage background processes
 echo "Starting Supervisor..."
 exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf

@@ -101,10 +101,16 @@ class AccountResource extends JsonResource
     public function toAdminViewArray($request)
     {
         $data = is_object($this->resource) ? $this->resource : (object) $this->resource;
+        $accountData = isset($data->account_data) ? json_decode($data->account_data, true) : null;
         $kyc = isset($data->kyc) ? json_decode($data->kyc, true) : [];
+
         $responseArray = $this->toProfileArray($request);
 
         $responseArray['kyc_files'] = $kyc;
+
+        if (isset($accountData['proof_of_office'])) {
+            $responseArray['proof_of_office'] = $accountData['proof_of_office'];
+        }
 
         return $responseArray;
     }
