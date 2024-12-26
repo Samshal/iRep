@@ -642,4 +642,52 @@ class PostFactory extends CommentFactory
         app('search')->deleteData('posts', $postId);
     }
 
+    public function insertPetitionApproval($postId, $entityData)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $query = "
+			UPDATE petitions
+			SET status = 'approved'
+			WHERE post_id = ?";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$postId]);
+
+            $this->db->commit();
+
+            $replacements = [
+                '{name}' => Auth::user()->name,
+                '{entity}' => 'petition',
+                '{title}' => $entityData->title,
+            ];
+
+            app('notification')->send(
+                entityType: 'petition',
+                entityId: $postId,
+                accountId: $entityData->author_id,
+                titleTemplate: 'Your {entity} has been approved',
+                bodyTemplate: 'Congratulations!, {name} approved your {entity}: {title}',
+                replacements: $replacements
+            );
+
+            app('notification')->broadcast(
+                entityType: 'petition',
+                entityId: $postId,
+                titleTemplate: 'Petition Approved',
+                bodyTemplate:
+                    '{title} has been approved by {name}, congratulations!',
+                replacements: $replacements,
+                criteria: ['post_id' => $postId],
+                table: 'petition_signatures'
+            );
+
+
+        } catch (\PDOException $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
+
 }

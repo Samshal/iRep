@@ -146,6 +146,7 @@ Route::group([
         Route::get('/petitions/{id}/signatures', [PostController::class, 'getSignees'])->name('getSignees');
         Route::get('/eye-witness-reports/{id}/approvals', [PostController::class, 'getApprovals'])->name('getApprovals');
         Route::post('/petitions/{id}/sign', [PostController::class, 'signPetition'])->name('signPetition');
+        Route::post('petitions/{id}/approve', [PostController::class, 'approvePetition'])->name('approvePetition');
         Route::post('/eye-witness-reports/{id}/approve', [PostController::class, 'approveReport'])->name('approveReport');
         Route::post('{id}/like', [PostController::class, 'like'])->name('post.like');
         Route::post('{id}/repost', [PostController::class, 'repost'])->name('post.repost');

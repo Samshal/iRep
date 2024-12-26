@@ -81,6 +81,29 @@ class PostController extends Controller
         return response()->json(['message' => 'success', 'status' => $status]);
     }
 
+    public function approvePetition($id)
+    {
+        $entityData = $this->findEntity('post', $id);
+        $postData = property_exists($entityData, 'post_data') ? json_decode($entityData->post_data) : null;
+
+        $idExists = in_array(
+            Auth::id(),
+            array_column($postData->target_representatives, 'id')
+        );
+
+        if (!$idExists) {
+            return response()->json(
+                ['message' => 'You are not authorized to approve this petition'],
+                403
+            );
+        }
+
+        $this->postFactory->insertPetitionApproval(Auth::id(), $entityData);
+
+        return response()->json(['message' => 'success']);
+    }
+
+
     public function approveReport($id, CommentRequest $request)
     {
         $entityData = $this->findEntity('post', $id);
