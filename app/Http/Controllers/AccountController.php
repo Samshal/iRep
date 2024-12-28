@@ -212,4 +212,28 @@ class AccountController extends Controller
             return response()->json(['error' => 'Failed to fetch posts: ' . $e->getMessage()], 500);
         }
     }
+
+    public function receivedPetitions(Request $request)
+    {
+        $criteria = $request->only(['page', 'page_size']);
+
+        $result = $this->postFactory->getPetitionsReceivedByRepresentative(Auth::id(), $criteria);
+
+        $petitions = $result['data'];
+        $total = $result['total'];
+        $currentPage = $result['current_page'];
+        $lastPage = $result['last_page'];
+
+
+        return response()->json([
+                'data' => PostResource::collection($petitions),
+                'meta' => [
+                    'total' => (int) $total,
+                    'current_page' => (int) $currentPage,
+                    'last_page' => (int) $lastPage,
+                    'page_size' => $criteria['page_size'] ?? 10,
+                ],
+            ], 200);
+
+    }
 }

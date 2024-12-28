@@ -384,6 +384,64 @@ class PostFactory extends CommentFactory
         ];
     }
 
+    public function getPetitionsReceivedByRepresentative($representativeId, $criteria = [])
+    {
+        $page = $criteria['page'] ?? 1;
+        $pageSize = $criteria['page_size'] ?? 10;
+        $offset = ($page - 1) * $pageSize;
+
+        $countQuery = "
+			SELECT COUNT(DISTINCT pe.id) AS total
+			FROM petition_representatives pr
+			JOIN petitions pe ON pr.petition_id = pe.id
+			WHERE pr.representative_id = ?
+		";
+
+        $countStmt = $this->db->prepare($countQuery);
+        $countStmt->execute([$representativeId]);
+        $total = $countStmt->fetchColumn();
+
+        // Main query
+        $query = "
+			SELECT DISTINCT
+				p.id,
+				p.title,
+				p.context,
+				p.post_type,
+				p.media,
+				p.status AS post_status,
+				pe.signatures,
+				pe.target_signatures,
+				pe.status,
+				a.name AS author,
+				a.id AS author_id,
+				a.photo_url AS author_photo,
+				a.kyced AS author_kyced,
+				a.account_type AS author_account_type,
+				r.reason AS reported,
+				p.created_at
+			FROM petition_representatives pr
+			JOIN petitions pe ON pr.petition_id = pe.id
+			JOIN posts p ON pe.post_id = p.id
+			LEFT JOIN accounts a ON p.creator_id = a.id
+			LEFT JOIN reports r ON r.entity_id = p.id AND r.entity_type = 'post'
+			WHERE pr.representative_id = ?
+			LIMIT ? OFFSET ?
+		";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$representativeId, $pageSize, $offset]);
+        $petitions = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return [
+            'data' => $petitions,
+            'total' => (int) $total,
+            'current_page' => (int) $page,
+            'last_page' => (int) ceil($total / $pageSize),
+        ];
+    }
+
+
     public function hasUserSigned($postId, $accountId)
     {
         $query = "

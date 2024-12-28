@@ -98,11 +98,14 @@ class PostController extends Controller
             );
         }
 
-        $this->postFactory->insertPetitionApproval(Auth::id(), $entityData);
+        if ($postData->petition_status === 'approved') {
+            return response()->json(['message' => 'Petition has already been approved'], 400);
+        }
+
+        $this->postFactory->insertPetitionApproval($id, $entityData);
 
         return response()->json(['message' => 'success']);
     }
-
 
     public function approveReport($id, CommentRequest $request)
     {

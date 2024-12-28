@@ -126,6 +126,7 @@ Route::group([
     Route::get('/bookmarks/', [AccountController::class, 'getUserBookmarks'])->name('account.getUserBookmarks');
     Route::get('/posts/', [AccountController::class, 'getUserPosts'])->name('account.getUserPosts');
     Route::get('/petitions/', [AccountController::class, 'getUserPetitions'])->name('account.getUserPetitions');
+    Route::get('/petitions/received', [AccountController::class, 'receivedPetitions'])->name('account.receivedPetitions');
     Route::get('/notifications', [AccountController::class, 'notifications'])->name('notifications');
     Route::post('/profile/upload/{type}', [AccountController::class, 'upload'])->name('account.upload');
     Route::post('/profile/update', [AccountController::class, 'update'])->name('account.update');
