@@ -92,6 +92,28 @@ class CommentController extends Controller
         ]);
     }
 
+    public function comments($postId, Request $request)
+    {
+        $criteria = [
+            'page' => $request->input('page', 1),
+            'page_size' => $request->input('page_size', 10),
+            'comment_id' => $request->input('comment_id', null),
+        ];
+
+        // Get the comments with pagination and meta data
+        $response = $this->commentFactory->getPostComments($postId, $criteria);
+
+        if (empty($response['data'])) {
+            return response()->json(['message' => 'No comments found'], 404);
+        }
+
+        // Return the response with both 'data' and 'meta'
+        return response()->json([
+            'data' => CommentResource::collection($response['data']),
+            'meta' => $response['meta']
+        ]);
+    }
+
     public function report($id, Request $request)
     {
         try {

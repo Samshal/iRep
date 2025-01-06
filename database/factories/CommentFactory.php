@@ -50,6 +50,70 @@ class CommentFactory extends BaseFactory
         return $stmt->fetchObject();
     }
 
+    public function getPostComments($postId, $criteria = [])
+    {
+        $page = isset($criteria['page']) ? (int) $criteria['page'] : 1;
+        $pageSize = isset($criteria['page_size']) ? (int) $criteria['page_size'] : 10;
+        $commentId = isset($criteria['comment_id']) ? (int) $criteria['comment_id'] : null;
+        $offset = ($page - 1) * $pageSize;
+
+        // Query to get the total count of comments
+        $countQuery = "
+		SELECT COUNT(*) as total
+		FROM comments
+		WHERE post_id = ?
+		  AND (parent_id " . ($commentId ? "= ?" : "IS NULL") . ")";
+
+        $countStmt = $this->db->prepare($countQuery);
+        $countStmt->bindParam(1, $postId, \PDO::PARAM_INT);
+        if ($commentId) {
+            $countStmt->bindParam(2, $commentId, \PDO::PARAM_INT);
+        }
+        $countStmt->execute();
+        $total = $countStmt->fetchColumn();
+
+        // Query to get the comments with the total number of replies for each comment
+        $query = "
+		SELECT comments.*, accounts.id AS author_id,
+			   accounts.photo_url AS author_photo_url, accounts.name AS author_name,
+			   COALESCE(reply_counts.reply_count, 0) AS total_replies
+		FROM comments
+		LEFT JOIN accounts ON comments.account_id = accounts.id
+		LEFT JOIN (
+			SELECT parent_id, COUNT(*) AS reply_count
+			FROM comments
+			GROUP BY parent_id
+		) AS reply_counts ON comments.id = reply_counts.parent_id
+		WHERE comments.post_id = ?
+		  AND (comments.parent_id " . ($commentId ? "= ?" : "IS NULL") . ")
+		ORDER BY comments.commented_at
+		LIMIT ? OFFSET ?";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(1, $postId, \PDO::PARAM_INT);
+
+        if ($commentId) {
+            $stmt->bindParam(2, $commentId, \PDO::PARAM_INT);
+            $stmt->bindParam(3, $pageSize, \PDO::PARAM_INT);
+            $stmt->bindParam(4, $offset, \PDO::PARAM_INT);
+        } else {
+            $stmt->bindParam(2, $pageSize, \PDO::PARAM_INT);
+            $stmt->bindParam(3, $offset, \PDO::PARAM_INT);
+        }
+
+        $stmt->execute();
+        $comments = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return [
+            'data' => $comments,
+            'meta' => [
+                'current_page' => $page,
+                'page_size' => $pageSize,
+                'total' => $total
+            ]
+        ];
+    }
+
     public function getCommentsByUser($accountId, $criteria = [])
     {
         $page = isset($criteria['page']) ? (int)$criteria['page'] : 1;

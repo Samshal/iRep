@@ -31,6 +31,7 @@ class CommentResource extends JsonResource
             'comment' => $data->comment,
             'likes' => $likes,
             'commented_at' => $data->commented_at,
+            'total_replies' => $data->total_replies ?? 0,
         ];
     }
 
@@ -48,13 +49,13 @@ class CommentResource extends JsonResource
             ->count() ?? 0;
 
         // Set the pagination parameters
-        $postId = $request->input('post_id', null);
         $perPage = $request->input('page_size', 10);
         $page = $request->input('page', 1);
         $offset = ($page - 1) * $perPage;
 
         $repliesQuery = DB::table('comments')
             ->leftJoin('accounts', 'comments.account_id', '=', 'accounts.id')
+            ->where('comments.parent_id', $data->id)
             ->orderBy('commented_at')
             ->select(
                 'comments.*',
@@ -63,11 +64,8 @@ class CommentResource extends JsonResource
                 'accounts.photo_url AS author_photo_url'
             );
 
-        // Use both post_id and parent_id if post_id is provided
-        if ($postId) {
-            $repliesQuery->where('comments.post_id', $postId);
-        } else {
-            $repliesQuery->where('comments.parent_id', $data->id);
+        if ($request->has('post_id')) {
+            $repliesQuery->where('comments.post_id', $request->input('post_id'));
         }
 
         $totalReplies = $repliesQuery->count();
@@ -102,4 +100,5 @@ class CommentResource extends JsonResource
 
         return $responseArray;
     }
+
 }
