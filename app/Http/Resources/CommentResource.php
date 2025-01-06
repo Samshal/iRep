@@ -47,13 +47,35 @@ class CommentResource extends JsonResource
             ->where('entity_id', $data->id)
             ->count() ?? 0;
 
-        $replies = DB::table('comments')
-            ->leftJoin('accounts', 'comments.account_id', '=', 'accounts.id')
-            ->where('comments.parent_id', $data->id)
-            ->orderBy('commented_at')
-            ->select('comments.*', 'accounts.id AS author_id', 'accounts.name AS author_name', 'accounts.photo_url AS author_photo_url')
-            ->get();
+        // Set the pagination parameters
+        $postId = $request->input('post_id', null);
+        $perPage = $request->input('page_size', 10);
+        $page = $request->input('page', 1);
+        $offset = ($page - 1) * $perPage;
 
+        $repliesQuery = DB::table('comments')
+            ->leftJoin('accounts', 'comments.account_id', '=', 'accounts.id')
+            ->orderBy('commented_at')
+            ->select(
+                'comments.*',
+                'accounts.id AS author_id',
+                'accounts.name AS author_name',
+                'accounts.photo_url AS author_photo_url'
+            );
+
+        // Use both post_id and parent_id if post_id is provided
+        if ($postId) {
+            $repliesQuery->where('comments.post_id', $postId);
+        } else {
+            $repliesQuery->where('comments.parent_id', $data->id);
+        }
+
+        $totalReplies = $repliesQuery->count();
+
+        $replies = $repliesQuery
+            ->offset($offset)
+            ->limit($perPage)
+            ->get();
 
         $nestedReplies = $replies->map(function ($reply) use ($request) {
             return (new CommentResource($reply))->toDetailArray($request);
@@ -70,9 +92,14 @@ class CommentResource extends JsonResource
             'likes' => $likes,
             'commented_at' => $data->commented_at,
             'replies' => $nestedReplies,
+            'pagination' => [
+                'total' => (int) $totalReplies,
+                'per_page' => (int) $perPage,
+                'current_page' => (int) $page,
+                'last_page' => ceil($totalReplies / $perPage),
+            ],
         ];
 
         return $responseArray;
     }
-
 }

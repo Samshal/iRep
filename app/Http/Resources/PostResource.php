@@ -104,14 +104,16 @@ class PostResource extends JsonResource
     public function toDetailArray($request)
     {
         $postData = json_decode($this->post_data, true);
-
         $responseArray = $this->toArray($request);
-
-        // Get the author_id of the post
         $authorId = $responseArray['author_id'] ?? null;
 
-        // Get regular comments
-        $comments = DB::table('comments')
+        // Pagination parameters
+        $perPage = $request->input('per_page', 10);
+        $page = $request->input('page', 1);
+        $offset = ($page - 1) * $perPage;
+
+        // Get regular comments with pagination
+        $commentsQuery = DB::table('comments')
             ->leftJoin('accounts', 'comments.account_id', '=', 'accounts.id')
             ->where('post_id', $responseArray['id'])
             ->whereNull('parent_id')
@@ -121,13 +123,21 @@ class PostResource extends JsonResource
                 'accounts.id AS author_id',
                 'accounts.name AS author_name',
                 'accounts.photo_url AS author_photo_url'
-            )
+            );
+
+        $totalComments = $commentsQuery->count();
+
+        $comments = $commentsQuery
+            ->offset($offset)
+            ->limit($perPage)
             ->get();
 
-        // Get supporter comments only if the post author is the authenticated user
+        // Get supporter comments with pagination if the post author is the authenticated user
         $supporterComments = collect([]);
+        $totalSupporterComments = 0;
+
         if ($authorId == Auth::id()) {
-            $supporterComments = DB::table('comments')
+            $supporterCommentsQuery = DB::table('comments')
                 ->leftJoin('accounts', 'comments.account_id', '=', 'accounts.id')
                 ->where('post_id', $responseArray['id'])
                 ->whereNull('parent_id')
@@ -137,10 +147,17 @@ class PostResource extends JsonResource
                     'accounts.id AS author_id',
                     'accounts.name AS author_name',
                     'accounts.photo_url AS author_photo_url'
-                )
+                );
+
+            $totalSupporterComments = $supporterCommentsQuery->count();
+
+            $supporterComments = $supporterCommentsQuery
+                ->offset($offset)
+                ->limit($perPage)
                 ->get();
         }
 
+        // Include petition and other metadata
         if (isset($postData['petition_status'])) {
             $responseArray['petition_status'] = $postData['petition_status'];
         }
@@ -165,22 +182,34 @@ class PostResource extends JsonResource
             $responseArray['target_signatures'] = $postData['target_signatures'];
         }
 
-        // Handle regular comments
+        // Handle regular comments with nested resources and pagination
         if ($comments->isNotEmpty()) {
-            $nestedComments = collect($comments)->map(function ($comment) use ($request) {
+            $nestedComments = $comments->map(function ($comment) use ($request) {
                 return (new CommentResource($comment))->toDetailArray($request);
             });
 
             $responseArray['comments'] = $nestedComments;
+            $responseArray['comments_pagination'] = [
+                'total' => $totalComments,
+                'per_page' => $perPage,
+                'current_page' => $page,
+                'last_page' => ceil($totalComments / $perPage),
+            ];
         }
 
-        // Handle supporter comments
+        // Handle supporter comments with nested resources and pagination
         if ($supporterComments->isNotEmpty()) {
-            $supporterNestedComments = collect($supporterComments)->map(function ($comment) use ($request) {
+            $supporterNestedComments = $supporterComments->map(function ($comment) use ($request) {
                 return (new CommentResource($comment))->toDetailArray($request);
             });
 
             $responseArray['supporters'] = $supporterNestedComments;
+            $responseArray['supporters_pagination'] = [
+                'total' => $totalSupporterComments,
+                'per_page' => $perPage,
+                'current_page' => $page,
+                'last_page' => ceil($totalSupporterComments / $perPage),
+            ];
         }
 
         return $responseArray;
