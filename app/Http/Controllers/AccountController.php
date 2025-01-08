@@ -215,7 +215,24 @@ class AccountController extends Controller
 
     public function receivedPetitions(Request $request)
     {
+        return $this->handlePetitionRequest($request);
+    }
+
+    public function signedPetitions(Request $request)
+    {
+        return $this->handlePetitionRequest($request, true);
+    }
+
+    private function handlePetitionRequest(Request $request, $filterBySignatures = false)
+    {
         $criteria = $request->only(['page', 'page_size']);
+
+        $criteria['page'] = $criteria['page'] ?? 1;
+        $criteria['page_size'] = $criteria['page_size'] ?? 10;
+
+        if ($filterBySignatures) {
+            $criteria['filter_by_signatures'] = true;
+        }
 
         $result = $this->postFactory->getPetitionsReceivedByRepresentative(Auth::id(), $criteria);
 
@@ -224,16 +241,15 @@ class AccountController extends Controller
         $currentPage = $result['current_page'];
         $lastPage = $result['last_page'];
 
-
         return response()->json([
-                'data' => PostResource::collection($petitions),
-                'meta' => [
-                    'total' => (int) $total,
-                    'current_page' => (int) $currentPage,
-                    'last_page' => (int) $lastPage,
-                    'page_size' => $criteria['page_size'] ?? 10,
-                ],
-            ], 200);
-
+            'data' => PostResource::collection($petitions),
+            'meta' => [
+                'total' => (int) $total,
+                'current_page' => (int) $currentPage,
+                'last_page' => (int) $lastPage,
+                'page_size' => (int) $criteria['page_size'],
+            ],
+        ], 200);
     }
+
 }

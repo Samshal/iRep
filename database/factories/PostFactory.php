@@ -390,6 +390,8 @@ class PostFactory extends CommentFactory
         $pageSize = $criteria['page_size'] ?? 10;
         $offset = ($page - 1) * $pageSize;
 
+        $filterBySignatures = isset($criteria['filter_by_signatures']) && $criteria['filter_by_signatures'];
+
         $countQuery = "
 			SELECT COUNT(DISTINCT pe.id) AS total
 			FROM petition_representatives pr
@@ -397,11 +399,14 @@ class PostFactory extends CommentFactory
 			WHERE pr.representative_id = ?
 		";
 
+        if ($filterBySignatures) {
+            $countQuery .= " AND pe.signatures >= pe.target_signatures";
+        }
+
         $countStmt = $this->db->prepare($countQuery);
         $countStmt->execute([$representativeId]);
         $total = $countStmt->fetchColumn();
 
-        // Main query
         $query = "
 			SELECT DISTINCT
 				p.id,
@@ -426,8 +431,12 @@ class PostFactory extends CommentFactory
 			LEFT JOIN accounts a ON p.creator_id = a.id
 			LEFT JOIN reports r ON r.entity_id = p.id AND r.entity_type = 'post'
 			WHERE pr.representative_id = ?
-			LIMIT ? OFFSET ?
 		";
+
+        if ($filterBySignatures) {
+            $query .= " AND pe.signatures >= pe.target_signatures";
+        }
+        $query .= " LIMIT ? OFFSET ?";
 
         $stmt = $this->db->prepare($query);
         $stmt->execute([$representativeId, $pageSize, $offset]);
