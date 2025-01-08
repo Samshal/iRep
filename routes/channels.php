@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('chat.{chatId}', function ($user, $chatId) {
     // Check if the authenticated user is part of the chat
-    $userIds = explode('.', $chatId);
+    $userIds = explode('_', $chatId);
     return in_array($user->id, $userIds);
 });
 

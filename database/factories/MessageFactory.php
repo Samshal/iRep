@@ -28,7 +28,9 @@ class MessageFactory
             $data['message'],
         ]);
 
-        return new Message($this->db->lastInsertId(), $data);
+        $result = $this->db->lastInsertId();
+
+        return new Message($result, $data);
     }
 
     public function getMessages($receiverId, $senderId)

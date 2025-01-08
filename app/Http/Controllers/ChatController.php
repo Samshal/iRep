@@ -32,18 +32,27 @@ class ChatController extends Controller
 
     public function send(Request $request)
     {
-        $data = $request->validate([
-            'receiver_id' => 'required|integer',
-            'message' => 'required|string',
-        ]);
+        try {
+            $data = $request->validate([
+                'receiver_id' => 'required|integer',
+                'message' => 'required|string',
+            ]);
 
-        $data['sender_id'] = Auth::id();
+            $data['sender_id'] = Auth::id();
 
-        $message = $this->messageFactory->insertMessage($data);
+            $message = $this->messageFactory->insertMessage($data);
 
-        sendMessage::dispatch($message);
+            sendMessage::dispatch($message);
 
-        return response()->noContent();
+            return response()->noContent();
+
+        } catch (\Exception $e) {
+            \Log::error('Error sending message: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong. Please try again later.',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function delete($id)

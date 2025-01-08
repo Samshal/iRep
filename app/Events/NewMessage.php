@@ -58,6 +58,6 @@ class NewMessage implements ShouldBroadcast
      */
     private function generateChatId($senderId, $receiverId): string
     {
-        return implode('.', collect([$senderId, $receiverId])->sort()->toArray());
+        return implode('_', collect([$senderId, $receiverId])->sort()->toArray());
     }
 }
