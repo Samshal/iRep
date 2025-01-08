@@ -19,8 +19,10 @@ class MessageResource extends JsonResource
 
         $responseArray = [
             'id' => $data->id,
-            'sender' => $data->sender,
-            'receiver' => $data->receiver,
+            'sender_id' => $data->sender_id,
+            'sender_name' => $data->sender_name,
+            'receiver_id' => $data->receiver_id,
+            'receiver_name' => $data->receiver_name,
             'message' => $data->message,
             'sent_at' => $data->sent_at,
             'read_at' => $data->read_at,

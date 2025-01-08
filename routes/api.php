@@ -177,10 +177,11 @@ Route::group([
 Route::group([
     'prefix' => 'chats',
     'middleware' => ['auth:api', 'activated']], function () {
+        Route::get('/', [ChatController::class, 'chatted'])->name('chat.chatted');
         Route::post('/send', [ChatController::class, 'send'])->name('chat.send');
         Route::get('/unread', [ChatController::class, 'getUnreadMessages'])->name('chat.unread');
         Route::get('/{id}', [ChatController::class, 'index'])->name('chat.index');
-        Route::post('/{id}/read', [ChatController::class, 'markAsRead'])->name('chat.read');
+        Route::post('/read/{id}', [ChatController::class, 'markAsRead'])->name('chat.read');
         Route::delete('/messages/{id}', [ChatController::class, 'delete'])->name('chat.delete');
     });
 

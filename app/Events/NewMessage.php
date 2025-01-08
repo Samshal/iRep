@@ -50,6 +50,7 @@ class NewMessage implements ShouldBroadcast
             'sender_id' => $this->message->senderId,
             'receiver_id' => $this->message->receiverId,
             'message' => $this->message->getMessage(),
+            'sent_at' => $this->message->sentAt,
         ];
     }
 

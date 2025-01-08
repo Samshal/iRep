@@ -8,6 +8,7 @@ class Message
     public $senderId;
     public $receiverId;
     protected $message;
+    public $sentAt;
 
     public function __construct($id, $data)
     {
@@ -15,6 +16,7 @@ class Message
         $this->senderId = $data['sender_id'];
         $this->receiverId = $data['receiver_id'];
         $this->message = $data['message'];
+        $this->sentAt = $data['sent_at'];
 
     }
 
