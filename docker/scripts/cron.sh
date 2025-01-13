@@ -4,7 +4,7 @@ mkdir -p "$DB_BACKUP_PATH"
 BACKUP_FILE="$DB_BACKUP_PATH/$(date +%F_%T)_backup.sql"
 
 backup_database() {
-	mysqldump -h "$DB_HOST" -P "$DB_PORT" -u root -p"$DB_PASSWORD" "$DB_DATABASE" >"$BACKUP_FILE"
+	mysqldump -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" >"$BACKUP_FILE"
 	if [ $? -eq 0 ]; then
 		echo "Backup successfully created: $BACKUP_FILE"
 	else
