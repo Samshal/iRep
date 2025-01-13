@@ -8,7 +8,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Message;
 use App\Events\NewMessage;
-use Illuminate\Support\Facades\DB;
 
 class SendMessage implements ShouldQueue
 {

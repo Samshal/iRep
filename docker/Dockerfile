@@ -41,10 +41,12 @@ RUN find ./docker -type d -exec chmod 755 {} \; \
 
 # Copy Supervisor config file and entrypoint script into the image
 COPY docker/supervisord.conf /etc/supervisor/supervisord.conf
-COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker/scripts/cron.sh /usr/local/bin/cron.sh
 
 # Make the entrypoint script executable
 RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/cron.sh
 
 # Set the entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

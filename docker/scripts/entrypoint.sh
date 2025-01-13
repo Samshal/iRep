@@ -1,28 +1,30 @@
 #!/bin/bash
 
-mkdir -p "$DB_BACKUP_PATH"
-BACKUP_FILE="$DB_BACKUP_PATH/$(date +%F_%T)_backup.sql"
+CRON_FILE="/etc/crontab"
+BACKUP_SCRIPT_PATH="/usr/local/bin/cron.sh"
 
 # Install Composer dependencies if not already installed
 if [ ! -d "vendor" ]; then
 	composer install
 fi
 
-backup_database() {
-	mysqldump -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" >"$BACKUP_FILE"
-	if [ $? -eq 0 ]; then
-		echo "Backup successfully created: $BACKUP_FILE"
-	else
-		echo "Backup failed"
+# Backup the database
+if [ -f "$BACKUP_SCRIPT_PATH" ]; then
+	if ! "$BACKUP_SCRIPT_PATH"; then
+		echo "Backup db failed, proceeding without stopping the container..."
 	fi
-}
-
-# Create a backup of the database
-backup_database
+else
+	echo "cron script not found!"
+fi
 
 # Cron job setup
-echo "0 2 * * * root /bin/bash -c 'backup_database'" >>/etc/crontab
-cron && echo "Cron started"
+if [ -f "$CRON_FILE" ]; then
+	# Add cron job for backup at 2 AM every day
+	echo "0 2 * * * root /bin/bash -c '$BACKUP_SCRIPT_PATH'" >>"$CRON_FILE"
+	cron && echo "Cron job started"
+else
+	echo "Cron file not found, unable to set up cron job."
+fi
 
 # Run Laravel migrate and seed database
 #php artisan migrate:refresh --seed --force
