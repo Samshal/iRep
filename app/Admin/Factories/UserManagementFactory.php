@@ -152,6 +152,21 @@ class UserManagementFactory
         return $stmt->rowCount();
     }
 
+    public function upgradetoRepresentative($accountId)
+    {
+        $query = "
+			UPDATE accounts
+			SET account_type = 2
+			WHERE id = :accountId
+		";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':accountId', $accountId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
     public function disapproveAccount($accountId)
     {
         $query = "

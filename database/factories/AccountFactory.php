@@ -152,7 +152,7 @@ class AccountFactory
             }
 
             // dummy kyc data
-            $data['kyced'] = true;
+            // $data['kyced'] = true;
 
             $accountId = $this->updateAccount($data['id'], $data);
 
@@ -173,10 +173,10 @@ class AccountFactory
             Log::info('Fetching onboarding details for account: ' . $accountId);
 
             $query = "
-            SELECT name, gender, dob, state_id, local_government_id
-            FROM accounts
-            WHERE id = :id
-        ";
+				SELECT name, gender, dob, state_id, local_government_id
+				FROM accounts
+				WHERE id = :id
+			";
 
             $stmt = $this->db->prepare($query);
             $stmt->execute([$accountId]);

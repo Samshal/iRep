@@ -114,6 +114,13 @@ class UserManagementController extends AccountController
         }
     }
 
+    public function upgradeAccount($accountId)
+    {
+        $account = $this->userManagementFactory->upgradetoRepresentative($accountId);
+
+        return response()->json($account);
+    }
+
     public function declineAccount($accountId)
     {
         $account = $this->userManagementFactory->disapproveAccount($accountId);

@@ -82,6 +82,7 @@ Route::group([
         Route::post('/petitions/ignore/{id}', [ContentModerationController::class, 'ignorePetition'])->name('admin.ignorePetition');
         Route::post('/reports/ignore/{id}', [ContentModerationController::class, 'ignoreReport'])->name('admin.ignoreReport');
         Route::post('/accounts/approve/{accountId}', [UserManagementController::class, 'approveAccount'])->name('admin.approve');
+        Route::post('/accounts/upgrade/{accountId}', [UserManagementController::class, 'upgradeAccount'])->name('admin.upgrade');
         Route::post('/accounts/decline/{accountId}', [UserManagementController::class, 'declineAccount'])->name('admin.decline');
         Route::post('/accounts/suspend/{accountId}', [UserManagementController::class, 'suspendAccount'])->name('admin.suspend');
         Route::post('/accounts/reinstate/{accountId}', [UserManagementController::class, 'reinstateAccount'])->name('admin.reinstate');
