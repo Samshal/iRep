@@ -12,11 +12,6 @@ services:
       - ./storage/logs:/workspace/irep/storage/logs
     env_file:
       - .env
-    environment:
-      DB_HOST: 103.124.107.209
-      DB_PORT: 3006
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
     depends_on:
       database:
         condition: service_healthy
