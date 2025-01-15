@@ -233,23 +233,32 @@ class ContentModerationFactory extends BaseFactory
 
     public function deletePost($postId, $postType)
     {
+        $account = $this->getAccountByEntity($postType, $postId);
+
+        if (!$account) {
+            throw new \Exception("Failed to find account associated with the $postType having ID $postId");
+        }
+
         $query = "DELETE FROM posts WHERE id = :id AND post_type = :post_type";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $postId, \PDO::PARAM_INT);
         $stmt->bindParam(':post_type', $postType, \PDO::PARAM_STR);
         $stmt->execute();
 
-        $replacement = ['{entity}' => $postType];
-        $account = $this->getAccountByEntity($postType, $postId);
+        if ($stmt->rowCount() > 0) {
+            $replacement = ['{entity}' => $postType];
 
-        app('notification')->send(
-            entityType: $postType,
-            entityId: $postId,
-            accountId: $account['id'],
-            titleTemplate: 'Your {entity} has been removed',
-            bodyTemplate: 'Your {entity} has been removed for violating our community guidelines',
-            replacements: $replacement
-        );
+            app('notification')->send(
+                entityType: $postType,
+                entityId: $postId,
+                accountId: $account['id'],
+                titleTemplate: 'Your {entity} has been removed',
+                bodyTemplate: 'Your {entity} has been removed for violating our community guidelines',
+                replacements: $replacement
+            );
+        } else {
+            throw new \Exception("Failed to delete $postType with ID $postId");
+        }
 
         return $stmt->rowCount();
     }

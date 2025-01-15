@@ -157,4 +157,15 @@ abstract class Controller extends BaseController
         $stmt->execute([$entityId, $entityType, $reporterId, $reason]);
     }
 
+    public static function getAccountType($db, $accountId)
+    {
+        $query = "SELECT * FROM account_types WHERE id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$accountId]);
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result ?: null;
+    }
+
 }

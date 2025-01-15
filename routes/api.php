@@ -42,6 +42,7 @@ Route::group([
         'middleware' => ['auth:admin']
     ], function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
         Route::get('/permissions', [AdminController::class, 'getPermissions'])->name('admin.permissions');
         Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');

@@ -123,4 +123,21 @@ class AdminController extends Controller
         return response()->json($activities);
     }
 
+    public function profile()
+    {
+        $adminId = Auth::id();
+        $admin = $this->adminFactory->getAdmin(null, $adminId);
+
+        if (!$admin) {
+            return response()->json(['error' => 'Admin not found.'], 404);
+        }
+
+        return response()->json([
+            'username' => $admin->username,
+            'password' => $admin->password,
+            'email' => $admin->email,
+            'permissions' => $this->adminFactory->getAdminPermissions($admin->id),
+        ]);
+    }
+
 }
