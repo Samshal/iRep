@@ -113,19 +113,21 @@ class AdminController extends Controller
         ]);
     }
 
-    public function activities($id, Request $request)
+    public function activities(Request $request)
     {
         $filter = $request->only(['page', 'page_size', 'sort_by',
-            'sort_order', 'action']);
+            'sort_order', 'action', 'admin_id']);
 
+        $id = $filter['admin_id'] ?? Auth::user()->id;
         $activities = $this->adminFactory->getAdminActivities($id, $filter);
 
         return response()->json($activities);
     }
 
-    public function profile()
+    public function profile(Request $request)
     {
-        $adminId = Auth::id();
+        $param = $request->only(['admin_id']);
+        $adminId = $param['admin_id'] ?? Auth::user()->id;
         $admin = $this->adminFactory->getAdmin(null, $adminId);
 
         if (!$admin) {
