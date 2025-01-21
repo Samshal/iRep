@@ -31,6 +31,12 @@ class Notification implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
+        if (isset($this->notification['table']) && $this->notification['table'] === 'admin') {
+            return [
+                new PrivateChannel("admin.{$this->notification['account_id']}"),
+            ];
+        }
+
         return [
             new PrivateChannel("user.{$this->notification['account_id']}"),
         ];
@@ -41,6 +47,10 @@ class Notification implements ShouldBroadcast
      */
     public function broadcastWith()
     {
+        if (isset($this->notification['table'])) {
+            unset($this->notification['table']);
+        }
+
         return $this->notification;
     }
 }

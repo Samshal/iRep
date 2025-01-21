@@ -8,6 +8,10 @@ Broadcast::channel('chat.{chatId}', function ($user, $chatId) {
     return in_array($user->id, $userIds);
 });
 
+Broadcast::channel('admin.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
+
 Broadcast::channel('user.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
