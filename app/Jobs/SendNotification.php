@@ -27,6 +27,7 @@ class SendNotification implements ShouldQueue
 
     public function handle(): void
     {
+        $table = $this->data['table'] ?? 'user';
         $accountId = $this->data['account_id'] ?? null;
         $title = $this->data['title'] ?? '';
         $body = $this->data['body'] ?? '';
@@ -59,6 +60,7 @@ class SendNotification implements ShouldQueue
             [
             'id' => $notificationId,
             'account_id' => $accountId,
+            'table' => $table,
             'type' => $this->notificationType,
             'title' => $title,
             'body' => $body,

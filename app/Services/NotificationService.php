@@ -44,6 +44,7 @@ class NotificationService
     }
 
     public function send(
+        string $table = 'user',
         string $entityType,
         int $entityId,
         int $accountId,
@@ -61,6 +62,7 @@ class NotificationService
 
         // Dispatch notification job
         SendNotification::dispatch($entityType, [
+            'table'      => $table,
             'entity_id'  => $entityId,
             'account_id' => $accountId,
             'title'      => $title,
