@@ -72,16 +72,24 @@ class UserManagementFactory
             $query .= " FROM accounts AS a
 			LEFT JOIN states AS s ON a.state_id = s.id
 			LEFT JOIN local_governments AS lg ON a.local_government_id = lg.id
+			LEFT JOIN representatives AS r ON r.account_id = a.id
 			";
         }
 
         $query .= " WHERE a.account_type = :accountType";
 
         if (isset($filter['status']) && in_array($filter['status'], $allowedFilters)) {
+            \Log::info($filter['status']);
             if ($filter['status'] == 'verified') {
-                $query .= " AND a.kyced IS TRUE";
+                $query .= " AND (
+					(r.proof_of_office IS NOT NULL AND a.account_type = 2)
+					OR (a.kyced IS TRUE)
+				)";
             } elseif ($filter['status'] == 'pending_verification') {
-                $query .= " AND a.kyc IS NOT NULL AND a.kyced IS FALSE";
+                $query .= " AND (
+					(r.proof_of_office IS NOT NULL AND a.account_type = 1)
+					OR (a.kyc IS NOT NULL AND a.kyced IS FALSE)
+				)";
             } elseif ($filter['status'] == 'suspended') {
                 $query .= " AND a.status = 'suspended'";
             }
