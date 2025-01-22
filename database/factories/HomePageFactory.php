@@ -74,9 +74,10 @@ class HomePageFactory extends PostFactory
 
                     $hit['media'] = json_decode($hit['media'], true);
                     if (isset($hit['target_representatives'])) {
-                        $hit['target_representatives'] = json_decode($hit['target_representatives'], true);
+                        if (is_string($hit['target_representatives'])) {
+                            $hit['target_representatives'] = json_decode($hit['target_representatives'], true);
+                        }
                     }
-
                     if ($hit['post_type'] === 'eyewitness') {
                         unset($hit['target_representatives']);
                     }
