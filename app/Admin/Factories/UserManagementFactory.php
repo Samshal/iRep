@@ -79,10 +79,10 @@ class UserManagementFactory
         $query .= " WHERE a.account_type = :accountType";
 
         if (isset($filter['status']) && in_array($filter['status'], $allowedFilters)) {
-            \Log::info($filter['status']);
+            Log::info($filter['status']);
             if ($filter['status'] == 'verified') {
                 $query .= " AND (
-					(r.proof_of_office IS NOT NULL AND a.account_type = 2)
+					(r.approved IS TRUE)
 					OR (a.kyced IS TRUE)
 				)";
             } elseif ($filter['status'] == 'pending_verification') {
@@ -162,17 +162,61 @@ class UserManagementFactory
 
     public function upgradetoRepresentative($accountId)
     {
-        $query = "
-			UPDATE accounts
-			SET account_type = 2
-			WHERE id = :accountId
-		";
+        try {
+            $this->db->beginTransaction();
 
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':accountId', $accountId, \PDO::PARAM_INT);
-        $stmt->execute();
+            $this->updateAccountType($accountId);
 
-        return $stmt->rowCount();
+            $this->approveRepresentative($accountId);
+
+            $this->db->commit();
+
+            return true;
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            Log::error("Transaction failed: " . $e->getMessage());
+
+            return false;
+        }
+    }
+
+    private function updateAccountType($accountId)
+    {
+        try {
+            $query = "
+				UPDATE accounts
+				SET account_type = 2
+				WHERE id = :accountId
+			";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':accountId', $accountId);
+            $stmt->execute();
+
+        } catch (\Exception $e) {
+            Log::error("Error updating account type: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    private function approveRepresentative($accountId)
+    {
+        Log::info("Approving representative with account ID: $accountId");
+        try {
+            $query = "
+				UPDATE representatives
+				SET approved = 1
+				WHERE account_id = :accountId
+			";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':accountId', $accountId);
+            $stmt->execute();
+
+        } catch (\Exception $e) {
+            Log::error("Error approving representative: " . $e->getMessage());
+            throw $e;
+        }
     }
 
     public function disapproveAccount($accountId)

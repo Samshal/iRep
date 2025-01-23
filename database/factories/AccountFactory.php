@@ -224,15 +224,13 @@ class AccountFactory
 
         foreach ($data as $key => $value) {
             if ($key !== 'id') {
-                if (($key === 'kyc' ||
-                    $key === 'proof_of_office' ||
-                    $key === 'social_handles') &&
-                    is_array($value)) {
+                // Encode JSON fields
+                if (in_array($key, ['kyc', 'proof_of_office', 'social_handles'], true) && is_array($value)) {
                     $value = json_encode($value);
                 }
 
-                if (in_array($key, $representativeFieldNames)) {
-                    $representativeFields[] = "$key = ?";
+                if (in_array($key, $representativeFieldNames, true)) {
+                    $representativeFields[] = $key;
                     $representativeValues[] = $value;
                 } else {
                     $accountFields[] = "$key = ?";
@@ -241,29 +239,49 @@ class AccountFactory
             }
         }
 
+        // Update accounts table
         if (!empty($accountFields)) {
             $accountFields[] = 'updated_at = CURRENT_TIMESTAMP';
             $accountValues[] = $accountId;
-            $accountQuery = 'UPDATE accounts SET ' .
-                implode(', ', $accountFields) .
-                ' WHERE id = ?';
-            $this->db->prepare($accountQuery)
-                ->execute($accountValues);
+            $accountQuery = 'UPDATE accounts SET ' . implode(', ', $accountFields) . ' WHERE id = ?';
+            $this->db->prepare($accountQuery)->execute($accountValues);
         }
 
-        if (!empty($representativeFields)) {
-            $representativeQuery = 'UPDATE representatives SET ' .
-                implode(', ', $representativeFields) .
-                ' WHERE account_id = ?';
-            $this->db->prepare($representativeQuery)
-                ->execute(array_merge(
-                    $representativeValues,
-                    [$accountId]
-                ));
+        // Check if account_id exists in representatives table
+        $checkQuery = "SELECT COUNT(*) FROM representatives WHERE account_id = ?";
+        $stmt = $this->db->prepare($checkQuery);
+        $stmt->execute([$accountId]);
+        $exists = $stmt->fetchColumn();
+
+        if ($exists) {
+            Log::info('Updating representative details for account: ' . $accountId);
+            if (!empty($representativeFields)) {
+                $updateFields = implode(' = ?, ', $representativeFields) . ' = ?';
+                $representativeQuery = 'UPDATE representatives SET ' . $updateFields . ' WHERE account_id = ?';
+                $this->db->prepare($representativeQuery)
+                    ->execute(array_merge($representativeValues, [$accountId]));
+            }
+        } else {
+            Log::info('Inserting representative details for account: ' . $accountId);
+
+            // Ensure all representativeFields are non-empty
+            if (!empty($representativeFields)) {
+                $representativeFields[] = 'account_id';
+                $representativeValues[] = $accountId;
+
+                $fields = implode(', ', $representativeFields);
+                $placeholders = implode(', ', array_fill(0, count($representativeFields), '?'));
+                $insertQuery = 'INSERT INTO representatives (' . $fields . ') VALUES (' . $placeholders . ')';
+
+                $this->db->prepare($insertQuery)->execute($representativeValues);
+            } else {
+                Log::error('No fields to insert into representatives table.');
+            }
         }
 
         return $accountId;
     }
+
 
 
     public function uploadPhoto($field, $accountId, $file)
