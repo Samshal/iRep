@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\AccountResource;
 use App\Http\Controllers\AccountController;
+use Illuminate\Support\Facades\Auth;
 
 class UserManagementController extends AccountController
 {
@@ -107,6 +108,8 @@ class UserManagementController extends AccountController
             }
 
             $this->accountFactory->indexAccount($accountId);
+            $this->logActivity("approve", "account", $accountId, Auth::id());
+
             return response()->json($accountId);
 
         } catch (\Exception $e) {
@@ -119,6 +122,8 @@ class UserManagementController extends AccountController
     {
         $account = $this->userManagementFactory->upgradetoRepresentative($accountId);
         $this->accountFactory->indexAccount($accountId);
+
+        $this->logActivity("upgrade", "account", $accountId, Auth::id());
 
         return response()->json($account);
     }
@@ -136,6 +141,8 @@ class UserManagementController extends AccountController
                 'Your account has been declined. Please contact support for more information.'
         );
 
+        $this->logActivity("decline", "account", $accountId, Auth::id());
+
         return response()->json($account);
     }
 
@@ -143,12 +150,14 @@ class UserManagementController extends AccountController
     {
         $account = $this->userManagementFactory->suspendAccount($accountId);
 
+        $this->logActivity("suspend", "account", $accountId, Auth::id());
         return response()->json($account);
     }
 
     public function reinstateAccount($accountId)
     {
         $account = $this->userManagementFactory->unsuspendAccount($accountId);
+        $this->logActivity("reinstate", "account", $accountId, Auth::id());
 
         return response()->json($account);
     }
@@ -156,6 +165,7 @@ class UserManagementController extends AccountController
     public function deleteAccount($accountId)
     {
         $account = $this->userManagementFactory->deleteAccount($accountId);
+        $this->logActivity("delete", "account", $accountId, Auth::id());
 
         return response()->json($account);
     }

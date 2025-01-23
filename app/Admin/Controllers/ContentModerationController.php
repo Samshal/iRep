@@ -7,6 +7,7 @@ use App\Admin\Factories\ContentModerationFactory;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class ContentModerationController extends Controller
 {
@@ -61,6 +62,7 @@ class ContentModerationController extends Controller
         try {
             $result = $this->contentModerationFactory->deletePost($id, 'petition');
 
+            $this->logActivity("delete", "post", $id, Auth::id());
             return response()->json($result, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete petition ' . $e->getMessage()], 500);
@@ -71,6 +73,8 @@ class ContentModerationController extends Controller
     {
         try {
             $result = $this->contentModerationFactory->deletePost($id, 'eyewitness');
+
+            $this->logActivity("delete", "post", $id, Auth::id());
 
             return response()->json($result, 200);
         } catch (\Exception $e) {
@@ -84,6 +88,7 @@ class ContentModerationController extends Controller
             $result = $this->contentModerationFactory->ignorePost($id, 'petition');
 
             $this->postFactory->indexPost($id);
+            $this->logActivity("ignore", "post", $id, Auth::id());
             return response()->json($result, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to ignore petition ' . $e->getMessage()], 500);
@@ -96,6 +101,7 @@ class ContentModerationController extends Controller
             $result = $this->contentModerationFactory->ignorePost($id, 'eyewitness');
 
             $this->postFactory->indexPost($id);
+            $this->logActivity("ignore", "post", $id, Auth::id());
             return response()->json($result, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to ignore report ' . $e->getMessage()], 500);

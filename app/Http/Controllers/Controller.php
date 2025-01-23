@@ -184,4 +184,29 @@ abstract class Controller extends BaseController
         }
 
     }
+
+    private function generateDescription($action, $entityType)
+    {
+        switch ($action) {
+            case 'create':
+                return "Created new {$entityType}.";
+            case 'delete':
+                return "Deleted {$entityType}.";
+            case 'suspend':
+                return "Suspended {$entityType}";
+            case 'reinstate':
+                return "Reinstated {$entityType}";
+            case 'approve':
+                return "Approved {$entityType}.";
+            case 'upgrade':
+                return "Upgraded {$entityType}.";
+            case 'decline':
+                return "Declined {$entityType}.";
+            case 'ignore':
+                return "Ignored {$entityType}.";
+            default:
+                return "Performed an action on a {$entityType}.";
+        }
+    }
+
 }
