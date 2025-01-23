@@ -38,6 +38,7 @@ class ContentModerationFactory extends BaseFactory
         $page = $criteria['page'] ?? 1;
         $pageSize = $criteria['page_size'] ?? 10;
         $offset = ($page - 1) * $pageSize;
+        $search = isset($criteria['search']) ? '%' . strtolower($criteria['search']) . '%' : null;
 
         $params = [
             ':offset' => $offset,
@@ -72,6 +73,12 @@ class ContentModerationFactory extends BaseFactory
         $reportFilter = '';
         if (isset($criteria['reported']) && $criteria['reported'] === 'true') {
             $reportFilter = "AND r.entity_id IS NOT NULL";
+        }
+
+        $searchFilter = '';
+        if ($search) {
+            $searchFilter = "AND LOWER(p.title) LIKE :search";
+            $params[':search'] = $search;
         }
 
         $postTypeFilter = '';
@@ -134,6 +141,7 @@ class ContentModerationFactory extends BaseFactory
 			$stateFilter
 			$statusFilter
 			$reportFilter
+			$searchFilter
 			$postTypeFilter
 			LIMIT :offset, :page_size
 		";
@@ -163,6 +171,7 @@ class ContentModerationFactory extends BaseFactory
             $stateFilter,
             $statusFilter,
             $reportFilter,
+            $searchFilter,
             $postTypeJoin,
             $criteria
         );
@@ -182,6 +191,7 @@ class ContentModerationFactory extends BaseFactory
         $stateFilter = '',
         $statusFilter = '',
         $reportFilter = '',
+        $searchFilter = '',
         $postTypeJoin = '',
         array $criteria = []
     ) {
@@ -202,6 +212,10 @@ class ContentModerationFactory extends BaseFactory
             $params[':post_type'] = $criteria['post_type'];
         }
 
+        if (!empty($criteria['search'])) {
+            $params[':search'] = '%' . strtolower($criteria['search']) . '%';
+        }
+
         $countQuery = "
 			SELECT COUNT(DISTINCT p.id)
 			FROM posts p
@@ -213,6 +227,7 @@ class ContentModerationFactory extends BaseFactory
 			$stateFilter
 			$statusFilter
 			$reportFilter
+			$searchFilter
 			";
 
         if (!empty($criteria['post_type'])) {
