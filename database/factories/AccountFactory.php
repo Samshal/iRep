@@ -219,7 +219,7 @@ class AccountFactory
         $representativeFieldNames = [
             'position_id', 'district_id', 'constituency_id',
             'party_id', 'social_handles', 'proof_of_office',
-            'sworn_in_date', 'bio'
+            'sworn_in_date', 'bio', 'status'
         ];
 
         foreach ($data as $key => $value) {

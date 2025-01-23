@@ -96,6 +96,7 @@ class AccountController extends Controller
         }
 
         $validated['social_handles'] = $request->input('social_handles', []);
+        $validated['status'] = 'pending';
         // $validated['account_type'] = 2;
 
         $result = $this->accountFactory->insertRepresentativeDetails($validated);

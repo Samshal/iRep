@@ -37,11 +37,7 @@ class UserManagementController extends AccountController
     {
         $params = $request->only(['search', 'status', 'page', 'page_size']);
 
-        if ($accountType == 2 && isset($params['status']) && $params['status'] == 'pending_verification') {
-            $accounts = $this->userManagementFactory->getAccounts($params, 1);
-        } else {
-            $accounts = $this->userManagementFactory->getAccounts($params, $accountType);
-        }
+        $accounts = $this->userManagementFactory->getAccounts($params, $accountType);
 
         return response()->json($accounts);
     }

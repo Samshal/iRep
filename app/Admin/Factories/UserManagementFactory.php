@@ -17,11 +17,18 @@ class UserManagementFactory
 
     public function getAccountStats($accountType)
     {
+        $case = $accountType == 2 ? "
+			COUNT(CASE WHEN r.approved IS TRUE THEN 1 END) AS verified_accounts,
+			COUNT(CASE WHEN r.status = 'pending' THEN 1 END) AS pending_verifications
+		" : "
+			COUNT(CASE WHEN a.kyced IS TRUE THEN 1 END) AS verified_accounts,
+			COUNT(CASE WHEN a.kyc IS NOT NULL AND a.kyced IS FALSE THEN 1 END) AS pending_verifications
+		";
+
         $query = "
 			SELECT
 				COUNT(CASE WHEN a.account_type = :accountType THEN 1 END) AS total_accounts,
-				COUNT(CASE WHEN a.kyced IS TRUE AND a.kyc IS NOT NULL THEN 1 END) AS verified_accounts,
-				COUNT(CASE WHEN a.kyc IS NOT NULL AND a.kyced IS FALSE THEN 1 END) AS pending_verifications,
+				{$case},
 				COUNT(CASE WHEN a.status = 'suspended' THEN 1 END) AS suspended_accounts,
 				(
 					SELECT COUNT(*)
@@ -29,6 +36,7 @@ class UserManagementFactory
 					WHERE entity_type = 'account'
 				) AS deleted_accounts
 			FROM accounts AS a
+			LEFT JOIN representatives AS r ON r.account_id = a.id
 		";
 
         $stmt = $this->db->prepare($query);
@@ -49,16 +57,16 @@ class UserManagementFactory
         $statusCase = $accountType == 2 ? "
 			CASE
 				WHEN a.status = 'suspended' THEN 'suspended'
-				WHEN r.approved IS TRUE THEN 'verified'
-				WHEN r.approved IS FALSE  AND r.proof_of_office IS NOT NULL THEN 'pending_verification'
+				WHEN r.status = 'pending' THEN 'pending_verification'
+				WHEN r.approved IS TRUE AND r.status = 'verified' THEN 'verified'
 				ELSE 'unverified'
 			END AS status
 		" : "
 			CASE
 				WHEN a.status = 'suspended' THEN 'suspended'
 				WHEN a.kyced IS TRUE THEN 'verified'
-				WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'unverified'
-				ELSE 'no-kyc'
+				WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'pending_verification'
+				ELSE 'unverified'
 			END AS status
 		";
 
@@ -90,22 +98,22 @@ class UserManagementFactory
         $query .= " WHERE a.account_type = :accountType";
 
         if (isset($filter['status']) && in_array($filter['status'], $allowedFilters)) {
-            Log::info($filter['status']);
             if ($filter['status'] == 'verified') {
-                $query .= " AND (
-					(r.approved IS TRUE)
-					OR (a.kyced IS TRUE)
-				)";
+                if ($accountType == 2) {
+                    $query .= " AND r.approved IS TRUE";
+                } elseif ($accountType == 1) {
+                    $query .= " AND a.kyced IS TRUE";
+                }
             } elseif ($filter['status'] == 'pending_verification') {
-                $query .= " AND (
-					(r.proof_of_office IS NOT NULL AND a.account_type = 1)
-					OR (a.kyc IS NOT NULL AND a.kyced IS FALSE)
-				)";
+                if ($accountType == 2) {
+                    $query .= " AND r.status = 'pending'";
+                } elseif ($accountType == 1) {
+                    $query .= " AND a.kyc IS NOT NULL AND a.kyced IS FALSE";
+                }
             } elseif ($filter['status'] == 'suspended') {
                 $query .= " AND a.status = 'suspended'";
             }
         }
-
         $query .= " LIMIT :pageSize OFFSET :offset";
 
         $stmt = $this->db->prepare($query);
@@ -212,11 +220,11 @@ class UserManagementFactory
 
     private function approveRepresentative($accountId)
     {
-        Log::info("Approving representative with account ID: $accountId");
         try {
             $query = "
 				UPDATE representatives
-				SET approved = 1
+				SET approved = 1,
+					status = 'verified'
 				WHERE account_id = :accountId
 			";
 
@@ -229,7 +237,6 @@ class UserManagementFactory
             throw $e;
         }
     }
-
     public function disapproveAccount($accountId)
     {
         $query = "

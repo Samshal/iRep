@@ -64,12 +64,21 @@ return new class () extends Migration {
         try {
             if (!Schema::hasColumn('representatives', 'approved')) {
                 DB::statement("
-			ALTER TABLE representatives
-			ADD COLUMN approved BOOLEAN DEFAULT FALSE;
-		");
+            ALTER TABLE representatives
+            ADD COLUMN approved BOOLEAN DEFAULT FALSE;
+        ");
             }
+
+            if (!Schema::hasColumn('representatives', 'status')) {
+                DB::statement("
+            ALTER TABLE representatives
+            ADD COLUMN status ENUM('verified', 'pending', 'unverified') DEFAULT 'unverified';
+        ");
+            }
+
+            // Add status column with ENUM type if it doesn't exist
         } catch (\Exception $e) {
-            Log::error("Failed to add approved column to representatives table: " . $e->getMessage());
+            Log::error("Failed to add columns to representatives table: " . $e->getMessage());
         }
 
     }
