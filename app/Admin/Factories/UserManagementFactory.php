@@ -21,7 +21,7 @@ class UserManagementFactory
 			COUNT(CASE WHEN r.approved IS TRUE THEN 1 END) AS verified_accounts,
 			COUNT(CASE WHEN r.status = 'pending' THEN 1 END) AS pending_verifications
 		" : "
-			COUNT(CASE WHEN a.kyced IS TRUE THEN 1 END) AS verified_accounts,
+			COUNT(CASE WHEN a.kyced IS TRUE AND a.account_type = 1 THEN 1 END) AS verified_accounts,
 			COUNT(CASE WHEN a.kyc IS NOT NULL AND a.kyced IS FALSE THEN 1 END) AS pending_verifications
 		";
 

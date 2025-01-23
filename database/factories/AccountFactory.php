@@ -110,7 +110,8 @@ class AccountFactory
         $query = "
         SELECT
 		a.*, at.name AS account_type,
-            s.name AS state, lg.name AS local_government, a.created_at,
+			s.name AS state, lg.name AS local_government, a.created_at,
+			r.proof_of_office,
             CASE
                 WHEN a.account_type = 2 THEN JSON_OBJECT(
                     'position', p.title,
@@ -123,7 +124,7 @@ class AccountFactory
                 ELSE NULL
             END AS account_data
         FROM accounts a
-        LEFT JOIN representatives r ON a.id = r.account_id AND a.account_type = 2
+        LEFT JOIN representatives r ON a.id = r.account_id
         LEFT JOIN states s ON a.state_id = s.id
         LEFT JOIN local_governments lg ON a.local_government_id = lg.id
         LEFT JOIN positions p ON r.position_id = p.id
@@ -194,8 +195,8 @@ class AccountFactory
         try {
             $this->db->beginTransaction();
 
-            if (!empty($data['kyc'])) {
-                $data['kyc'] = app('uploadMediaService')->handleMediaFiles($data['kyc']);
+            if (!empty($data['proof_of_office'])) {
+                $data['proof_of_office'] = app('uploadMediaService')->handleMediaFiles($data['proof_of_office']);
             }
 
             $accountId = $this->updateAccount($data['id'], $data);
