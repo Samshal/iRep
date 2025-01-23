@@ -46,15 +46,26 @@ class UserManagementFactory
 
         $allowedFilters = ['verified', 'pending_verification', 'suspended'];
 
+        $statusCase = $accountType == 2 ? "
+			CASE
+				WHEN a.status = 'suspended' THEN 'suspended'
+				WHEN r.approved IS TRUE THEN 'verified'
+				WHEN r.approved IS FALSE  AND r.proof_of_office IS NOT NULL THEN 'pending_verification'
+				ELSE 'unverified'
+			END AS status
+		" : "
+			CASE
+				WHEN a.status = 'suspended' THEN 'suspended'
+				WHEN a.kyced IS TRUE THEN 'verified'
+				WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'unverified'
+				ELSE 'no-kyc'
+			END AS status
+		";
+
         $query = "
 			SELECT a.id, a.name, a.email, s.name AS state,
 			lg.name AS local_government,
-			CASE
-				 WHEN a.status = 'suspended' THEN 'suspended'
-				 WHEN a.kyced IS TRUE THEN 'verified'
-				 WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'unverified'
-				 ELSE 'no-kyc'
-			END AS status
+			$statusCase
 		";
 
         if ($accountType == 2) {
