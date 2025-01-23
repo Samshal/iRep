@@ -51,57 +51,61 @@ class UserManagementFactory
         $page = $filter['page'] ?? 1;
         $pageSize = $filter['page_size'] ?? 10;
         $offset = ($page - 1) * $pageSize;
-        $search = '%' . strtolower($filter['search']) . '%' ?? null;
+        $search = isset($filter['search']) ? '%' . strtolower($filter['search']) . '%' : null;
 
         $allowedFilters = ['verified', 'pending_verification', 'suspended'];
 
         $statusCase = $accountType == 2 ? "
-        CASE
-            WHEN a.status = 'suspended' THEN 'suspended'
-            WHEN r.status = 'pending' THEN 'pending_verification'
-            WHEN r.approved IS TRUE AND r.status = 'verified' THEN 'verified'
-            ELSE 'unverified'
-        END AS status
-    " : "
-        CASE
-            WHEN a.status = 'suspended' THEN 'suspended'
-            WHEN a.kyced IS TRUE THEN 'verified'
-            WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'pending_verification'
-            ELSE 'unverified'
-        END AS status
-    ";
+			CASE
+				WHEN a.status = 'suspended' THEN 'suspended'
+				WHEN r.status = 'pending' THEN 'pending_verification'
+				WHEN r.approved IS TRUE AND r.status = 'verified' THEN 'verified'
+				ELSE 'unverified'
+			END AS status
+		" : "
+			CASE
+				WHEN a.status = 'suspended' THEN 'suspended'
+				WHEN a.kyced IS TRUE THEN 'verified'
+				WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'pending_verification'
+				ELSE 'unverified'
+			END AS status
+		";
 
         $query = "
-        SELECT a.id, a.name, a.email, s.name AS state,
-        lg.name AS local_government,
-        $statusCase
-    ";
+			SELECT a.id, a.name, a.email, s.name AS state,
+			lg.name AS local_government,
+			$statusCase
+		";
 
         if ($accountType == 2) {
             $query .= ", p.name AS party, pos.title AS position,
-            c.name AS constituency, d.name AS district
-            FROM accounts AS a
-            LEFT JOIN states AS s ON a.state_id = s.id
-            LEFT JOIN local_governments AS lg
-                ON a.local_government_id = lg.id
-            LEFT JOIN representatives AS r
-                ON r.account_id = a.id
-            LEFT JOIN parties AS p ON p.id = r.party_id
-            LEFT JOIN positions AS pos ON pos.id = r.position_id
-            LEFT JOIN constituencies AS c
-                ON c.id = r.constituency_id
-            LEFT JOIN districts AS d ON d.id = r.district_id
-        ";
+				c.name AS constituency, d.name AS district
+				FROM accounts AS a
+				LEFT JOIN states AS s ON a.state_id = s.id
+				LEFT JOIN local_governments AS lg
+					ON a.local_government_id = lg.id
+				LEFT JOIN representatives AS r
+					ON r.account_id = a.id
+				LEFT JOIN parties AS p ON p.id = r.party_id
+				LEFT JOIN positions AS pos ON pos.id = r.position_id
+				LEFT JOIN constituencies AS c
+					ON c.id = r.constituency_id
+				LEFT JOIN districts AS d ON d.id = r.district_id
+			";
         } else {
             $query .= " FROM accounts AS a
-            LEFT JOIN states AS s ON a.state_id = s.id
-            LEFT JOIN local_governments AS lg
-                ON a.local_government_id = lg.id
-            LEFT JOIN representatives AS r ON r.account_id = a.id
-        ";
+				LEFT JOIN states AS s ON a.state_id = s.id
+				LEFT JOIN local_governments AS lg
+					ON a.local_government_id = lg.id
+				LEFT JOIN representatives AS r ON r.account_id = a.id
+			";
         }
 
-        $query .= " WHERE a.account_type = :accountType";
+        if ($accountType == 2 && isset($filter['status']) && $filter['status'] == 'pending_verification') {
+            $query .= " WHERE a.account_type = 1";
+        } else {
+            $query .= " WHERE a.account_type = :accountType";
+        }
 
         if (isset($filter['status']) && in_array($filter['status'], $allowedFilters)) {
             if ($filter['status'] == 'verified') {
@@ -127,7 +131,9 @@ class UserManagementFactory
         $query .= " LIMIT :pageSize OFFSET :offset";
 
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':accountType', $accountType, \PDO::PARAM_INT);
+        if ($accountType != 2 || !isset($filter['status']) || $filter['status'] != 'pending_verification') {
+            $stmt->bindParam(':accountType', $accountType, \PDO::PARAM_INT);
+        }
         if ($search) {
             $stmt->bindParam(':search', $search, \PDO::PARAM_STR);
         }
@@ -154,17 +160,30 @@ class UserManagementFactory
     public function getAccountCount($filter = [], $accountType, $allowedFilters)
     {
         $query = "
-        SELECT COUNT(*) as total
-        FROM accounts AS a
-    ";
+			SELECT COUNT(*) as total
+			FROM accounts AS a
+			LEFT JOIN representatives AS r ON r.account_id = a.id
+		";
 
-        $query .= " WHERE a.account_type = :accountType";
+        if ($accountType == 2 && isset($filter['status']) && $filter['status'] == 'pending_verification') {
+            $query .= " WHERE a.account_type = 1";
+        } else {
+            $query .= " WHERE a.account_type = :accountType";
+        }
 
         if (isset($filter['status']) && in_array($filter['status'], $allowedFilters)) {
             if ($filter['status'] == 'verified') {
-                $query .= " AND a.kyced IS TRUE";
+                if ($accountType == 2) {
+                    $query .= " AND r.approved IS TRUE";
+                } elseif ($accountType == 1) {
+                    $query .= " AND a.kyced IS TRUE";
+                }
             } elseif ($filter['status'] == 'pending_verification') {
-                $query .= " AND a.kyc IS NOT NULL AND a.kyced IS FALSE";
+                if ($accountType == 2) {
+                    $query .= " AND r.status = 'pending'";
+                } elseif ($accountType == 1) {
+                    $query .= " AND a.kyc IS NOT NULL AND a.kyced IS FALSE";
+                }
             } elseif ($filter['status'] == 'suspended') {
                 $query .= " AND a.status = 'suspended'";
             }
@@ -175,7 +194,9 @@ class UserManagementFactory
         }
 
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':accountType', $accountType, \PDO::PARAM_INT);
+        if ($accountType != 2 || !isset($filter['status']) || $filter['status'] != 'pending_verification') {
+            $stmt->bindParam(':accountType', $accountType, \PDO::PARAM_INT);
+        }
         if (isset($filter['search'])) {
             $search = '%' . strtolower($filter['search']) . '%';
             $stmt->bindParam(':search', $search, \PDO::PARAM_STR);
