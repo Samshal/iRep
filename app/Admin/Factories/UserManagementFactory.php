@@ -58,7 +58,7 @@ class UserManagementFactory
         $statusCase = $accountType == 2 ? "
 			CASE
 				WHEN a.status = 'suspended' THEN 'suspended'
-				WHEN r.status = 'pending' THEN 'pending_verification'
+				WHEN r.status = 'pending' THEN 'pending'
 				WHEN r.approved IS TRUE AND r.status = 'verified' THEN 'verified'
 				ELSE 'unverified'
 			END AS status
@@ -66,7 +66,7 @@ class UserManagementFactory
 			CASE
 				WHEN a.status = 'suspended' THEN 'suspended'
 				WHEN a.kyced IS TRUE THEN 'verified'
-				WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'pending_verification'
+				WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'pending'
 				ELSE 'unverified'
 			END AS status
 		";

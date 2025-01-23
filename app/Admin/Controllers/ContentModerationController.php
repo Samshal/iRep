@@ -83,6 +83,7 @@ class ContentModerationController extends Controller
         try {
             $result = $this->contentModerationFactory->ignorePost($id, 'petition');
 
+            $this->postFactory->indexPost($id);
             return response()->json($result, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to ignore petition ' . $e->getMessage()], 500);
@@ -94,6 +95,7 @@ class ContentModerationController extends Controller
         try {
             $result = $this->contentModerationFactory->ignorePost($id, 'eyewitness');
 
+            $this->postFactory->indexPost($id);
             return response()->json($result, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to ignore report ' . $e->getMessage()], 500);

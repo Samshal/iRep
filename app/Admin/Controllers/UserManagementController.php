@@ -106,6 +106,7 @@ class UserManagementController extends AccountController
                 );
             }
 
+            $this->accountFactory->indexAccount($accountId);
             return response()->json($accountId);
 
         } catch (\Exception $e) {
@@ -117,6 +118,7 @@ class UserManagementController extends AccountController
     public function upgradeAccount($accountId)
     {
         $account = $this->userManagementFactory->upgradetoRepresentative($accountId);
+        $this->accountFactory->indexAccount($accountId);
 
         return response()->json($account);
     }
