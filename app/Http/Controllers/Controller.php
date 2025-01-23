@@ -15,6 +15,7 @@ use Database\Factories\NewsFeedFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\SendNotification;
+use Illuminate\Support\Facades\Log;
 
 abstract class Controller extends BaseController
 {
@@ -168,4 +169,19 @@ abstract class Controller extends BaseController
         return $result ?: null;
     }
 
+    public function logActivity($action, $entityType, $entityId, $adminId)
+    {
+        try {
+            $query = "
+				INSERT INTO admin_activities (admin_id, entity_type, entity_id, action, description, created_at)
+				VALUES (?, ?, ?, ?, ?, NOW())
+			";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$adminId, $entityType, $entityId, $action, $this->generateDescription($action, $entityType)]);
+        } catch (\Exception $e) {
+            Log::error("Failed to log activity: " . $e->getMessage());
+        }
+
+    }
 }

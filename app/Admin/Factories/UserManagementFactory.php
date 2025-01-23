@@ -51,48 +51,54 @@ class UserManagementFactory
         $page = $filter['page'] ?? 1;
         $pageSize = $filter['page_size'] ?? 10;
         $offset = ($page - 1) * $pageSize;
+        $search = '%' . strtolower($filter['search']) . '%' ?? null;
 
         $allowedFilters = ['verified', 'pending_verification', 'suspended'];
 
         $statusCase = $accountType == 2 ? "
-			CASE
-				WHEN a.status = 'suspended' THEN 'suspended'
-				WHEN r.status = 'pending' THEN 'pending_verification'
-				WHEN r.approved IS TRUE AND r.status = 'verified' THEN 'verified'
-				ELSE 'unverified'
-			END AS status
-		" : "
-			CASE
-				WHEN a.status = 'suspended' THEN 'suspended'
-				WHEN a.kyced IS TRUE THEN 'verified'
-				WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'pending_verification'
-				ELSE 'unverified'
-			END AS status
-		";
+        CASE
+            WHEN a.status = 'suspended' THEN 'suspended'
+            WHEN r.status = 'pending' THEN 'pending_verification'
+            WHEN r.approved IS TRUE AND r.status = 'verified' THEN 'verified'
+            ELSE 'unverified'
+        END AS status
+    " : "
+        CASE
+            WHEN a.status = 'suspended' THEN 'suspended'
+            WHEN a.kyced IS TRUE THEN 'verified'
+            WHEN a.kyced IS FALSE AND a.kyc IS NOT NULL THEN 'pending_verification'
+            ELSE 'unverified'
+        END AS status
+    ";
 
         $query = "
-			SELECT a.id, a.name, a.email, s.name AS state,
-			lg.name AS local_government,
-			$statusCase
-		";
+        SELECT a.id, a.name, a.email, s.name AS state,
+        lg.name AS local_government,
+        $statusCase
+    ";
 
         if ($accountType == 2) {
-            $query .= ", p.name AS party, pos.title AS position, c.name AS constituency, d.name AS district
-				FROM accounts AS a
-				LEFT JOIN states AS s ON a.state_id = s.id
-				LEFT JOIN local_governments AS lg ON a.local_government_id = lg.id
-                LEFT JOIN representatives AS r ON r.account_id = a.id
-				LEFT JOIN parties AS p ON p.id = r.party_id
-				LEFT JOIN positions AS pos ON pos.id = r.position_id
-				LEFT JOIN constituencies AS c ON c.id = r.constituency_id
-				LEFT JOIN districts AS d ON d.id = r.district_id
-			";
+            $query .= ", p.name AS party, pos.title AS position,
+            c.name AS constituency, d.name AS district
+            FROM accounts AS a
+            LEFT JOIN states AS s ON a.state_id = s.id
+            LEFT JOIN local_governments AS lg
+                ON a.local_government_id = lg.id
+            LEFT JOIN representatives AS r
+                ON r.account_id = a.id
+            LEFT JOIN parties AS p ON p.id = r.party_id
+            LEFT JOIN positions AS pos ON pos.id = r.position_id
+            LEFT JOIN constituencies AS c
+                ON c.id = r.constituency_id
+            LEFT JOIN districts AS d ON d.id = r.district_id
+        ";
         } else {
             $query .= " FROM accounts AS a
-			LEFT JOIN states AS s ON a.state_id = s.id
-			LEFT JOIN local_governments AS lg ON a.local_government_id = lg.id
-			LEFT JOIN representatives AS r ON r.account_id = a.id
-			";
+            LEFT JOIN states AS s ON a.state_id = s.id
+            LEFT JOIN local_governments AS lg
+                ON a.local_government_id = lg.id
+            LEFT JOIN representatives AS r ON r.account_id = a.id
+        ";
         }
 
         $query .= " WHERE a.account_type = :accountType";
@@ -114,10 +120,17 @@ class UserManagementFactory
                 $query .= " AND a.status = 'suspended'";
             }
         }
+
+        if ($search) {
+            $query .= " AND LOWER(a.name) LIKE LOWER(:search)";
+        }
         $query .= " LIMIT :pageSize OFFSET :offset";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':accountType', $accountType, \PDO::PARAM_INT);
+        if ($search) {
+            $stmt->bindParam(':search', $search, \PDO::PARAM_STR);
+        }
         $stmt->bindParam(':pageSize', $pageSize, \PDO::PARAM_INT);
         $stmt->bindParam(':offset', $offset, \PDO::PARAM_INT);
         $stmt->execute();
@@ -141,9 +154,9 @@ class UserManagementFactory
     public function getAccountCount($filter = [], $accountType, $allowedFilters)
     {
         $query = "
-			SELECT COUNT(*) as total
-			FROM accounts AS a
-		";
+        SELECT COUNT(*) as total
+        FROM accounts AS a
+    ";
 
         $query .= " WHERE a.account_type = :accountType";
 
@@ -157,8 +170,16 @@ class UserManagementFactory
             }
         }
 
+        if (isset($filter['search'])) {
+            $query .= " AND LOWER(a.name) LIKE LOWER(:search)";
+        }
+
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':accountType', $accountType, \PDO::PARAM_INT);
+        if (isset($filter['search'])) {
+            $search = '%' . strtolower($filter['search']) . '%';
+            $stmt->bindParam(':search', $search, \PDO::PARAM_STR);
+        }
         $stmt->execute();
 
         return $stmt->fetchColumn();
