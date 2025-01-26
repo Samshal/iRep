@@ -44,13 +44,13 @@ class NotificationService
     }
 
     public function send(
-        string $table = 'user',
         string $entityType,
         int $entityId,
         int $accountId,
         string $titleTemplate,
         string $bodyTemplate,
-        array $replacements = []
+        array $replacements = [],
+        string $table = 'user'
     ): void {
         $title = empty($replacements)
             ? $titleTemplate
