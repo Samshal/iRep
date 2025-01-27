@@ -50,7 +50,7 @@ class MessageFactory
         INNER JOIN accounts AS receiver ON s.receiver_id = receiver.id
         WHERE (s.sender_id = ? AND s.receiver_id = ?)
         OR (s.sender_id = ? AND s.receiver_id = ?)
-        ORDER BY s.sent_at DESC
+        ORDER BY s.sent_at ASC
         LIMIT ? OFFSET ?";
 
         $stmt = $this->db->prepare($query);
