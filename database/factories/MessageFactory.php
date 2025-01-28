@@ -93,31 +93,39 @@ class MessageFactory
 			LEFT JOIN (
 				SELECT
 					CASE
-						WHEN sender_id = ? THEN receiver_id
+						WHEN sender_id = :user_id_1 THEN receiver_id
 						ELSE sender_id
 					END AS other_user_id,
 					message,
 					sent_at
 				FROM messages
-				WHERE (sender_id = ? AND receiver_id != ?)
-				   OR (receiver_id = ? AND sender_id != ?)
-				ORDER BY sent_at DESC
-				LIMIT 1
+				WHERE (sender_id = :user_id_2 OR receiver_id = :user_id_3)
+				AND sent_at = (
+					SELECT MAX(sent_at)
+					FROM messages m2
+					WHERE
+						(m2.sender_id = messages.sender_id AND m2.receiver_id = messages.receiver_id)
+						OR (m2.sender_id = messages.receiver_id AND m2.receiver_id = messages.sender_id)
+				)
 			) lm ON lm.other_user_id = u.id
 			LEFT JOIN messages m ON
-				m.receiver_id = ? AND m.read_at IS NULL AND m.sender_id = u.id
-			WHERE u.id != ? AND lm.other_user_id IS NOT NULL
+				m.receiver_id = :user_id_4 AND m.read_at IS NULL AND m.sender_id = u.id
+			WHERE u.id != :user_id_5 AND lm.other_user_id IS NOT NULL
 			GROUP BY u.id, lm.message, lm.sent_at, u.name, u.photo_url
 			ORDER BY lm.sent_at DESC
-			LIMIT ? OFFSET ?
+			LIMIT :limit OFFSET :offset
 		";
 
         $stmt = $this->db->prepare($query);
-        $stmt->execute([
-            $userId, $userId, $userId, $userId, $userId,
-            $userId, $userId, $pageSize, $offset
-        ]);
+        $stmt->bindValue(':user_id_1', $userId);
+        $stmt->bindValue(':user_id_2', $userId);
+        $stmt->bindValue(':user_id_3', $userId);
+        $stmt->bindValue(':user_id_4', $userId);
+        $stmt->bindValue(':user_id_5', $userId);
+        $stmt->bindValue(':limit', $pageSize);
+        $stmt->bindValue(':offset', $offset);
 
+        $stmt->execute();
         $results = $stmt->fetchAll();
 
         return array_map(function ($result) {
