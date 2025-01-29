@@ -71,6 +71,8 @@ class AuthController extends Controller
         $validated = $request->validated();
         $validated['id'] = $user->id;
 
+        $validated['kyc'] = [];
+
         if ($request->hasFile('kyc')) {
             $kycFiles = $request->file('kyc');
             $validated['kyc'] = is_array($kycFiles) ? $kycFiles : [$kycFiles];
@@ -85,11 +87,11 @@ class AuthController extends Controller
 
         $replacement = [
             "{name}" => $account->name,
-            "{message}" => $validated['kyc'] ? $kycMessage : $noKycMessage,
+            "{message}" => !empty($validated['kyc']) ? $kycMessage : $noKycMessage,
         ];
 
         app('notification')->send(
-            entityType: 'welcome',
+            entityType: 'account',
             entityId: $account->id,
             accountId: $account->id,
             titleTemplate: 'Welcome Message',
@@ -98,6 +100,21 @@ class AuthController extends Controller
                 . '{message}',
             replacements: $replacement
         );
+
+        $permissionId = $this->getPermissionByName('user verification');
+
+        if (!empty($validated['kyc'])) {
+            app('notification')->broadcast(
+                entityType: 'account',
+                entityId: $account->id,
+                titleTemplate: 'New User Onboarded',
+                bodyTemplate: '{name} has completed onboarding.',
+                replacements: ['{name}' => $account->name],
+                criteria: ['permission_id' => $permissionId],
+                table: 'admin_permissions',
+                pluckColumn: 'admin_id'
+            );
+        }
 
         return response()->json(['account_id' => $account->id], 201);
     }

@@ -16,6 +16,7 @@ class NotificationService
         array $userIds = null,
         array $criteria = [],
         string $table = 'accounts',
+        string $pluckColumn = 'id'
     ): void {
         if (is_null($userIds)) {
             $query = DB::table($table);
@@ -28,7 +29,11 @@ class NotificationService
                 }
             }
 
-            $userIds = $query->pluck('id')->toArray();
+            $userIds = $query->pluck($pluckColumn)->toArray();
+        }
+
+        if ($table !== 'accounts') {
+            $table = 'admins';
         }
 
         foreach ($userIds as $userId) {
@@ -38,7 +43,8 @@ class NotificationService
                 accountId: $userId,
                 titleTemplate: $titleTemplate,
                 bodyTemplate: $bodyTemplate,
-                replacements: $replacements
+                replacements: $replacements,
+                table: $table
             );
         }
     }
@@ -50,7 +56,7 @@ class NotificationService
         string $titleTemplate,
         string $bodyTemplate,
         array $replacements = [],
-        string $table = 'user'
+        string $table = 'accounts',
     ): void {
         $title = empty($replacements)
             ? $titleTemplate

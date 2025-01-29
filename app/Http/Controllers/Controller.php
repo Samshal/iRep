@@ -169,6 +169,16 @@ abstract class Controller extends BaseController
         return $result ?: null;
     }
 
+    public function getPermissionByName($permissionName)
+    {
+        $query = "SELECT id FROM permissions WHERE name = ? LIMIT 1";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$permissionName]);
+
+        return $stmt->fetchColumn();
+    }
+
     public function logActivity($action, $entityType, $entityId, $adminId)
     {
         try {
