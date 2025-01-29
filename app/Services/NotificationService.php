@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Jobs\SendNotification;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Log;
 class NotificationService
 {
     public function broadcast(
@@ -30,7 +30,9 @@ class NotificationService
             }
 
             $userIds = $query->pluck($pluckColumn)->toArray();
-        }
+
+
+		Log::info('User ids', ['user_ids' => $userIds]);
 
         if ($table !== 'accounts') {
             $table = 'admins';
