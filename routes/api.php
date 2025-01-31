@@ -64,6 +64,7 @@ Route::group([
         Route::get('/posts/', [UserManagementController::class, 'getUserPosts'])->name('admin.accountPosts');
         Route::get('/petitions/', [UserManagementController::class, 'getUserPetitions'])->name('admin.accountPetitions');
 
+        Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
         Route::get('/activities/', [AdminController::class, 'activities'])->name('admin.activities');
         Route::put('/states/{id}', [ActionController::class, 'updateState'])->name('admin.updateState');
         Route::put('/local-governments/{id}', [ActionController::class, 'updateLocalGovernment'])->name('admin.updateLocalGovernment');

@@ -142,4 +142,14 @@ class AdminController extends Controller
         ]);
     }
 
+    public function notifications()
+    {
+        $accountId = Auth::id();
+
+        $notifications = $this->adminFactory->fetchNotifications($accountId);
+
+        return response()->json($notifications, 200);
+    }
+
+
 }

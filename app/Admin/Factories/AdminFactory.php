@@ -113,6 +113,18 @@ class AdminFactory
         return new Admin($this->db, $data);
     }
 
+    public function fetchNotifications($accountId)
+    {
+        $query = 'SELECT * FROM admin_notifications
+			WHERE account_id = ? ORDER BY created_at DESC'
+        ;
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$accountId]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
     public function getAdmins($filter = [])
     {
         $stmt = $this->db->query("SELECT name FROM permissions");

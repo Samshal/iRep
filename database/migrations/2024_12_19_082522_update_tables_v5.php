@@ -11,6 +11,26 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+        // Create admin_notifications table
+        try {
+            DB::statement('
+				CREATE TABLE admin_notifications (
+				id INT AUTO_INCREMENT PRIMARY KEY,
+				account_id INT,
+				entity_id INT,
+				type VARCHAR(255) NOT NULL,
+				title VARCHAR(255) NOT NULL,
+				body TEXT NOT NULL,
+				read_at TIMESTAMP NULL,
+				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+				FOREIGN KEY (account_id) REFERENCES admins(id) ON DELETE CASCADE
+				)
+		');
+        } catch (\Exception $e) {
+            Log::error("Failed to create admin_notifications table: " . $e->getMessage());
+        }
+
         // Add created_at column to likes table
         try {
             DB::statement("
