@@ -183,16 +183,35 @@ abstract class Controller extends BaseController
     {
         try {
             $query = "
-				INSERT INTO admin_activities (admin_id, entity_type, entity_id, action, description, created_at)
-				VALUES (?, ?, ?, ?, ?, NOW())
-			";
+            INSERT INTO admin_activities
+            (admin_id, entity_type, entity_id, action, description, created_at)
+            VALUES (?, ?, ?, ?, ?, NOW())
+        ";
 
             $stmt = $this->db->prepare($query);
-            $stmt->execute([$adminId, $entityType, $entityId, $action, $this->generateDescription($action, $entityType)]);
+            $stmt->execute([
+                $adminId, $entityType, $entityId,
+                $action, $this->generateDescription($action, $entityType)
+            ]);
+
+            $activityId = $this->db->lastInsertId();
+            $accountName = optional(Auth::user())->username ?? 'An admin';
+
+            app('notification')->broadcast(
+                entityType: 'admin_activity',
+                entityId: $activityId,
+                titleTemplate: "New Activity By {$accountName}",
+                bodyTemplate: "{$accountName}. {$this->generateDescription($action, $entityType)}",
+                replacements: ['{username}' => $accountName],
+                criteria: ['account_type' => 4],
+                table: 'admins',
+            );
+
+            return $activityId;
         } catch (\Exception $e) {
             Log::error("Failed to log activity: " . $e->getMessage());
+            return null;
         }
-
     }
 
     private function generateDescription($action, $entityType)

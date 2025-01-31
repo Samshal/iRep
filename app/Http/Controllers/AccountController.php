@@ -103,6 +103,21 @@ class AccountController extends Controller
 
         if ($result) {
             $this->accountFactory->indexAccount($result->id);
+
+            $permissionId = $this->getPermissionByName('rep verification');
+            $accountName = Auth::user()->name;
+
+            app('notification')->broadcast(
+                entityType: 'account',
+                entityId: $result->id,
+                titleTemplate: 'New Representative Application',
+                bodyTemplate: 'A new representative application has been submitted by {name}.',
+                replacements: ['{name}' => $accountName],
+                criteria: ['permission_id' => $permissionId],
+                table: 'admin_permissions',
+                pluckColumn: 'admin_id'
+            );
+
             return response()->json(['message' => 'Success.'], 200);
         }
 
