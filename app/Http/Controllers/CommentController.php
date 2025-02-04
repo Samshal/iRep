@@ -56,8 +56,8 @@ class CommentController extends Controller
     public function index()
     {
         $comments = $this->commentFactory->getCommentsByUser(Auth::id());
+        return response()->json($comments);
 
-        return response()->json(CommentResource::collection($comments));
     }
 
     public function like($id)

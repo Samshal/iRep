@@ -140,16 +140,16 @@ class MessageFactory
         }, $results);
     }
 
-    public function markAsRead($receiverId)
+    public function markAsRead($senderId)
     {
         $query = "
 			UPDATE messages
 			SET read_at = NOW()
-			WHERE receiver_id = ? AND read_at IS NULL
+			WHERE sender_id = ? AND read_at IS NULL
 		";
 
         $stmt = $this->db->prepare($query);
-        $stmt->execute([$receiverId]);
+        $stmt->execute([$senderId]);
     }
 
     public function deleteMessage($id)

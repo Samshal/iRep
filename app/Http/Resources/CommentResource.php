@@ -17,6 +17,8 @@ class CommentResource extends JsonResource
     {
         $data = is_object($this->resource) ? $this->resource : (object) $this->resource;
 
+        \Log::info('CommentResource toArray data: ' . json_encode($data));
+
         $likes = DB::table('likes')
             ->where('entity_id', $data->id)
             ->count() ?? 0;
