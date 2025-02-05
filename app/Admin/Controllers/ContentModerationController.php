@@ -63,6 +63,7 @@ class ContentModerationController extends Controller
             $result = $this->contentModerationFactory->deletePost($id, 'petition');
 
             $this->logActivity("delete", "post", $id, Auth::id());
+            app('search')->deleteData('posts', $id);
             return response()->json($result, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete petition ' . $e->getMessage()], 500);
@@ -75,6 +76,7 @@ class ContentModerationController extends Controller
             $result = $this->contentModerationFactory->deletePost($id, 'eyewitness');
 
             $this->logActivity("delete", "post", $id, Auth::id());
+            app('search')->deleteData('posts', $id);
 
             return response()->json($result, 200);
         } catch (\Exception $e) {

@@ -75,8 +75,7 @@ class FetchNewsFeedJob implements ShouldQueue
         $logs[] = "Start Date: $startDate";
         $logs[] = "End Date: $endDate";
 
-
-        $response = Http::timeout(50)->
+        $response = Http::timeout(100)->
             withHeaders($this->getAuthorizationHeader())
             ->get("{$this->baseUri}/viewer/reports/as-geojson", [
                 'start_date' => $startDate,
@@ -85,6 +84,9 @@ class FetchNewsFeedJob implements ShouldQueue
 
         if ($response->successful()) {
             $features = $response->json()['data']['features'] ?? [];
+
+            // Filter features by 'nigeria' in 'place_geocode_name', case-insensitive
+            $features = array_filter($features, fn ($feature) => stripos($feature['properties']['place_geocode_name'] ?? '', 'nigeria') !== false);
 
             // Extract all properties for bulk indexing
             $reportsData = array_map(fn ($feature) => array_merge(
@@ -96,9 +98,9 @@ class FetchNewsFeedJob implements ShouldQueue
 
             $sortableAttributes = [
                 'report_date_published', 'report_title',
-                'place_geocode_name', 'place_admin_level',];
+                'place_geocode_name', 'place_admin_level',
+            ];
             $filterableAttributes = ['place_geocode_name', 'source_name', 'entity_value'];
-
 
             $result = app('search')->indexData(
                 indexName: 'news_feed',

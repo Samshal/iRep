@@ -238,4 +238,13 @@ abstract class Controller extends BaseController
         }
     }
 
+    public function getPostIdsByUser($userId)
+    {
+        $query = "SELECT id FROM posts WHERE creator_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$userId]);
+
+        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+    }
+
 }

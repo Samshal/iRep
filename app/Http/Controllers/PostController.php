@@ -58,6 +58,7 @@ class PostController extends Controller
             }
 
             $this->postFactory->deletePost($id);
+            app('search')->deleteData('posts', $id);
             return response()->json(['message' => 'success'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to delete post ' . $e->getMessage()], 500);

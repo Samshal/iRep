@@ -164,8 +164,17 @@ class UserManagementController extends AccountController
 
     public function deleteAccount($accountId)
     {
+        $usersPosts = $this->getPostIdsByUser($accountId);
+
         $account = $this->userManagementFactory->deleteAccount($accountId);
         $this->logActivity("delete", "account", $accountId, Auth::id());
+
+
+
+        app('search')->deleteData('accounts', $accountId);
+        foreach ($usersPosts as $postId) {
+            app('search')->deleteData('posts', $postId);
+        }
 
         return response()->json($account);
     }
