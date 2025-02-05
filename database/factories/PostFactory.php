@@ -104,7 +104,7 @@ class PostFactory extends CommentFactory
             Log::info($total . ' Post Indexed');
 
         } catch (\Exception $e) {
-            throw $e;
+            Log::error('Failed to index post ' . $e->getMessage());
         }
 
     }

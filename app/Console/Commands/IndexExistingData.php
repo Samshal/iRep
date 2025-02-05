@@ -57,13 +57,17 @@ class IndexExistingData extends Command
             ];
 
             // Index account data in Meilisearch
-            $total = $this->searchEngine->indexData(
-                indexName: 'accounts',
-                data: $accountDataArray,
-                sortableAttributes: $sortableAttributes,
-                filterableAttributes: $filterableAttributes,
-                primaryKey: 'id',
-            );
+            try {
+                $total = $this->searchEngine->indexData(
+                    indexName: 'accounts',
+                    data: $accountDataArray,
+                    sortableAttributes: $sortableAttributes,
+                    filterableAttributes: $filterableAttributes,
+                    primaryKey: 'id',
+                );
+            } catch (\Exception $e) {
+                $this->error('Failed to index accounts: ' . $e->getMessage());
+            }
 
             // Log the number of indexed records
             $this->info($total . ' accounts indexed successfully.');

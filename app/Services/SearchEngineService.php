@@ -22,26 +22,40 @@ class SearchEngineService
         array $filterableAttributes = [],
         string|int|null $primaryKey = null,
     ): int {
-        // Filter out null values from the data
-        $filteredData = app('utils')->filterNullValues($data);
 
-        $index = $this->client->index($indexName);
+        Log::info("Indexing data to Meilisearch: {$indexName}");
+        $attempts = 3;
+        $delay = 100;
 
-        if ($primaryKey !== null) {
-            $index->update(['primaryKey' => $primaryKey]);
+        for ($i = 0; $i < $attempts; $i++) {
+            try {
+                $filteredData = app('utils')->filterNullValues($data);
+
+                $index = $this->client->index($indexName);
+
+                if ($primaryKey !== null) {
+                    $index->update(['primaryKey' => $primaryKey]);
+                }
+
+                if (!empty($sortableAttributes)) {
+                    $index->updateSortableAttributes($sortableAttributes);
+                }
+
+                if (!empty($filterableAttributes)) {
+                    $index->updateFilterableAttributes($filterableAttributes);
+                }
+
+                $index->addDocuments($filteredData);
+
+                return count($filteredData);
+            } catch (\Exception $e) {
+                if ($i === $attempts - 1) {
+                    Log::error("Failed to index data to Meilisearch: {$e->getMessage()}");
+                    return 0;
+                }
+                usleep($delay * 1000);
+            }
         }
-
-        if (!empty($sortableAttributes)) {
-            $index->updateSortableAttributes($sortableAttributes);
-        }
-
-        if (!empty($filterableAttributes)) {
-            $index->updateFilterableAttributes($filterableAttributes);
-        }
-
-        $index->addDocuments($filteredData);
-
-        return count($filteredData);
     }
 
     // Search data in Meilisearch
