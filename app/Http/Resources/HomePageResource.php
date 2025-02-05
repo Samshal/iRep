@@ -89,7 +89,7 @@ class HomePageResource extends JsonResource
             'title' => $data->title,
             'context' => $data->context,
             'post_type' => $data->post_type,
-            'author' => $data->author,
+            'author' => $data->author ?? "",
             'author_id' => $data->author_id ?? null,
             'author_badge' => $badge,
             'author_photo_url' => $data->author_photo_url ?? null,
