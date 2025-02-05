@@ -41,6 +41,7 @@ class HomePageFactory extends PostFactory
                 $indexFilters['state'] = $criteria['state'] ?? null;
                 $indexFilters['local_government'] = $criteria['local_government'] ?? null;
                 $indexFilters['id'] = $criteria['representative_id'] ?? null;
+                $indexFilters['account_type'] = 'representative';
             }
 
             if ($indexName === 'posts') {
@@ -112,6 +113,9 @@ class HomePageFactory extends PostFactory
                 'status' => $criteria['status'] ?? null,
                 'category' => $criteria['category'] ?? null,
                 'post_type' => $criteria['post_type'] ?? null,
+                'author_state' => $criteria['author_state'] ?? null,
+                'author_local_government' => $criteria['author_local_government'] ?? null,
+                'author_constituency' => $criteria['author_constituency'] ?? null,
             ];
 
             $searchParams = [
@@ -263,15 +267,48 @@ class HomePageFactory extends PostFactory
     protected function buildFilters(array $filters): string
     {
         $meiliFilters = [];
+        $specialFields = ['state', 'local_government', 'constituency',
+            'author_state', 'author_local_government', 'author_constituency'];
+        $specialFieldFilters = [];
+
         foreach ($filters as $field => $value) {
-            if (is_array($value)) {
-                $meiliFilters[] = "$field IN [" . implode(',', array_map(fn ($v) => "\"$v\"", $value)) . "]";
-            } elseif (!is_null($value)) {
-                $meiliFilters[] = "$field = \"$value\"";
+            if (in_array($field, $specialFields)) {
+                // Collect the OR conditions for special fields
+                if (is_array($value) && !empty($value)) {
+                    $filteredValues = array_filter($value, fn ($v) => !is_null($v));
+                    if (!empty($filteredValues)) {
+                        $specialFieldFilters[] = "$field IN [" . implode(
+                            ',',
+                            array_map(fn ($v) => "\"$v\"", $filteredValues)
+                        ) . "]";
+                    }
+                } elseif (!is_null($value) && $value !== '') {
+                    $specialFieldFilters[] = "$field = \"$value\"";
+                }
+            } else {
+                // Handle other fields with AND
+                if (is_array($value) && !empty($value)) {
+                    $filteredValues = array_filter($value, fn ($v) => !is_null($v));
+                    if (!empty($filteredValues)) {
+                        $meiliFilters[] = "$field IN [" . implode(
+                            ',',
+                            array_map(fn ($v) => "\"$v\"", $filteredValues)
+                        ) . "]";
+                    }
+                } elseif (!is_null($value) && $value !== '') {
+                    $meiliFilters[] = "$field = \"$value\"";
+                }
             }
         }
 
-        return implode(' AND ', $meiliFilters);
+        // Combine the AND and OR conditions
+        $result = implode(' AND ', $meiliFilters);
+        if (!empty($specialFieldFilters)) {
+            $result .= (empty($result) ? '' : ' AND ') . '(' . implode(' OR ', $specialFieldFilters) . ')';
+        }
+
+        Log::info($result);
+        return $result;
     }
 
 
