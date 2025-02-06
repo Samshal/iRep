@@ -106,6 +106,8 @@ Route::group([
     Route::post('activate', [AuthController::class, 'activateAccount'])->name('activate');
     Route::post('resend', [AuthController::class, 'resendActivation'])->name('resend');
     Route::post('refresh', [AuthController::class, 'refresh'])->name('refresh');
+    Route::post('password/forgot', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
+    Route::put('password/reset', [AuthController::class, 'resetPassword'])->name('resetPassword');
 
     Route::group([
         'middleware' => ['auth:api', 'activated']
@@ -125,6 +127,7 @@ Route::group([
     Route::post('/representatives/apply', [AccountController::class, 'applyForRep'])->name('applyForRep');
     Route::get('/profile', [AccountController::class, 'profile'])->name('profile');
     Route::get('/status', [AccountController::class, 'status'])->name('status');
+    Route::put('/password/update', [AccountController::class, 'updatePassword'])->name('updatePassword');
     Route::get('/replies/', [AccountController::class, 'userComments'])->name('account.userComments');
     Route::get('/bookmarks/', [AccountController::class, 'getUserBookmarks'])->name('account.getUserBookmarks');
     Route::get('/posts/', [AccountController::class, 'getUserPosts'])->name('account.getUserPosts');

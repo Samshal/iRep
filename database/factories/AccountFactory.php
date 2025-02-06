@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * class for creating account
@@ -151,9 +152,6 @@ class AccountFactory
 
                 $data['kyc'] = app('uploadMediaService')->handleMediaFiles($data['kyc']);
             }
-
-            // dummy kyc data
-            // $data['kyced'] = true;
 
             $accountId = $this->updateAccount($data['id'], $data);
 
@@ -406,9 +404,70 @@ class AccountFactory
         }
 
         $result['badge'] = $badge;
-        $result['id_uploaded'] = $result['kyc'] ? 1 : 0;
+        $kyc = json_decode($result['kyc'], true);
+        $result['id_uploaded'] = (is_null($kyc) || $kyc === [] || $kyc === '') ? 0 : 1;
+
+
         unset($result['kyc']);
 
         return $result;
+    }
+
+    public function sendPasswordResetEmail($email)
+    {
+        try {
+            $account = $this->getAccount($email);
+            $token = strtoupper(Str::random(6));
+            $this->savePasswordResetToken($account->id, $token, $email);
+
+            $templateVariables = [
+                'token' => $token,
+            ];
+            app('emailService')->sendResetPasswordVerification($email, $account->name, $templateVariables);
+        } catch (\Exception $e) {
+            Log::error('Error sending password reset email: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    private function savePasswordResetToken($accountId, $token, $email)
+    {
+        $query = 'INSERT INTO password_resets (account_id, token, email)
+              VALUES (?, ?, ?)
+              ON DUPLICATE KEY UPDATE token = VALUES(token)';
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$accountId, $token, $email]);
+    }
+
+    public function resetPassword($email, $token, $password)
+    {
+        $query = 'SELECT account_id FROM password_resets
+              WHERE token = ? AND email = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$token, $email]);
+
+        if ($stmt->rowCount() > 0) {
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $accountId = $result['account_id'];
+
+            $this->updatePassword($accountId, $password);
+
+            $deleteQuery = 'DELETE FROM password_resets
+                        WHERE account_id = ?';
+            $deleteStmt = $this->db->prepare($deleteQuery);
+            $deleteStmt->execute([$accountId]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function updatePassword($accountId, $password)
+    {
+        $query = 'UPDATE accounts SET password = ? WHERE id = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([Hash::make($password), $accountId]);
     }
 }

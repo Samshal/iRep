@@ -52,16 +52,16 @@ class FetchNewsFeedJob implements ShouldQueue
                 'sort' => ['report_date_published:desc'],
                 'limit' => 1,
             ]);
-            $hits = $results['hits'] ?? null;
+            $hits = $results['hits'] ?? [];
             $lastIndexedDocument = $hits ? $hits[0] : null;
         } catch (\Exception $e) {
-            Log::warning('Index "news_feed" does not exist. Continuing without previous documents.');
-            $logs[] = 'Index "news_feed" does not exist. Continuing without previous documents.';
+            Log::warning('Error fetching last indexed document: ' . $e->getMessage());
+            $logs[] = 'Error fetching last indexed document: ' . $e->getMessage();
         }
 
         $startDate = $lastIndexedDocument && isset($lastIndexedDocument['report_date_published'])
             ? Carbon::parse($lastIndexedDocument['report_date_published'])->format('Y-m-d')
-            : now()->format('Y-m-d');
+            : now()->subDay()->format('Y-m-d'); // Default to yesterday if no last document
 
         $endDate = now()->format('Y-m-d');
 
@@ -75,45 +75,71 @@ class FetchNewsFeedJob implements ShouldQueue
         $logs[] = "Start Date: $startDate";
         $logs[] = "End Date: $endDate";
 
-        $response = Http::timeout(100)->
-            withHeaders($this->getAuthorizationHeader())
-            ->get("{$this->baseUri}/viewer/reports/as-geojson", [
-                'start_date' => $startDate,
-                'end_date' => $endDate,
-            ]);
+        try {
+            $response = Http::timeout(600)
+                ->withHeaders($this->getAuthorizationHeader())
+                ->get("{$this->baseUri}/viewer/reports/as-geojson", [
+                    'start_date' => $startDate,
+                    'end_date' => $endDate,
+                ]);
 
-        if ($response->successful()) {
-            $features = $response->json()['data']['features'] ?? [];
+            if ($response->successful()) {
+                $features = $response->json()['data']['features'] ?? [];
 
-            // Filter features by 'nigeria' in 'place_geocode_name', case-insensitive
-            $features = array_filter($features, fn ($feature) => stripos($feature['properties']['place_geocode_name'] ?? '', 'nigeria') !== false);
+                // Filter features by 'nigeria' in 'place_geocode_name', case-insensitive
+                $features = array_filter($features, function ($feature) {
+                    $placeName = $feature['properties']['place_geocode_name'] ?? '';
+                    return stripos($placeName, 'nigeria') !== false;
+                });
 
-            // Extract all properties for bulk indexing
-            $reportsData = array_map(fn ($feature) => array_merge(
-                $feature['properties'],
-                ['post_type' => 'newsfeed'],
-                ['author' => $admin->name],
-                ['author_id' => $admin->id],
-            ), $features);
+                // Extract all properties for bulk indexing
+                $reportsData = [];
+                foreach ($features as $feature) {
+                    $properties = $feature['properties'] ?? [];
+                    if (empty($properties['report_id'])) {
+                        Log::warning('Skipping document without report_id: ' . json_encode($properties));
+                        continue;
+                    }
 
-            $sortableAttributes = [
-                'report_date_published', 'report_title',
-                'place_geocode_name', 'place_admin_level',
-            ];
-            $filterableAttributes = ['place_geocode_name', 'source_name', 'entity_value'];
+                    $reportsData[] = array_merge(
+                        $properties,
+                        [
+                            'post_type' => 'newsfeed',
+                            'author' => $admin->name,
+                            'author_id' => $admin->id,
+                        ]
+                    );
+                }
 
-            $result = app('search')->indexData(
-                indexName: 'news_feed',
-                data: $reportsData,
-                primaryKey: 'report_id',
-                sortableAttributes: $sortableAttributes,
-                filterableAttributes: $filterableAttributes,
-            );
-            Log::info($result . ' News feed successfully indexed.');
-            $logs[] = "$result News feed successfully indexed.";
-        } else {
-            Log::error('Failed to fetch news feed.', ['response' => $response->body()]);
-            $logs[] = 'Failed to fetch news feed. Response: ' . $response->body();
+                if (empty($reportsData)) {
+                    Log::info('No valid reports to index.');
+                    $logs[] = 'No valid reports to index.';
+                    return $logs;
+                }
+
+                $sortableAttributes = [
+                    'report_date_published', 'report_title',
+                    'place_geocode_name', 'place_admin_level',
+                ];
+                $filterableAttributes = ['place_geocode_name', 'source_name', 'entity_value'];
+
+                $result = app('search')->indexData(
+                    indexName: 'news_feed',
+                    data: $reportsData,
+                    primaryKey: 'report_id',
+                    sortableAttributes: $sortableAttributes,
+                    filterableAttributes: $filterableAttributes,
+                );
+
+                Log::info($result . ' News feed successfully indexed.');
+                $logs[] = "$result News feed successfully indexed.";
+            } else {
+                Log::error('Failed to fetch news feed.', ['response' => $response->body()]);
+                $logs[] = 'Failed to fetch news feed. Response: ' . $response->body();
+            }
+        } catch (\Exception $e) {
+            Log::error('Error during news feed fetch and indexing: ' . $e->getMessage());
+            $logs[] = 'Error during news feed fetch and indexing: ' . $e->getMessage();
         }
 
         return $logs;

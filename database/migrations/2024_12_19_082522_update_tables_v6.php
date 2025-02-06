@@ -31,6 +31,21 @@ return new class () extends Migration {
             Log::error("Failed to create admin_notifications table: " . $e->getMessage());
         }
 
+        // Create password_resets table
+        try {
+            DB::statement('CREATE TABLE password_resets (
+				id INT AUTO_INCREMENT PRIMARY KEY,
+				account_id INT UNIQUE,
+				email VARCHAR(255) NOT NULL,
+				token VARCHAR(255) NOT NULL,
+				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
+				)');
+
+        } catch (\Exception $e) {
+            Log::error("Failed to create password_resets table: " . $e->getMessage());
+        }
+
         // Add created_at column to likes table
         try {
             DB::statement("

@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\ApplyForRepRequest;
 use App\Http\Resources\HomePageResource;
 use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -82,6 +83,29 @@ class AccountController extends Controller
 
         return response()->json(['message' => 'Profile update failed.'], 400);
     }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:8',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+
+        $oldPassword = $request->input('old_password');
+        $newPassword = $request->input('new_password');
+
+        $user = Auth::user();
+
+        if (!Hash::check($oldPassword, $user->password)) {
+            return response()->json(['error' => 'Incorrect old password'], 400);
+        }
+
+        $this->accountFactory->updatePassword($user->id, $newPassword);
+
+        return response()->json(['message' => 'Password updated successfully.'], 200);
+    }
+
 
     public function applyForRep(ApplyForRepRequest $request)
     {

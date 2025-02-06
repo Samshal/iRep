@@ -185,6 +185,41 @@ class AuthController extends Controller
         return $this->tokenResponse($token);
     }
 
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:accounts,email',
+        ]);
+
+        $email = $request->input('email');
+        $this->accountFactory->sendPasswordResetEmail($email);
+
+        return response()->json(['message' => 'Password reset email sent.'], 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:accounts,email',
+            'otp' => 'required|string',
+            'password' => 'required|string|min:8',
+            'confirm_password' => 'required|same:password',
+        ]);
+
+        $email = $request->input('email');
+        $otp = $request->input('otp');
+        $password = $request->input('password');
+
+        $reset = $this->accountFactory->resetPassword($email, $otp, $password);
+
+        if (!$reset) {
+            return response()->json(['error' => 'Invalid OTP'], 400);
+        }
+
+        return response()->json(['message' => 'Password reset successful.'], 200);
+    }
+
+
     /**
      * Log the user out (Invalidate the token).
      *
