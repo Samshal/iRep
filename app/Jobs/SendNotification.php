@@ -32,7 +32,7 @@ class SendNotification implements ShouldQueue
         $title = $this->data['title'] ?? '';
         $body = $this->data['body'] ?? '';
         $entityId = $this->data['entity_id'] ?? null;
-        $notificationTable = $this->data['table'] !== 'accounts'
+        $notificationTable = ($table !== 'accounts')
             ? 'admin_notifications'
             : 'account_notifications';
 
