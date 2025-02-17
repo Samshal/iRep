@@ -37,9 +37,9 @@ class HomePageController extends Controller
             $currentUser = $this->findEntity('account', Auth::id());
 
             $criteria = array_merge($criteria, array_filter([
-                'constituency' => $currentUser->constituency ?? null,
-                'local_government' => $currentUser->local_government ?? null,
-                'state' => $currentUser->state ?? null,
+                'constituency' => $criteria['constituency'] ?? $currentUser->constituency ?? null,
+                'local_government' => $criteria['local_government'] ?? $currentUser->local_government ?? null,
+                'state' => $criteria['state'] ?? $currentUser->state ?? null,
             ]));
 
             $repResult = $this->homeFactory->getRepresentatives($criteria);
@@ -72,12 +72,12 @@ class HomePageController extends Controller
                 'page_size', 'status', 'category', 'post_type'
             ]);
 
-            $currentUser = $this->findEntity('account', Auth::id());
+            // $currentUser = $this->findEntity('account', Auth::id());
 
             $criteria = array_merge($criteria, array_filter([
-                'author_constituency' => $currentUser->constituency ?? null,
-                'author_local_government' => $currentUser->local_government ?? null,
-                'author_state' => $currentUser->state ?? null,
+                'author_constituency' => $criteria['constituency'] ?? null,
+                'author_local_government' => $criteria['local_government'] ?? null,
+                'author_state' => $criteria['state'] ?? null,
             ]));
 
             // Fetch posts and metadata
