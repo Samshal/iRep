@@ -4,12 +4,17 @@ namespace App\Services;
 
 class Utils
 {
-    public static function filterNullValues(array $data): array
+    public static function filterNullValues(array|string|int $data): array
     {
-        return array_map(function ($item) {
-            return array_filter($item, function ($value) {
-                return !is_null($value);
-            });
-        }, $data);
+        if (!is_array($data)) {
+            $data = [$data];
+        }
+
+        return array_filter($data, function ($value) {
+            if (is_array($value)) {
+                return !empty(self::filterNullValues($value));
+            }
+            return !is_null($value);
+        });
     }
 }

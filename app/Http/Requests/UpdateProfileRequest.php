@@ -22,11 +22,11 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone_number' => 'required|string|max:255',
-            'state_id' => 'required|exists:states,id',
-            'local_government_id' => 'required|exists:local_governments,id',
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'state_id' => 'nullable|exists:states,id',
+            'local_government_id' => 'nullable|exists:local_governments,id',
         ];
     }
 

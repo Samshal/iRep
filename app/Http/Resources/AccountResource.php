@@ -72,6 +72,7 @@ class AccountResource extends JsonResource
             'email' => $responseArray['email'] ?? null,
             'phone_number' => $responseArray['phone_number'] ?? null,
             'location' => $responseArray['location'] ?? null,
+            'state' => $responseArray['state'] ?? null,
             'local_government' => $responseArray['local_government'] ?? null,
         ];
 

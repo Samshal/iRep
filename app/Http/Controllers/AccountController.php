@@ -78,6 +78,8 @@ class AccountController extends Controller
         $result = $this->accountFactory->updateAccount($accountId, $validated);
 
         if ($result) {
+            $this->accountFactory->indexAccount($result);
+
             return response()->json(['message' => 'Profile updated.'], 200);
         }
 

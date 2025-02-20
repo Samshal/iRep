@@ -29,10 +29,10 @@ class PushNotificationService
 
             $this->messaging->send($message);
 
-            Log::info('Notification sent successfully!');
+            Log::info('Push Notification sent successfully!');
             return response()->json(['status' => 'Notification sent successfully!']);
         } catch (FirebaseException $e) {
-            Log::error('Failed to send notification: ' . $e->getMessage());
+            Log::error('Failed to send push notification: ' . $e->getMessage());
             return response()->json(['status' => 'Failed to send notification', 'error' => $e->getMessage()], 500);
         }
     }

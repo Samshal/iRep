@@ -100,4 +100,72 @@ class SearchEngineService
 
         Log::info("Index '{$indexName}' has been deleted successfully.");
     }
+
+    public function updateData(
+        string $indexName,
+        string|int $documentId,
+        array $updatedFields
+    ): void {
+        $index = $this->client->index($indexName);
+
+        $existingDocument = $index->getDocument($documentId);
+
+        if (!$existingDocument) {
+            Log::warning("Document with ID {$documentId} not found in {$indexName}.");
+            return;
+        }
+
+        $filteredData = app('utils')->filterNullValues($updatedFields);
+
+        if (empty($filteredData)) {
+            Log::info("No valid fields to update for document {$documentId}.");
+            return;
+        }
+
+        $updatedDocument = array_merge($existingDocument, $filteredData);
+
+        $index->addDocuments([$updatedDocument]);
+
+        Log::info("Document with ID {$documentId} updated successfully.");
+    }
+
+    public function updateDataByField(
+        string $indexName,
+        string $field,
+        string|int $value,
+        array $updatedFields
+    ): void {
+        $index = $this->client->index($indexName);
+
+        // Properly filter null values
+        $filteredData = app('utils')->filterNullValues($updatedFields);
+
+        if (empty($filteredData)) {
+            Log::info("No valid fields to update for {$field}={$value} in {$indexName}.");
+            return;
+        }
+
+        $results = $index->search('', [
+            'filter' => ["{$field}={$value}"]
+        ])->getHits();
+
+        if (empty($results)) {
+            Log::warning("No documents found with {$field}={$value} in {$indexName}.");
+            return;
+        }
+
+        Log::info("Filtered Data: " . json_encode($filteredData));
+
+        $updatedDocuments = [];
+
+        foreach ($results as $document) {
+            // Merge properly and preserve document structure
+            $updatedDocuments[] = array_merge($document, $filteredData);
+        }
+
+        $index->addDocuments($updatedDocuments);
+
+        Log::info("Documents with {$field}={$value} updated successfully.");
+    }
+
 }

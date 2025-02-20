@@ -106,6 +106,24 @@ class AccountFactory
 
     }
 
+    protected function updateIndexData($accountId, $data, $indexName = null)
+    {
+        if ($indexName === 'posts') {
+            $fieldsToUpdate = [
+                'author_id' => $accountId,
+                'author' => $data['name'] ?? null,
+                'author_photo_url' => $data['photo_url'] ?? null,
+                'author_state' => $data['state'] ?? null,
+                'author_local_government' => $data['local_government'] ?? null,
+                'author_constituency' => $data['constituency'] ?? null,
+                'author_district' => $data['district'] ?? null,
+                'author_party' => $data['party'] ?? null,
+            ];
+
+            app('search')->updateDataByField($indexName, 'author_id', $accountId, $fieldsToUpdate);
+        }
+    }
+
     public function getAccount($identifier)
     {
         $query = "
@@ -222,7 +240,7 @@ class AccountFactory
         ];
 
         foreach ($data as $key => $value) {
-            if ($key !== 'id') {
+            if ($key !== 'id' && $value !== null) {
                 // Encode JSON fields
                 if (in_array($key, ['kyc', 'proof_of_office', 'social_handles'], true) && is_array($value)) {
                     $value = json_encode($value);
@@ -277,6 +295,10 @@ class AccountFactory
                 Log::error('No fields to insert into representatives table.');
             }
         }
+
+        $accountData = $this->getAccount($accountId);
+        Log::info('Account data', (array) $accountData);
+        $this->updateIndexData($accountId, (array) $accountData, 'posts');
 
         return $accountId;
     }
