@@ -68,10 +68,11 @@ return new class () extends Migration {
 		");
 
         // Create the positions table
+        // Added level column to the positions table
         DB::statement("
             CREATE TABLE positions (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                title VARCHAR(255) UNIQUE NOT NULL
+				title VARCHAR(255) UNIQUE NOT NULL
             )
         ");
 

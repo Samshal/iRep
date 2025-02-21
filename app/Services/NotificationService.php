@@ -33,7 +33,7 @@ class NotificationService
             $userIds = $query->pluck($pluckColumn)->toArray();
         }
 
-        Log::info('User IDs: ' . json_encode($userIds));
+        Log::info('Broadcasting Notification To ' . json_encode($userIds));
 
         if ($table !== 'accounts') {
             $table = 'admins';

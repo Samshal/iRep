@@ -116,6 +116,18 @@ return new class () extends Migration {
             Log::error("Failed to add columns to representatives table: " . $e->getMessage());
         }
 
+        // Add level column to the positions table
+        try {
+            if (!Schema::hasColumn('positions', 'level')) {
+                DB::statement("
+			ALTER TABLE positions
+			ADD COLUMN level INT DEFAULT 4;
+			");
+            }
+        } catch (\Exception $e) {
+            Log::error("Failed to add level column to positions table: " . $e->getMessage());
+        }
+
     }
 
     /**
