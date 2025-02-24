@@ -36,11 +36,16 @@ class HomePageController extends Controller
 
             $currentUser = $this->findEntity('account', Auth::id());
 
+            if (empty($criteria['state'])) {
+                $criteria['all'] = true;
+            }
+
             $criteria = array_merge($criteria, array_filter([
-                'constituency' => $criteria['constituency'] ?? $currentUser->constituency ?? null,
-                'local_government' => $criteria['local_government'] ?? $currentUser->local_government ?? null,
+                'constituency' => $criteria['constituency'] ??  null,
+                'local_government' => $criteria['local_government'] ?? null,
                 'state' => $criteria['state'] ?? $currentUser->state ?? null,
             ]));
+
 
             $repResult = $this->homeFactory->getRepresentatives($criteria);
 

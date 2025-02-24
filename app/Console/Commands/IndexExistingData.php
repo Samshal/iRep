@@ -35,7 +35,7 @@ class IndexExistingData extends Command
             $accountData = DB::select("
 				SELECT a.id, a.name, a.photo_url, at.name AS account_type, a.location,
 					s.name as state, lg.name as local_government,
-					d.name as district, c.name as constituency,
+					d.name as district, c.name as constituency, p.level as position_level,
 					pt.name as party, p.title as position, a.created_at
 				FROM accounts a
 				LEFT JOIN representatives r ON a.id = r.account_id
@@ -53,7 +53,7 @@ class IndexExistingData extends Command
             $sortableAttributes = ['created_at', 'name', 'account_type'];
             $filterableAttributes = [
                 'account_type', 'position', 'constituency', 'party',
-                'district', 'state', 'local_government', 'id', 'name'
+                'district', 'state', 'local_government', 'id', 'name', 'position_level'
             ];
 
             // Index account data in Meilisearch

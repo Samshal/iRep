@@ -167,6 +167,7 @@ class HomePageFactory extends PostFactory
             $sortBy = $criteria['sort_by'] ?? 'created_at';
             $sortOrder = $criteria['sort_order'] ?? 'desc';
 
+
             $filters = [
                 'account_type' => 'representative',
                 'state' => $criteria['state'] ?? null,
@@ -176,6 +177,15 @@ class HomePageFactory extends PostFactory
                 'party' => $criteria['party'] ?? null,
                 'district' => $criteria['district'] ?? null,
             ];
+
+            if (!empty($criteria['state']) && !isset($criteria['all']) &&
+                empty($criteria['local_government']) &&
+                empty($criteria['position']) &&
+                empty($criteria['constituency'])) {
+                $filters['position_level'] = 2;
+            }
+
+            Log::info($criteria);
 
             $searchParams = [
                 'filter' => $this->buildFilters($filters),

@@ -79,6 +79,7 @@ class AccountFactory
                 'state' => $fetchedAccount->state,
                 'local_government' => $fetchedAccount->local_government,
                 'position' => $accountData['position'] ?? null,
+                'position_level' => $accountData['position_level'] ?? null,
                 'constituency' => $accountData['constituency'] ?? null,
                 'party' => $accountData['party'] ?? null,
                 'district' => $accountData['district'] ?? null,
@@ -133,7 +134,8 @@ class AccountFactory
 			r.proof_of_office,
             CASE
                 WHEN a.account_type = 2 THEN JSON_OBJECT(
-                    'position', p.title,
+					'position', p.title,
+					'position_level', p.level,
                     'constituency', c.name,
                     'party', pa.name,
                     'district', d.name,
