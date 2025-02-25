@@ -19,8 +19,9 @@ class AuthController extends Controller
             $validated = $request->validate([
                 'email' => 'required|email|unique:accounts,email|max:255',
                 'password' => 'required|string|min:8',
+                'account_type' => 'nullable|integer|in:1,2',
             ]);
-            $validated['account_type'] = 1;
+            $validated['account_type'] = $validated['account_type'] ?? 1;
 
             $account = $this->accountFactory->createAccount($validated);
             $this->accountFactory->indexAccount($account->id);

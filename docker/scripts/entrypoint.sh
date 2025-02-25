@@ -19,9 +19,13 @@ fi
 
 # Cron job setup
 if [ -f "$CRON_FILE" ]; then
-	# Add cron job for backup at 2 AM every day
-	echo "0 2 * * * root /bin/bash -c '$BACKUP_SCRIPT_PATH'" >>"$CRON_FILE"
-	cron && echo "Cron job started"
+	CRON_ENTRY="0 2 * * * root /bin/bash $BACKUP_SCRIPT_PATH"
+	if ! grep -Fx "$CRON_ENTRY" "$CRON_FILE" >/dev/null; then
+		echo "$CRON_ENTRY" >>"$CRON_FILE"
+		systemctl restart cron && echo "Cron job added and cron restarted" || echo "Failed to restart cron"
+	else
+		echo "Cron job already exists in $CRON_FILE, skipping addition."
+	fi
 else
 	echo "Cron file not found, unable to set up cron job."
 fi
