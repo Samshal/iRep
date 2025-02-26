@@ -82,7 +82,7 @@ services:
     environment:
       NGINX_HOST: irep.0ps.tech
     healthcheck:
-      test: ["CMD", "curl", "-f", "https://localhost"]
+      test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 30s
       retries: 3
       start_period: 30s
