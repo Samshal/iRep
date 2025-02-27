@@ -529,7 +529,7 @@ class AdminFactory
 
             $stmt = $this->db->prepare($query);
             $stmt->execute([
-                $data['name'],
+                $data['name'] ?? null,
                 $data['email'],
                 Hash::make($data['password']),
                 $data['phone_number'] ?? null,
