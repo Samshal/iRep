@@ -41,6 +41,66 @@ class AdminController extends Controller
         ], 201);
     }
 
+    public function createAccount(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|min:8',
+            'name' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:20',
+            'gender' => 'nullable|in:male,female,other',
+            'dob' => 'nullable|date',
+            'location' => 'nullable|string|max:255',
+            'state_id' => 'nullable|integer|exists:states,id',
+            'local_government_id' => 'nullable|integer|exists:local_governments,id',
+            'polling_unit' => 'nullable|string|max:255',
+            'kyc.*' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,mp4,mov,avi,flv,wmv,3gp,webm|max:20480',
+            'email_verified' => 'nullable|boolean',
+            'status' => 'nullable|in:active,suspended',
+            'kyced' => 'nullable|boolean',
+            'account_type' => 'nullable|integer|in:1,2',
+            'sworn_in_date' => 'nullable|date',
+            'position_id' => 'nullable|integer|exists:positions,id',
+            'constituency_id' => 'nullable|integer|exists:constituencies,id',
+            'district_id' => 'nullable|integer',
+            'party_id' => 'nullable|integer|exists:parties,id',
+            'social_handles' => 'nullable|array',
+            'bio' => 'nullable|string',
+            'proof_of_office.*' => 'nullable|file|mimes:jpeg,png,jpg,svg,pdf,doc,mp4,mov,avi|max:20480',
+        ]);
+
+        $validatedData['account_type'] = $validatedData['account_type'] ?? 2;
+        $validatedData['social_handles'] = $validatedData['social_handles'] ?? [];
+
+        if ($request->hasFile('kyc')) {
+            $kycFiles = $request->file('kyc');
+            $validated['kyc'] = is_array($kycFiles) ? $kycFiles : [$kycFiles];
+        } else {
+            $validated['kyc'] = [];
+        }
+
+        if ($request->hasFile('proof_of_office')) {
+            $pofFiles = $request->file('proof_of_office');
+            $validated['proof_of_office'] = is_array($pofFiles) ? $pofFiles : [$pofFiles];
+        } else {
+            $validated['proof_of_office'] = [];
+        }
+
+
+        try {
+            $accountId = $this->adminFactory->createAccount($validatedData);
+
+            return response()->json([
+                'message' => 'Account created or updated successfully.',
+                'account_id' => $accountId,
+            ], 201);
+        } catch (\RuntimeException $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 400);
+        }
+    }
+
     public function delete($id)
     {
         $account_type = Auth::user()->account_type;

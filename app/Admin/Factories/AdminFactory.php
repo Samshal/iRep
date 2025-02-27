@@ -5,6 +5,7 @@ namespace App\Admin\Factories;
 use Illuminate\Support\Facades\DB;
 use App\Admin\Models\Admin;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * class for creating admin accounts
@@ -490,4 +491,101 @@ class AdminFactory
 
         return $stmt->fetchColumn();
     }
+
+    public function createAccount(array $data)
+    {
+        $this->db->beginTransaction();
+
+        if (!empty($data['kyc'])) {
+            $data['kyc'] = app('uploadMediaService')->handleMediaFiles($data['kyc']);
+        }
+
+        if (!empty($data['proof_of_office'])) {
+            $data['proof_of_office'] = app('uploadMediaService')->handleMediaFiles($data['proof_of_office']);
+        }
+
+        try {
+            $query = "
+				INSERT INTO accounts (name, email, password, phone_number, gender, dob,
+					location, state_id, local_government_id, account_type, polling_unit, kyc,
+					email_verified, status, kyced, created_at, updated_at)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+				ON DUPLICATE KEY UPDATE
+					name = VALUES(name),
+					password = VALUES(password),
+					phone_number = VALUES(phone_number),
+					gender = VALUES(gender),
+					dob = VALUES(dob),
+					location = VALUES(location),
+					state_id = VALUES(state_id),
+					local_government_id = VALUES(local_government_id),
+					polling_unit = VALUES(polling_unit),
+					kyc = VALUES(kyc),
+					email_verified = VALUES(email_verified),
+					status = VALUES(status),
+					kyced = VALUES(kyced),
+					updated_at = NOW()
+			";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                $data['name'],
+                $data['email'],
+                Hash::make($data['password']),
+                $data['phone_number'] ?? null,
+                $data['gender'] ?? null,
+                $data['dob'] ?? null,
+                $data['location'] ?? null,
+                $data['state_id'] ?? null,
+                $data['local_government_id'] ?? null,
+                $data['account_type'],
+                $data['polling_unit'] ?? null,
+                json_encode($data['kyc'] ?? null),
+                $data['email_verified'] ?? 1,
+                $data['status'] ?? 'active',
+                $data['kyced'] ?? 1,
+            ]);
+
+            $accountId = $this->db->lastInsertId();
+
+            if ($data['account_type'] == 2) {
+                $query = "
+					INSERT INTO representatives (sworn_in_date, position_id, constituency_id,
+						district_id, party_id, social_handles, bio, proof_of_office, account_id)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+					ON DUPLICATE KEY UPDATE
+						sworn_in_date = VALUES(sworn_in_date),
+						position_id = VALUES(position_id),
+						constituency_id = VALUES(constituency_id),
+						district_id = VALUES(district_id),
+						party_id = VALUES(party_id),
+						social_handles = VALUES(social_handles),
+						bio = VALUES(bio),
+						proof_of_office = VALUES(proof_of_office)
+				";
+
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([
+                    $data['sworn_in_date'] ?? null,
+                    $data['position_id'] ?? null,
+                    $data['constituency_id'] ?? null,
+                    $data['district_id'] ?? null,
+                    $data['party_id'] ?? null,
+                    json_encode($data['social_handles'] ?? null),
+                    $data['bio'] ?? null,
+                    json_encode($data['proof_of_office'] ?? null),
+                    $accountId,
+                ]);
+            }
+
+            $this->db->commit();
+
+            return $accountId;
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            throw new \RuntimeException('Failed to create/update account: ' .
+                $e->getMessage());
+        }
+    }
+
 }

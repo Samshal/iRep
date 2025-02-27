@@ -46,6 +46,7 @@ Route::group([
         Route::get('/permissions', [AdminController::class, 'getPermissions'])->name('admin.permissions');
         Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::post('/accounts', [AdminController::class, 'createAccount'])->name('admin.createAccount');
         Route::get('/civilians/dashboard', [UserManagementController::class, 'getCivilianCounts'])->name('admin.civilianCounts');
         Route::get('/representatives/dashboard', [UserManagementController::class, 'getRepresentativeCounts'])->name('admin.representativeCounts');
         Route::get('/petitions/dashboard', [ContentModerationController::class, 'petitionStats'])->name('admin.petitionStats');
