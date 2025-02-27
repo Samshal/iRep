@@ -15,6 +15,7 @@ class AdminController extends Controller
 
     public function __construct(AdminFactory $adminFactory)
     {
+        parent::__construct();
         $this->adminFactory = $adminFactory;
     }
 
@@ -89,6 +90,7 @@ class AdminController extends Controller
 
         try {
             $accountId = $this->adminFactory->createAccount($validatedData);
+            $this->accountFactory->indexAccount($accountId);
 
             return response()->json([
                 'message' => 'Account created or updated successfully.',
