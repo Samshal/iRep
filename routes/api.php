@@ -282,3 +282,5 @@ Route::get('/districts/{stateId}', function ($stateId) {
 
     return response()->json($districts, 200);
 });
+
+Route::post('/send-notification', [AdminController::class, 'sendPushNotification'])->name('sendPushNotification');

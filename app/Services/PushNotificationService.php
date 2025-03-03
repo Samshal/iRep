@@ -15,7 +15,7 @@ class PushNotificationService
     public function __construct()
     {
         $this->messaging = (new Factory())
-            ->withServiceAccount(env('FIREBASE_CREDENTIALS_PATH'))
+            ->withServiceAccount(storage_path(env('FIREBASE_CREDENTIALS_PATH')))
             ->createMessaging();
     }
 
@@ -27,9 +27,9 @@ class PushNotificationService
             $message = CloudMessage::withTarget('token', $deviceToken)
                 ->withNotification($notification);
 
-            $this->messaging->send($message);
+            $response = $this->messaging->send($message);
 
-            Log::info('Push Notification sent successfully!');
+            Log::info('Push Notification sent successfully!', ['response' => $response]);
             return response()->json(['status' => 'Notification sent successfully!']);
         } catch (FirebaseException $e) {
             Log::error('Failed to send push notification: ' . $e->getMessage());

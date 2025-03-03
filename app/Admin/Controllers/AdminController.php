@@ -7,6 +7,7 @@ use App\Admin\Factories\AdminFactory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
@@ -212,6 +213,43 @@ class AdminController extends Controller
 
         return response()->json($notifications, 200);
     }
+
+    public function sendPushNotification()
+    {
+        $validated = request()->validate([
+            'account_id' => 'nullable|integer',
+            'title' => 'nullable|string',
+            'body' => 'nullable|string',
+            'device_token' => 'nullable|string',
+        ]);
+
+        \Log::info('Sending push notification', $validated);
+
+        $accountId = $validated['account_id'] ?? Auth::id();
+
+        $deviceToken = $validated['device_token'] ?? DB::table('device_tokens')
+            ->where('account_id', $accountId)
+            ->value('device_token');
+
+        if (!$deviceToken) {
+            return response()->json(
+                ['error' => 'Device token not found for this user'],
+                404
+            );
+        }
+
+        app('pushNotify')->sendPushNotification(
+            $deviceToken,
+            $validated['title'],
+            $validated['body']
+        );
+
+        return response()->json(
+            ['message' => 'Notification sent successfully'],
+            200
+        );
+    }
+
 
 
 }
