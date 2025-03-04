@@ -74,20 +74,20 @@ class AdminController extends Controller
         $validatedData['account_type'] = $validatedData['account_type'] ?? 2;
         $validatedData['social_handles'] = $validatedData['social_handles'] ?? [];
 
+
         if ($request->hasFile('kyc')) {
             $kycFiles = $request->file('kyc');
-            $validated['kyc'] = is_array($kycFiles) ? $kycFiles : [$kycFiles];
+            $validatedData['kyc'] = is_array($kycFiles) ? $kycFiles : [$kycFiles];
         } else {
-            $validated['kyc'] = [];
+            $validatedData['kyc'] = [];
         }
 
         if ($request->hasFile('proof_of_office')) {
             $pofFiles = $request->file('proof_of_office');
-            $validated['proof_of_office'] = is_array($pofFiles) ? $pofFiles : [$pofFiles];
+            $validatedData['proof_of_office'] = is_array($pofFiles) ? $pofFiles : [$pofFiles];
         } else {
-            $validated['proof_of_office'] = [];
+            $validatedData['proof_of_office'] = [];
         }
-
 
         try {
             $accountId = $this->adminFactory->createAccount($validatedData);
