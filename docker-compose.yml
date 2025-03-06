@@ -79,6 +79,7 @@ services:
       - app
     networks:
       - network
+    restart: always
     environment:
       NGINX_HOST: irep.0ps.tech
     healthcheck:

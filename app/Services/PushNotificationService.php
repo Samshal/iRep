@@ -22,7 +22,11 @@ class PushNotificationService
     public function sendPushNotification(string $deviceToken, string $title, string $body)
     {
         try {
-            $notification = Notification::create($title, $body);
+            $imageUrl = 'https://res.cloudinary.com/dsueaitln/image/upload/v1733239113/istockphoto-522855255-612x612_eyv1vf.jpg';
+            $notification = Notification::create($title, $body, $imageUrl);
+
+            Log::info('Notification Payload', ['notification' => $notification->jsonSerialize()]);
+
 
             $message = CloudMessage::withTarget('token', $deviceToken)
                 ->withNotification($notification);
