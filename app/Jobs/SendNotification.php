@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
 use App\Events\Notification;
+use Illuminate\Support\Facades\Log;
 
 class SendNotification implements ShouldQueue
 {
@@ -78,6 +79,7 @@ class SendNotification implements ShouldQueue
         Notification::dispatch($notification);
 
         if ($deviceToken) {
+            Log::info('Sending push notification', ['deviceToken' => $deviceToken]);
             app('pushNotify')->sendPushNotification($deviceToken, $title, $body);
         }
     }
