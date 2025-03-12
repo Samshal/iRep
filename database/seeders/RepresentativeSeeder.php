@@ -29,160 +29,146 @@ class RepresentativeSeeder extends Seeder
 
         // Additional hardcoded seed data
         $hardcodedRepresentatives = [
-            // President
-            [
-                'Muhammadu Buhari', 'Katsina', 'Katsina', 'APC',
-                'muhammadu.buhari@example.com', '08012345678', 'President',
-            ],
-
-            // Vice President
-            [
-                'Kashim Shettima', 'Borno', 'Maiduguri', 'APC',
-                'kashim.shettima@example.com', '08023456789', 'Vice President',
-            ],
-            [
-                'Atiku Abubakar', 'Adamawa', 'Yola', 'PDP',
-                'atiku.abubakar@example.com', '08034567890', 'Vice President',
-            ],
-
-            // Minister
-            [
-                'Rotimi Amaechi', 'Rivers', 'Port Harcourt', 'APC',
-                'rotimi.amaechi@example.com', '08045678901', 'Minister',
-            ],
-            [
-                'Ngozi Okonjo-Iweala', 'Delta', 'Warri', 'PDP',
-                'ngozi.okonjo-iweala@example.com', '08056789012', 'Minister',
-            ],
-
-            // Senator
-            [
-                'Bukola Saraki', 'Kwara', 'Ilorin', 'PDP',
-                'bukola.saraki@example.com', '08067890123', 'Senator',
-            ],
-            [
-                'Ahmed Lawan', 'Yobe', 'Damaturu', 'APC',
-                'ahmed.lawan@example.com', '08078901234', 'Senator',
-            ],
-
-            // House of Representatives Member
-            [
-                'Femi Gbajabiamila', 'Lagos', 'Surulere', 'APC',
-                'femi.gbajabiamila@example.com', '08089012345', 'House of Representatives Member',
-            ],
-            [
-                'Rita Orji', 'Abia', 'Aba', 'PDP',
-                'rita.orji@example.com', '08090123456', 'House of Representatives Member',
-            ],
-
             // Governor
             [
-                'Babajide Sanwo-Olu', 'Lagos', 'Lagos Island', 'APC',
-                'babajide.sanwo-olu@example.com', '08001234567', 'Governor',
-            ],
-            [
-                'Udom Emmanuel', 'Akwa Ibom', 'Uyo', 'PDP',
-                'udom.emmanuel@example.com', '08012345678', 'Governor',
+                'Dapo Abiodun', 'Ogun', 'Abeokuta', 'APC',
+                'dapo.abiodun@example.com', '08011112222', 'Governor',
             ],
 
             // Deputy Governor
             [
-                'Obafemi Hamzat', 'Lagos', 'Ikeja', 'APC',
-                'obafemi.hamzat@example.com', '08023456789', 'Deputy Governor',
-            ],
-            [
-                'Moses Ekpo', 'Akwa Ibom', 'Uyo', 'PDP',
-                'moses.ekpo@example.com', '08034567890', 'Deputy Governor',
+                'Noimot Salako-Oyedele', 'Ogun', 'Abeokuta', 'APC',
+                'noimot.salako@example.com', '08022223333', 'Deputy Governor',
             ],
 
-            // State House of Assembly Member
+            // Senators (Ogun has 3 Senatorial Districts)
             [
-                'Mudashiru Obasa', 'Lagos', 'Agege', 'APC',
-                'mudashiru.obasa@example.com', '08045678901', 'State House of Assembly Member',
+                'Solomon Adeola', 'Ogun', 'Ogun West', 'APC',
+                'solomon.adeola@example.com', '08033334444', 'Senator',
             ],
             [
-                'Kingsley Esiso', 'Delta', 'Asaba', 'PDP',
-                'kingsley.esiso@example.com', '08056789012', 'State House of Assembly Member',
-            ],
-
-            // Chairman (LGA)
-            [
-                'Olufunso Adeyemi', 'Ogun', 'Abeokuta', 'APC',
-                'olufunso.adeyemi@example.com', '08067890123', 'Chairman (LGA)',
+                'Shuaib Afolabi Salisu', 'Ogun', 'Ogun Central', 'APC',
+                'shuaib.salisu@example.com', '08044445555', 'Senator',
             ],
             [
-                'Iretiola Akinwunmi', 'Ekiti', 'Ado Ekiti', 'PDP',
-                'iretiola.akinwunmi@example.com', '08078901234', 'Chairman (LGA)',
+                'Gbenga Daniel', 'Ogun', 'Ogun East', 'APC',
+                'gbenga.daniel@example.com', '08055556666', 'Senator',
             ],
 
-            // Vice Chairman (LGA)
+            // State House of Assembly Speaker
             [
-                'Bola Abisoye', 'Ogun', 'Ota', 'APC',
-                'bola.abisoye@example.com', '08089012345', 'Vice Chairman (LGA)',
-            ],
-            [
-                'Chika Nwankwo', 'Enugu', 'Enugu North', 'PDP',
-                'chika.nwankwo@example.com', '08090123456', 'Vice Chairman (LGA)',
+                'Taiwo Oluomo', 'Ogun', 'Abeokuta', 'APC',
+                'taiwo.oluomo@example.com', '08066667777', 'State House of Assembly Speaker',
             ],
 
-            // Councillor
+            // Ogun State House of Assembly Members (26 Constituencies)
             [
-                'Taiwo Akinola', 'Ogun', 'Ifo', 'APC',
-                'taiwo.akinola@example.com', '08001234567', 'Councillor',
+                'Olakunle Sobukanla', 'Ogun', 'Ifo I', 'APC',
+                'olakunle.sobukanla@example.com', '08077778888', 'State House of Assembly Member',
             ],
             [
-                'Cynthia Ogbulafor', 'Abia', 'Aba South', 'PDP',
-                'cynthia.ogbulafor@example.com', '08012345678', 'Councillor',
-            ],
-
-            // Special Adviser
-            [
-                'Dapo Olanipekun', 'Ogun', 'Abeokuta North', 'APC',
-                'dapo.olanipekun@example.com', '08023456789', 'Special Adviser',
+                'Yusuf Amosun', 'Ogun', 'Abeokuta South I', 'APC',
+                'yusuf.amosun@example.com', '08088889999', 'State House of Assembly Member',
             ],
             [
-                'Patricia Oboh', 'Edo', 'Benin City', 'PDP',
-                'patricia.oboh@example.com', '08034567890', 'Special Adviser',
+                'Modupe Mujota', 'Ogun', 'Abeokuta North', 'APC',
+                'modupe.mujota@example.com', '08099990000', 'State House of Assembly Member',
             ],
 
-            // Local Government Secretary
+            // Chief Judge of the State
             [
-                'Samson Akintoye', 'Ogun', 'Abeokuta South', 'APC',
-                'samson.akintoye@example.com', '08045678901', 'Local Government Secretary',
-            ],
-            [
-                'Victoria Okeke', 'Anambra', 'Awka', 'PDP',
-                'victoria.okeke@example.com', '08056789012', 'Local Government Secretary',
+                'Mosunmola Dipeolu', 'Ogun', 'Abeokuta', 'Non-Partisan',
+                'mosunmola.dipeolu@example.com', '08010101010', 'Chief Judge of the State',
             ],
 
-            // Political Party Chairman
+            // Commissioners
             [
-                'Adams Oshiomhole', 'Edo', 'Benin City', 'APC',
-                'adams.oshiomhole@example.com', '08067890123', 'Political Party Chairman',
+                'Tunji Akinosi', 'Ogun', 'Abeokuta', 'APC',
+                'tunji.akinosi@example.com', '08020202020', 'Commissioner',
             ],
             [
-                'Uche Secondus', 'Rivers', 'Port Harcourt', 'PDP',
-                'uche.secondus@example.com', '08078901234', 'Political Party Chairman',
-            ],
-
-            // National Chairman (Party)
-            [
-                'Okechukwu Madu', 'Abia', 'Aba North', 'APC',
-                'okechukwu.madu@example.com', '08089012345', 'National Chairman (Party)',
-            ],
-            [
-                'Ifeanyi Uba', 'Anambra', 'Nnewi', 'PDP',
-                'ifeanyi.uba@example.com', '08090123456', 'National Chairman (Party)',
+                'Funmi Efuwape', 'Ogun', 'Abeokuta', 'APC',
+                'funmi.efuwape@example.com', '08030303030', 'Commissioner',
             ],
 
-            // Secretary to the Government
+            // Attorney General (State)
             [
-                'Boss Mustapha', 'Adamawa', 'Yola', 'APC',
-                'boss.mustapha@example.com', '08001234567', 'Secretary to the Government',
+                'Akingbolahan Adeniran', 'Ogun', 'Abeokuta', 'APC',
+                'akingbolahan.adeniran@example.com', '08040404040', 'Attorney General (State)',
+            ],
+
+            // State Secretary to the Government
+            [
+                'Tokunbo Talabi', 'Ogun', 'Abeokuta', 'APC',
+                'tokunbo.talabi@example.com', '08050505050', 'State Secretary to the Government',
+            ],
+
+            // Political Party Chairman (State)
+            [
+                'Yemi Sanusi', 'Ogun', 'Abeokuta', 'APC',
+                'yemi.sanusi@example.com', '08060606060', 'Political Party Chairman (State)',
+            ],
+
+            // Special Advisers to the Governor
+            [
+                'Remmy Hazzan', 'Ogun', 'Abeokuta', 'APC',
+                'remmy.hazzan@example.com', '08070707070', 'Special Adviser to the Governor',
             ],
             [
-                'Oladapo Afolabi', 'Ogun', 'Abeokuta', 'PDP',
-                'oladapo.afolabi@example.com', '08012345678', 'Secretary to the Government',
+                'Abayomi Arigbabu', 'Ogun', 'Ijebu-Ode', 'APC',
+                'abayomi.arigbabu@example.com', '08080808080', 'Special Adviser to the Governor',
+            ],
+
+            // Local Government Chairmen (20 LGAs)
+            [
+                'Omolaja Majekodunmi', 'Ogun', 'Abeokuta South', 'APC',
+                'omolaja.majekodunmi@example.com', '08090909090', 'Chairman (LGA)',
+            ],
+            [
+                'Adeleke Adewolu', 'Ogun', 'Ijebu-Ode', 'APC',
+                'adeleke.adewolu@example.com', '08011112233', 'Chairman (LGA)',
+            ],
+
+            // Vice Chairmen (LGA)
+            [
+                'Akinlade Adedayo', 'Ogun', 'Abeokuta South', 'APC',
+                'akinlade.adedayo@example.com', '08022223344', 'Vice Chairman (LGA)',
+            ],
+
+            // Local Government Secretaries
+            [
+                'Olajide Ogunyemi', 'Ogun', 'Abeokuta South', 'APC',
+                'olajide.ogunyemi@example.com', '08033334455', 'Local Government Secretary',
+            ],
+
+            // Councillors (236 Wards in Ogun State)
+            [
+                'Idris Sanni', 'Ogun', 'Abeokuta South Ward 1', 'APC',
+                'idris.sanni@example.com', '08044445566', 'Councillor',
+            ],
+            [
+                'Abiola Odebiyi', 'Ogun', 'Sagamu Ward 3', 'APC',
+                'abiola.odebiyi@example.com', '08055556677', 'Councillor',
+            ],
+
+            // Ward Leaders
+            [
+                'Kunle Owolabi', 'Ogun', 'Abeokuta South Ward 1', 'APC',
+                'kunle.owolabi@example.com', '08066667788', 'Ward Leader',
+            ],
+            [
+                'Oluwatobi Olatunde', 'Ogun', 'Ijebu-Ode Ward 5', 'APC',
+                'oluwatobi.olatunde@example.com', '08077778899', 'Ward Leader',
+            ],
+
+            // Party Ward Chairmen
+            [
+                'Tunde Shodipo', 'Ogun', 'Abeokuta South Ward 1', 'APC',
+                'tunde.shodipo@example.com', '08088889900', 'Party Ward Chairman',
+            ],
+            [
+                'Adewale Ogunleye', 'Ogun', 'Ijebu-Ode Ward 4', 'APC',
+                'adewale.ogunleye@example.com', '08099990011', 'Party Ward Chairman',
             ],
         ];
 

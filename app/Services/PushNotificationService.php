@@ -37,7 +37,6 @@ class PushNotificationService
             return response()->json(['status' => 'Notification sent successfully!']);
         } catch (FirebaseException $e) {
             Log::error('Failed to send push notification: ' . $e->getMessage());
-            return response()->json(['status' => 'Failed to send notification', 'error' => $e->getMessage()], 500);
         }
     }
 

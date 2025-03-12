@@ -79,9 +79,6 @@ class HomePageController extends Controller
 
             $currentUser = $this->findEntity('account', Auth::id());
 
-            \Log::info('Current user: ' . json_encode($currentUser));
-            \Log::info('Criteria: ' . json_encode($criteria));
-
             $criteria = array_merge($criteria, array_filter([
                 'author_state' => isset($criteria['state']) ? $criteria['state'] : $currentUser->state ?? null,
                 'author_constituency' => $criteria['constituency'] ?? null,

@@ -14,29 +14,43 @@ class PositionSeeder extends Seeder
     public function run()
     {
         $positionsData = [
-            // Federal Positions
+            // Federal Level Positions
             ['title' => 'President', 'level' => 1],
             ['title' => 'Vice President', 'level' => 1],
-            ['title' => 'Minister', 'level' => 3],
-            ['title' => 'Senator', 'level' => 3],
-            ['title' => 'House of Representatives Member', 'level' => 4],
+            ['title' => 'Senate President', 'level' => 1],
+            ['title' => 'Speaker of the House of Representatives', 'level' => 1],
+            ['title' => 'Chief Justice of Nigeria', 'level' => 1],
+            ['title' => 'Minister', 'level' => 1],
+            ['title' => 'House of Representatives Member', 'level' => 1],
+            ['title' => 'Attorney General of the Federation', 'level' => 1],
+            ['title' => 'Secretary to the Government of the Federation', 'level' => 1],
+            ['title' => 'National Chairman (Party)', 'level' => 1],
 
-            // State Positions
+            // State Level Positions
             ['title' => 'Governor', 'level' => 2],
             ['title' => 'Deputy Governor', 'level' => 2],
-            ['title' => 'State House of Assembly Member', 'level' => 4],
+            ['title' => 'Senator', 'level' => 2],
+            ['title' => 'State House of Assembly Speaker', 'level' => 2],
+            ['title' => 'State House of Assembly Member', 'level' => 2],
+            ['title' => 'Chief Judge of the State', 'level' => 2],
+            ['title' => 'Commissioner', 'level' => 2],
+            ['title' => 'Attorney General (State)', 'level' => 2],
+            ['title' => 'State Secretary to the Government', 'level' => 2],
+            ['title' => 'Political Party Chairman (State)', 'level' => 2],
+            ['title' => 'Special Adviser to the Governor', 'level' => 2],
 
-            // Local Government Positions
+            // Local Government Level Positions
             ['title' => 'Chairman (LGA)', 'level' => 3],
             ['title' => 'Vice Chairman (LGA)', 'level' => 3],
-            ['title' => 'Councillor', 'level' => 4],
-
-            // Other Positions
-            ['title' => 'Special Adviser', 'level' => 3],
             ['title' => 'Local Government Secretary', 'level' => 3],
-            ['title' => 'Political Party Chairman', 'level' => 2],
-            ['title' => 'National Chairman (Party)', 'level' => 1],
-            ['title' => 'Secretary to the Government', 'level' => 2],
+            ['title' => 'Supervisor (LGA)', 'level' => 3],
+            ['title' => 'Head of Local Government Administration (HLGA)', 'level' => 3],
+            ['title' => 'Special Adviser to the Chairman', 'level' => 3],
+
+            // Constituency Level Positions
+            ['title' => 'Councillor', 'level' => 4],
+            ['title' => 'Ward Leader', 'level' => 4],
+            ['title' => 'Party Ward Chairman', 'level' => 4],
         ];
 
         foreach ($positionsData as $position) {

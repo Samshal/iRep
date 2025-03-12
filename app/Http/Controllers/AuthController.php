@@ -135,6 +135,8 @@ class AuthController extends Controller
             'device_type' => 'nullable|string',
         ]);
 
+        Log::info('Login Data:', ['data' => $request->all()]);
+
         $credentials = $request->only('email', 'password');
         $deviceToken = $request->input('device_token');
         $deviceType = $request->input('device_type');
