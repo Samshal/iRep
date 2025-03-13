@@ -12,7 +12,7 @@ return new class () extends Migration {
         DB::statement('
 			CREATE TABLE device_tokens (
 			id INT AUTO_INCREMENT PRIMARY KEY,
-			account_id INT,
+			account_id INT UNIQUE NOT NULL,
 			device_token VARCHAR(255) NOT NULL UNIQUE,
 			device_type VARCHAR(50) NOT NULL,
 			is_active BOOLEAN DEFAULT 1,
