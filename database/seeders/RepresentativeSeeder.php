@@ -11,229 +11,199 @@ use Illuminate\Support\Str;
 
 class RepresentativeSeeder extends Seeder
 {
-    public function run()
-    {
-        $filePath = storage_path('app/lawmakers.xlsx');
+	public function run()
+	{
+		$filePath = storage_path('app/lawmakers.xlsx');
 
-        // Load data from the spreadsheet
-        $data = Excel::toCollection(null, $filePath)->first();
+		// Load data from the spreadsheet
+		$data = Excel::toCollection(null, $filePath)->first();
 
-        // Process spreadsheet data
-        foreach ($data as $index => $row) {
-            if ($index === 0) {
-                continue;
-            }
+		// Process spreadsheet data
+		foreach ($data as $index => $row) {
+			if ($index === 0) {
+				continue;
+			}
 
-            $this->insertRepresentativeData($row);
-        }
+			$this->insertRepresentativeData($row);
+		}
 
-        // Additional hardcoded seed data
-        $hardcodedRepresentatives = [
-            // Governor
-            [
-                'Dapo Abiodun', 'Ogun', 'Abeokuta', 'APC',
-                'dapo.abiodun@example.com', '08011112222', 'Governor',
-            ],
+		// Additional hardcoded seed data
+		$hardcodedRepresentatives = [
+			// Ogun State
+			["Dapo Abiodun", "Ogun", "Ogun Central", "APC", "dapo.abiodun@ogunstate.gov.ng", "08012345678", "Governor", "Abeokuta North"],
+			["Noimot Salako-Oyedele", "Ogun", "Ogun Central", "APC", "noimot.salako@ogunstate.gov.ng", "08012345679", "Deputy Governor", "Abeokuta North"],
+			["Shuaibu Salisu", "Ogun", "Ogun Central", "APC", "shuaibu.salisu@nass.gov.ng", "08012345684", "Senator", "Abeokuta South"],
+			["Gbenga Daniel", "Ogun", "Ogun East", "APC", "gbenga.daniel@nass.gov.ng", "08012345685", "Senator", "Sagamu"],
+			["Solomon Olamilekan Adeola", "Ogun", "Ogun West", "APC", "solomon.adeola@nass.gov.ng", "08012345686", "Senator", "Ifo"],
+			["Oludaisi Olusegun Elemide", "Ogun", "Ogun Central", "APC", "oludaisi.elemide@ogha.og.gov.ng", "08012345680", "State House of Assembly Speaker", "Odeda"],
+			["Yusuf Sherif Abiodun", "Ogun", "Ogun West", "APC", "yusuf.abiodun@ogha.og.gov.ng", "08012345687", "State House of Assembly Member", "Ado-Odo/Ota"],
+			["Mosunmola Arinola Dipeolu", "Ogun", "Ogun Central", "N/A", "chiefjudge@ogunstate.gov.ng", "08012345681", "Chief Judge of the State", "Abeokuta North"],
+			["Dapo Okubadejo", "Ogun", "Ogun Central", "APC", "dapo.okubadejo@ogunstate.gov.ng", "08012345688", "Commissioner", "Abeokuta North"],
+			["Gbolahan Adeniran", "Ogun", "Ogun Central", "APC", "gbolahan.adeniran@ogunstate.gov.ng", "08012345682", "Attorney General (State)", "Abeokuta North"],
+			["Tokunbo Talabi", "Ogun", "Ogun Central", "APC", "tokunbo.talabi@ogunstate.gov.ng", "08012345683", "State Secretary to the Government", "Abeokuta North"],
+			["Adebayo Fari", "Ogun", "Ogun Central", "APC", "adebayo.fari@ogunstate.gov.ng", "08012345689", "Political Party Chairman (State)", "Abeokuta South"],
+			["Oluwatoyin Taiwo", "Ogun", "Ogun Central", "APC", "oluwatoyin.taiwo@ogunstate.gov.ng", "08012345690", "Special Adviser to the Governor", "Abeokuta North"],
+			["Sheriff Musa", "Ogun", "Ogun Central", "APC", "sheriff.musa@abeokutasouth.gov.ng", "08012345691", "Chairman (LGA)", "Abeokuta South"],
+			["Folakemi Ogunsola", "Ogun", "Ogun Central", "APC", "folakemi.ogunsola@abeokutasouth.gov.ng", "08012345692", "Vice Chairman (LGA)", "Abeokuta South"],
+			["Adekunle Adeyemi", "Ogun", "Ogun Central", "APC", "adekunle.adeyemi@abeokutasouth.gov.ng", "08012345693", "Local Government Secretary", "Abeokuta South"],
+			["Tunde Tella", "Ogun", "Ogun Central", "APC", "tunde.tella@abeokutasouth.gov.ng", "08012345694", "Supervisor (LGA)", "Abeokuta South"],
+			["Rasheed Adegbenro", "Ogun", "Ogun Central", "APC", "rasheed.adegbenro@abeokutasouth.gov.ng", "08012345695", "Head of Local Government Administration (HLGA)", "Abeokuta South"],
+			["Kehinde Adeyemi", "Ogun", "Ogun Central", "APC", "kehinde.adeyemi@abeokutasouth.gov.ng", "08012345696", "Special Adviser to the Chairman", "Abeokuta South"],
+			["Babatunde Olaotan", "Ogun", "Ogun Central", "APC", "babatunde.olaotan@abeokutasouth.gov.ng", "08012345697", "Councillor", "Abeokuta South"],
+			["Segun Adewale", "Ogun", "Ogun Central", "APC", "segun.adewale@apcogun.org", "08012345698", "Ward Leader", "Abeokuta South"],
+			["Kazeem Olalekan", "Ogun", "Ogun Central", "APC", "kazeem.olalekan@apcogun.org", "08012345699", "Party Ward Chairman", "Abeokuta South"],
 
-            // Deputy Governor
-            [
-                'Noimot Salako-Oyedele', 'Ogun', 'Abeokuta', 'APC',
-                'noimot.salako@example.com', '08022223333', 'Deputy Governor',
-            ],
+			// Lagos State
+			["Babajide Sanwo-Olu", "Lagos", "Lagos West", "APC", "babajide.sanwoolu@lagosstate.gov.ng", "08012345700", "Governor", "Ikeja"],
+			["Femi Hamzat", "Lagos", "Lagos West", "APC", "femi.hamzat@lagosstate.gov.ng", "08012345701", "Deputy Governor", "Ikeja"],
+			["Wasiu Eshinlokun-Sanni", "Lagos", "Lagos Central", "APC", "wasiu.eshinlokun@nass.gov.ng", "08012345702", "Senator", "Lagos Mainland"],
+			["Idiat Adebule", "Lagos", "Lagos West", "APC", "idiat.adebule@nass.gov.ng", "08012345703", "Senator", "Amuwo-Odofin"],
+			["Tokunbo Abiru", "Lagos", "Lagos East", "APC", "tokunbo.abiru@nass.gov.ng", "08012345704", "Senator", "Ikorodu"],
+			["Mudashiru Obasa", "Lagos", "Lagos West", "APC", "mudashiru.obasa@lagoshouseofassembly.gov.ng", "08012345705", "State House of Assembly Speaker", "Agege"],
+			["Wasiu Eshinlokun", "Lagos", "Lagos Central", "APC", "wasiu.eshinlokun@lagoshouseofassembly.gov.ng", "08012345706", "State House of Assembly Member", "Lagos Island"],
+			["Folajimi Lai Mohammed", "Lagos", "Lagos West", "N/A", "chiefjudge@lagosstate.gov.ng", "08012345707", "Chief Judge of the State", "Ikeja"],
+			["Gbenga Omotoso", "Lagos", "Lagos West", "APC", "gbenga.omotoso@lagosstate.gov.ng", "08012345708", "Commissioner", "Ikeja"],
+			["Moyosore Onigbanjo", "Lagos", "Lagos West", "APC", "moyosore.onigbanjo@lagosstate.gov.ng", "08012345709", "Attorney General (State)", "Ikeja"],
+			["Wale Ahmed", "Lagos", "Lagos West", "APC", "wale.ahmed@lagosstate.gov.ng", "08012345710", "State Secretary to the Government", "Ikeja"],
+			["Bola Ilori", "Lagos", "Lagos West", "APC", "bola.ilori@apclagos.org", "08012345711", "Political Party Chairman (State)", "Ikeja"],
+			["Joe Igbokwe", "Lagos", "Lagos West", "APC", "joe.igbokwe@lagosstate.gov.ng", "08012345712", "Special Adviser to the Governor", "Ikeja"],
+			["David Doherty", "Lagos", "Lagos East", "APC", "david.doherty@etiosa.gov.ng", "08012345713", "Chairman (LGA)", "Eti-Osa"],
+			["Funke Akindele", "Lagos", "Lagos East", "APC", "funke.akindele@etiosa.gov.ng", "08012345714", "Vice Chairman (LGA)", "Eti-Osa"],
+			["Tunde Bakare", "Lagos", "Lagos East", "APC", "tunde.bakare@etiosa.gov.ng", "08012345715", "Local Government Secretary", "Eti-Osa"],
+			["Lekan Balogun", "Lagos", "Lagos East", "APC", "lekan.balogun@etiosa.gov.ng", "08012345716", "Supervisor (LGA)", "Eti-Osa"],
+			["Shade Tinubu", "Lagos", "Lagos East", "APC", "shade.tinubu@etiosa.gov.ng", "08012345717", "Head of Local Government Administration (HLGA)", "Eti-Osa"],
+			["Kemi Adeosun", "Lagos", "Lagos East", "APC", "kemi.adeosun@etiosa.gov.ng", "08012345718", "Special Adviser to the Chairman", "Eti-Osa"],
+			["Segun Agbaje", "Lagos", "Lagos East", "APC", "segun.agbaje@etiosa.gov.ng", "08012345719", "Councillor", "Eti-Osa"],
+			["Tola Banjo", "Lagos", "Lagos East", "APC", "tola.banjo@apclagos.org", "08012345720", "Ward Leader", "Eti-Osa"],
+			["Yemi Osinbajo", "Lagos", "Lagos East", "APC", "yemi.osinbajo@apclagos.org", "08012345721", "Party Ward Chairman", "Eti-Osa"],
 
-            // Senators (Ogun has 3 Senatorial Districts)
-            [
-                'Solomon Adeola', 'Ogun', 'Ogun West', 'APC',
-                'solomon.adeola@example.com', '08033334444', 'Senator',
-            ],
-            [
-                'Shuaib Afolabi Salisu', 'Ogun', 'Ogun Central', 'APC',
-                'shuaib.salisu@example.com', '08044445555', 'Senator',
-            ],
-            [
-                'Gbenga Daniel', 'Ogun', 'Ogun East', 'APC',
-                'gbenga.daniel@example.com', '08055556666', 'Senator',
-            ],
+			// Kano State
+			["Abba Kabir Yusuf", "Kano", "Kano Central", "NNPP", "abba.yusuf@kanostate.gov.ng", "08012345722", "Governor", "Kano Municipal"],
+			["Aminu Abdussalam", "Kano", "Kano Central", "NNPP", "aminu.abdussalam@kanostate.gov.ng", "08012345723", "Deputy Governor", "Kano Municipal"],
+			["Barau Jibrin", "Kano", "Kano North", "APC", "barau.jibrin@nass.gov.ng", "08012345724", "Senator", "Kabo"],
+			["Kabiru Ibrahim Gaya", "Kano", "Kano South", "APC", "kabiru.gaya@nass.gov.ng", "08012345725", "Senator", "Gaya"],
+			["Ibrahim Shekarau", "Kano", "Kano Central", "NNPP", "ibrahim.shekarau@nass.gov.ng", "08012345726", "Senator", "Fagge"],
+			["Lawan Hussain", "Kano", "Kano South", "NNPP", "lawan.hussain@kanoassembly.gov.ng", "08012345727", "State House of Assembly Speaker", "Rogo"],
+			["Yusuf Falgore", "Kano", "Kano Central", "NNPP", "yusuf.falgore@kanoassembly.gov.ng", "08012345728", "State House of Assembly Member", "Fagge"],
+			["Fatima Adamu", "Kano", "Kano Central", "N/A", "chiefjudge@kanostate.gov.ng", "08012345729", "Chief Judge of the State", "Kano Municipal"],
+			["Haruna Dederi", "Kano", "Kano Central", "NNPP", "haruna.dederi@kanostate.gov.ng", "08012345730", "Commissioner", "Kano Municipal"],
+			["Umar Saidu", "Kano", "Kano Central", "NNPP", "umar.saidu@kanostate.gov.ng", "08012345731", "Attorney General (State)", "Kano Municipal"],
+			["Ibrahim Mukhtar", "Kano", "Kano Central", "NNPP", "ibrahim.mukhtar@kanostate.gov.ng", "08012345732", "State Secretary to the Government", "Kano Municipal"],
+			["Salisu Yahya", "Kano", "Kano Central", "NNPP", "salisu.yahya@nnppkano.org", "08012345733", "Political Party Chairman (State)", "Kano Municipal"],
+			["Kabiru Ado", "Kano", "Kano Central", "NNPP", "kabiru.ado@kanostate.gov.ng", "08012345734", "Special Adviser to the Governor", "Kano Municipal"],
+			["Sani Mai Nagge", "Kano", "Kano Central", "NNPP", "sani.nagge@gwale.gov.ng", "08012345735", "Chairman (LGA)", "Gwale"],
+			["Aisha Suleiman", "Kano", "Kano Central", "NNPP", "aisha.suleiman@gwale.gov.ng", "08012345736", "Vice Chairman (LGA)", "Gwale"],
+			["Musa Abdullahi", "Kano", "Kano Central", "NNPP", "musa.abdullahi@gwale.gov.ng", "08012345737", "Local Government Secretary", "Gwale"],
+			["Bello Sani", "Kano", "Kano Central", "NNPP", "bello.sani@gwale.gov.ng", "08012345738", "Supervisor (LGA)", "Gwale"],
+			["Hafsat Idris", "Kano", "Kano Central", "NNPP", "hafsat.idris@gwale.gov.ng", "08012345739", "Head of Local Government Administration (HLGA)", "Gwale"],
+			["Yakubu Garba", "Kano", "Kano Central", "NNPP", "yakubu.garba@gwale.gov.ng", "08012345740", "Special Adviser to the Chairman", "Gwale"],
+			["Ibrahim Khalil", "Kano", "Kano Central", "NNPP", "ibrahim.khalil@gwale.gov.ng", "08012345741", "Councillor", "Gwale"],
+			["Sani Usman", "Kano", "Kano Central", "NNPP", "sani.usman@nnppkano.org", "08012345742", "Ward Leader", "Gwale"],
+			["Aminu Garba", "Kano", "Kano Central", "NNPP", "aminu.garba@nnppkano.org", "08012345743", "Party Ward Chairman", "Gwale"]
+		];
 
-            // State House of Assembly Speaker
-            [
-                'Taiwo Oluomo', 'Ogun', 'Abeokuta', 'APC',
-                'taiwo.oluomo@example.com', '08066667777', 'State House of Assembly Speaker',
-            ],
+		foreach ($hardcodedRepresentatives as $representative) {
+			$this->insertRepresentativeData($representative);
+		}
+	}
 
-            // Ogun State House of Assembly Members (26 Constituencies)
-            [
-                'Olakunle Sobukanla', 'Ogun', 'Ifo I', 'APC',
-                'olakunle.sobukanla@example.com', '08077778888', 'State House of Assembly Member',
-            ],
-            [
-                'Yusuf Amosun', 'Ogun', 'Abeokuta South I', 'APC',
-                'yusuf.amosun@example.com', '08088889999', 'State House of Assembly Member',
-            ],
-            [
-                'Modupe Mujota', 'Ogun', 'Abeokuta North', 'APC',
-                'modupe.mujota@example.com', '08099990000', 'State House of Assembly Member',
-            ],
+	// Method to insert representative data
+	private function insertRepresentativeData($data)
+	{
+		$name = trim($data[0] ?? '');
+		$state = trim($data[1] ?? '');
+		$district = trim($data[2] ?? '');
+		$party = trim($data[3] ?? '');
+		$email = trim($data[4] ?? '');
+		$phone_number = trim($data[5] ?? '');
+		$position = trim($data[6] ?? '');
+		$local_government = trim($data[7] ?? '');
 
-            // Chief Judge of the State
-            [
-                'Mosunmola Dipeolu', 'Ogun', 'Abeokuta', 'Non-Partisan',
-                'mosunmola.dipeolu@example.com', '08010101010', 'Chief Judge of the State',
-            ],
+		$phone_number = ($phone_number === 'N/A' || empty($phone_number)) ? null : $phone_number;
 
-            // Commissioners
-            [
-                'Tunji Akinosi', 'Ogun', 'Abeokuta', 'APC',
-                'tunji.akinosi@example.com', '08020202020', 'Commissioner',
-            ],
-            [
-                'Funmi Efuwape', 'Ogun', 'Abeokuta', 'APC',
-                'funmi.efuwape@example.com', '08030303030', 'Commissioner',
-            ],
+		if (empty($name)) {
+			return;
+		}
 
-            // Attorney General (State)
-            [
-                'Akingbolahan Adeniran', 'Ogun', 'Abeokuta', 'APC',
-                'akingbolahan.adeniran@example.com', '08040404040', 'Attorney General (State)',
-            ],
+		if (empty($email)) {
+			$email = Str::random(10) . '@example.com';
+		}
 
-            // State Secretary to the Government
-            [
-                'Tokunbo Talabi', 'Ogun', 'Abeokuta', 'APC',
-                'tokunbo.talabi@example.com', '08050505050', 'State Secretary to the Government',
-            ],
+		try {
+			// Fetch related IDs
+			$position_id = DB::table('positions')->where('title', $position)->value('id');
+			$party_id = DB::table('parties')->where('code', $party)->value('id');
+			$state_id = DB::table('states')->where('name', $state)->value('id');
+			$district_id = DB::table('districts')->where('name', $district)->value('id');
+			$local_government_id = DB::table('local_governments')->where('name', $local_government)->value('id');
 
-            // Political Party Chairman (State)
-            [
-                'Yemi Sanusi', 'Ogun', 'Abeokuta', 'APC',
-                'yemi.sanusi@example.com', '08060606060', 'Political Party Chairman (State)',
-            ],
+			// Check if account exists by email and update or insert
+			$existingAccount = DB::table('accounts')->where('email', $email)->first();
+			$accountData = [
+				'photo_url' => "https://i.imgur.com/0GY9tnz.jpeg",
+				'name' => $name,
+				'email' => $email,
+				'phone_number' => $phone_number,
+				'dob' => null,
+				'state_id' => $state_id ?? null,
+				'local_government_id' => $local_government_id ?? null,
+				'polling_unit' => null,
+				'password' => Hash::make('password456'),
+				'email_verified' => true,
+				'account_type' => 2,
+				'created_at' => now(),
+				'updated_at' => now(),
+			];
 
-            // Special Advisers to the Governor
-            [
-                'Remmy Hazzan', 'Ogun', 'Abeokuta', 'APC',
-                'remmy.hazzan@example.com', '08070707070', 'Special Adviser to the Governor',
-            ],
-            [
-                'Abayomi Arigbabu', 'Ogun', 'Ijebu-Ode', 'APC',
-                'abayomi.arigbabu@example.com', '08080808080', 'Special Adviser to the Governor',
-            ],
+			if ($existingAccount) {
+				// Update existing account
+				DB::table('accounts')
+					->where('id', $existingAccount->id)
+					->update([
+						'photo_url' => $accountData['photo_url'],
+						'name' => $accountData['name'],
+						'phone_number' => $accountData['phone_number'],
+						'state_id' => $accountData['state_id'],
+						'local_government_id' => $accountData['local_government_id'],
+						'updated_at' => now(),
+					]);
+				$account_id = $existingAccount->id;
+			} else {
+				// Insert new account
+				$account_id = DB::table('accounts')->insertGetId($accountData);
+			}
 
-            // Local Government Chairmen (20 LGAs)
-            [
-                'Omolaja Majekodunmi', 'Ogun', 'Abeokuta South', 'APC',
-                'omolaja.majekodunmi@example.com', '08090909090', 'Chairman (LGA)',
-            ],
-            [
-                'Adeleke Adewolu', 'Ogun', 'Ijebu-Ode', 'APC',
-                'adeleke.adewolu@example.com', '08011112233', 'Chairman (LGA)',
-            ],
+			// Check if representative exists and update or insert
+			$existingRepresentative = DB::table('representatives')
+				->where('account_id', $account_id)
+				->where('position_id', $position_id)
+				->first();
 
-            // Vice Chairmen (LGA)
-            [
-                'Akinlade Adedayo', 'Ogun', 'Abeokuta South', 'APC',
-                'akinlade.adedayo@example.com', '08022223344', 'Vice Chairman (LGA)',
-            ],
+			$representativeData = [
+				'position_id' => $position_id ?? null,
+				'constituency_id' => $constituency_id ?? null, // Assuming this is defined elsewhere or null
+				'district_id' => $district_id ?? null,
+				'party_id' => $party_id ?? null,
+				'bio' => $name . ' is a representative from ' . $district,
+				'account_id' => $account_id,
+			];
 
-            // Local Government Secretaries
-            [
-                'Olajide Ogunyemi', 'Ogun', 'Abeokuta South', 'APC',
-                'olajide.ogunyemi@example.com', '08033334455', 'Local Government Secretary',
-            ],
-
-            // Councillors (236 Wards in Ogun State)
-            [
-                'Idris Sanni', 'Ogun', 'Abeokuta South Ward 1', 'APC',
-                'idris.sanni@example.com', '08044445566', 'Councillor',
-            ],
-            [
-                'Abiola Odebiyi', 'Ogun', 'Sagamu Ward 3', 'APC',
-                'abiola.odebiyi@example.com', '08055556677', 'Councillor',
-            ],
-
-            // Ward Leaders
-            [
-                'Kunle Owolabi', 'Ogun', 'Abeokuta South Ward 1', 'APC',
-                'kunle.owolabi@example.com', '08066667788', 'Ward Leader',
-            ],
-            [
-                'Oluwatobi Olatunde', 'Ogun', 'Ijebu-Ode Ward 5', 'APC',
-                'oluwatobi.olatunde@example.com', '08077778899', 'Ward Leader',
-            ],
-
-            // Party Ward Chairmen
-            [
-                'Tunde Shodipo', 'Ogun', 'Abeokuta South Ward 1', 'APC',
-                'tunde.shodipo@example.com', '08088889900', 'Party Ward Chairman',
-            ],
-            [
-                'Adewale Ogunleye', 'Ogun', 'Ijebu-Ode Ward 4', 'APC',
-                'adewale.ogunleye@example.com', '08099990011', 'Party Ward Chairman',
-            ],
-        ];
-
-        foreach ($hardcodedRepresentatives as $representative) {
-            $this->insertRepresentativeData($representative);
-        }
-    }
-
-    // Method to insert representative data
-    private function insertRepresentativeData($data)
-    {
-        $name = trim($data[0] ?? '');
-        $state = trim($data[1] ?? '');
-        $district = trim($data[2] ?? '');
-        $party = trim($data[3] ?? '');
-        $email = trim($data[4] ?? '');
-        $phone_number = trim($data[5] ?? '');
-        $position = trim($data[6] ?? '');
-
-        $phone_number = ($phone_number === 'N/A' || empty($phone_number)) ? null : $phone_number;
-
-        if (empty($name)) {
-            return;
-        }
-
-        if (empty($email)) {
-            $email = Str::random(10) . '@example.com';
-        } elseif (DB::table('accounts')->where('email', $email)->exists()) {
-            return;
-        }
-
-        try {
-            $position_id = DB::table('positions')->where('title', $position)->value('id');
-            $party_id = DB::table('parties')->where('code', $party)->value('id');
-            $state_id = DB::table('states')->where('name', $state)->value('id');
-            $district_id = DB::table('districts')->where('name', $district)->value('id');
-
-            // Insert account data
-            $account_id = DB::table('accounts')->insertGetId([
-                'photo_url' => "https://i.imgur.com/0GY9tnz.jpeg",
-                'name' => $name,
-                'email' => $email,
-                'phone_number' => $phone_number,
-                'dob' => null,
-                'state_id' => $state_id ?? null,
-                'local_government_id' => null,
-                'polling_unit' => null,
-                'password' => Hash::make('password456'),
-                'email_verified' => true,
-                'account_type' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            // Insert representative data
-            DB::table('representatives')->insert([
-                'position_id' => $position_id ?? null,
-                'constituency_id' => $constituency_id ?? null,
-                'district_id' => $district_id ?? null,
-                'party_id' => $party_id ?? null,
-                'bio' => $name . ' is a representative from ' . $district,
-                'account_id' => $account_id,
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Failed to insert representative: ' . $e->getMessage(), ['row' => $data]);
-        }
-    }
+			if ($existingRepresentative) {
+				// Update existing representative
+				DB::table('representatives')
+					->where('account_id', $account_id)
+					->where('position_id', $position_id)
+					->update([
+						'district_id' => $representativeData['district_id'],
+						'party_id' => $representativeData['party_id'],
+						'bio' => $representativeData['bio'],
+					]);
+			} else {
+				// Insert new representative
+				DB::table('representatives')->insert($representativeData);
+			}
+		} catch (\Exception $e) {
+			Log::error('Failed to insert or update representative: ' . $e->getMessage(), ['row' => $data]);
+		}
+	}
 }

@@ -88,7 +88,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id')
             ],
             [
-                'name' => 'Isiala-Ngwa North',
+                'name' => 'Isiala Ngwa North',
                 'state_id' => 1,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Isiala Ngwa North/Isiala Ngwa South')
@@ -98,7 +98,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id')
             ],
             [
-                'name' => 'Isiala-Ngwa South',
+                'name' => 'Isiala Ngwa South',
                 'state_id' => 1,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Isiala Ngwa North/Isiala Ngwa South')
@@ -203,7 +203,7 @@ class LocalGovernmentSeeder extends Seeder
                 'name' => 'Ganye',
                 'state_id' => 2,
                 'constituency_id' => DB::table('constituencies')
-                    ->where('name', 'Ganye/Jada/Mayo-Belwa/Toungo')
+                    ->where('name', 'Ganye/Jada/Mayo Belwa/Toungo')
                     ->value('id'),
                 'district_id' => DB::table('districts')
                     ->where('name', 'Adamawa South')
@@ -253,7 +253,7 @@ class LocalGovernmentSeeder extends Seeder
                 'name' => 'Jada',
                 'state_id' => 2,
                 'constituency_id' => DB::table('constituencies')
-                    ->where('name', 'Ganye/Jada/Mayo-Belwa/Toungo')
+                    ->where('name', 'Ganye/Jada/Mayo Belwa/Toungo')
                     ->value('id'),
                 'district_id' => DB::table('districts')
                     ->where('name', 'Adamawa South')
@@ -270,7 +270,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Mubi-North',
+                'name' => 'Mubi North',
                 'state_id' => 2,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Mubi North/Mubi South/Maiha')
@@ -302,7 +302,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Eastern-Obolo',
+                'name' => 'Eastern Obolo',
                 'state_id' => 3,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Ikot Abasi/Mkpat Enin/Eastern Obolo')
@@ -322,7 +322,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Esit-Eket',
+                'name' => 'Esit Eket',
                 'state_id' => 3,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Eket/Esit Eket/Ibeno/Onna')
@@ -332,7 +332,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Essien-Udim',
+                'name' => 'Essien Udim',
                 'state_id' => 3,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Ikot Ekpene/Essien Udim/Obot Akara')
@@ -342,7 +342,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Etim-Ekpo',
+                'name' => 'Etim Ekpo',
                 'state_id' => 3,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Abak/Etim Ekpo/Ika')
@@ -372,7 +372,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Ibesikpo-Asutan',
+                'name' => 'Ibesikpo Asutan',
                 'state_id' => 3,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Uyo/Uruan/Nsit Atai/Ibesikpo Asutan')
@@ -382,7 +382,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Ibiono-Ibom',
+                'name' => 'Ibiono Ibom',
                 'state_id' => 3,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Ini/Ibiono Ibom')
@@ -392,7 +392,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Ikot-Abasi',
+                'name' => 'Ikot Abasi',
                 'state_id' => 3,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Ikot Abasi/Mkpat Enin/Eastern Obolo')
@@ -402,7 +402,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Ikot-Ekpene',
+                'name' => 'Ikot Ekpene',
                 'state_id' => 3,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Ikot Ekpene/Essien Udim/Obot Akara')
@@ -514,7 +514,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Idemili-North',
+                'name' => 'Idemili North',
                 'state_id' => 4,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Idemili North/Idemili South')
@@ -524,7 +524,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Idemili-South',
+                'name' => 'Idemili South',
                 'state_id' => 4,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Idemili North/Idemili South')
@@ -554,7 +554,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Nnewi-North',
+                'name' => 'Nnewi North',
                 'state_id' => 4,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Nnewi North/South/Ekwusigo')
@@ -564,7 +564,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Nnewi-South',
+                'name' => 'Nnewi South',
                 'state_id' => 4,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Nnewi North/South/Ekwusigo')
@@ -584,7 +584,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Onitsha-North',
+                'name' => 'Onitsha North',
                 'state_id' => 4,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Onitsha North/South')
@@ -594,7 +594,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Onitsha-South',
+                'name' => 'Onitsha South',
                 'state_id' => 4,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Onitsha North/Onitsha South')
@@ -604,7 +604,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Orumba-North',
+                'name' => 'Orumba North',
                 'state_id' => 4,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Orumba North/Orumba South')
@@ -614,7 +614,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Orumba-South',
+                'name' => 'Orumba South',
                 'state_id' => 4,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Orumba North/Orumba South')
@@ -650,7 +650,7 @@ class LocalGovernmentSeeder extends Seeder
                 'name' => 'Bogoro',
                 'state_id' => 5,
                 'constituency_id' => DB::table('constituencies')
-                    ->where('name', 'Bogoro/Dass/Tafawa-Balewa')
+                    ->where('name', 'Bogoro/Dass/Tafawa Balewa')
                     ->value('id'),
                 'district_id' => DB::table('districts')
                     ->where('name', 'Bauchi South')
@@ -680,7 +680,7 @@ class LocalGovernmentSeeder extends Seeder
                 'name' => 'Dass',
                 'state_id' => 5,
                 'constituency_id' => DB::table('constituencies')
-                    ->where('name', 'Bogoro/Dass/Tafawa-Balewa')
+                    ->where('name', 'Bogoro/Dass/Tafawa Balewa')
                     ->value('id'),
                 'district_id' => DB::table('districts')
                     ->where('name', 'Bauchi South')
@@ -787,10 +787,10 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Tafawa-Balewa',
+                'name' => 'Tafawa Balewa',
                 'state_id' => 5,
                 'constituency_id' => DB::table('constituencies')
-                    ->where('name', 'Bogoro/Dass/Tafawa-Balewa')
+                    ->where('name', 'Bogoro/Dass/Tafawa Balewa')
                     ->value('id'),
                 'district_id' => DB::table('districts')
                     ->where('name', 'Bauchi South')
@@ -889,10 +889,10 @@ class LocalGovernmentSeeder extends Seeder
                     ->value('id'),
             ],
             [
-                'name' => 'Southern-Ijaw',
+                'name' => 'Southern Ijaw',
                 'state_id' => 6,
                 'constituency_id' => DB::table('constituencies')
-                    ->where('name', 'Southern-Ijaw')
+                    ->where('name', 'Southern Ijaw')
                     ->value('id'),
                 'district_id' => DB::table('districts')
                     ->where('name', 'Bayelsa Central')
@@ -947,7 +947,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->where('name', 'Buruku')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-West')
+                    ->where('name', 'Benue North West')
                     ->value('id'),
             ],
             [
@@ -957,7 +957,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->where('name', 'Gboko/Tarka')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-West')
+                    ->where('name', 'Benue North West')
                     ->value('id'),
             ],
             [
@@ -967,37 +967,37 @@ class LocalGovernmentSeeder extends Seeder
                     ->where('name', 'Guma/Makurdi')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-West')
+                    ->where('name', 'Benue North West')
                     ->value('id'),
             ],
             [
-                'name' => 'Gwer-East',
+                'name' => 'Gwer East',
                 'state_id' => 7,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Gwer East/Gwer West')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-West')
+                    ->where('name', 'Benue North West')
                     ->value('id'),
             ],
             [
-                'name' => 'Gwer-West',
+                'name' => 'Gwer West',
                 'state_id' => 7,
                 'constituency_id' => DB::table('constituencies')
                     ->where('name', 'Gwer East/Gwer West')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-West')
+                    ->where('name', 'Benue North West')
                     ->value('id'),
             ],
             [
-                'name' => 'Katsina-Ala',
+                'name' => 'Katsina Ala',
                 'state_id' => 7,
                 'constituency_id' => DB::table('constituencies')
-                    ->where('name', 'Katsina-Ala/Ukum/Ushongo')
+                    ->where('name', 'Katsina Ala/Ukum/Ushongo')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-East')
+                    ->where('name', 'Benue North East')
                     ->value('id'),
             ],
             [
@@ -1007,7 +1007,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->where('name', 'Konshisha/Vandeikya')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-East')
+                    ->where('name', 'Benue North East')
                     ->value('id'),
             ],
             [
@@ -1017,17 +1017,17 @@ class LocalGovernmentSeeder extends Seeder
                     ->where('name', 'Kwande/Ushongo')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-East')
+                    ->where('name', 'Benue North East')
                     ->value('id'),
             ],
             [
                 'name' => 'Logo',
                 'state_id' => 7,
                 'constituency_id' => DB::table('constituencies')
-                    ->where('name', 'Katsina-Ala/Ukum/Ushongo')
+                    ->where('name', 'Katsina Ala/Ukum/Ushongo')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-East')
+                    ->where('name', 'Benue North East')
                     ->value('id'),
             ],
             [
@@ -1037,7 +1037,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->where('name', 'Guma/Makurdi')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-West')
+                    ->where('name', 'Benue North West')
                     ->value('id'),
             ],
             [
@@ -1097,17 +1097,17 @@ class LocalGovernmentSeeder extends Seeder
                     ->where('name', 'Gboko/Tarka')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-West')
+                    ->where('name', 'Benue North West')
                     ->value('id'),
             ],
             [
                 'name' => 'Ukum',
                 'state_id' => 7,
                 'constituency_id' => DB::table('constituencies')
-                    ->where('name', 'Katsina-Ala/Ukum/Ushongo')
+                    ->where('name', 'Katsina Ala/Ukum/Ushongo')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-East')
+                    ->where('name', 'Benue North East')
                     ->value('id'),
             ],
             [
@@ -1117,7 +1117,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->where('name', 'Kwande/Ushongo')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-East')
+                    ->where('name', 'Benue North East')
                     ->value('id'),
             ],
             [
@@ -1127,7 +1127,7 @@ class LocalGovernmentSeeder extends Seeder
                     ->where('name', 'Konshisha/Vandeikya')
                     ->value('id'),
                 'district_id' => DB::table('districts')
-                    ->where('name', 'Benue North-East')
+                    ->where('name', 'Benue North East')
                     ->value('id'),
             ],
 
@@ -1139,9 +1139,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Borno North')->value('id')
             ],
             [
-                'name' => 'Askira-Uba',
+                'name' => 'Askira Uba',
                 'state_id' => 8,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Askira-Uba/Hawul')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Askira Uba/Hawul')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Borno South')->value('id')
             ],
             [
@@ -1153,13 +1153,13 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Bayo',
                 'state_id' => 8,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Biu/Bayo/Shani/Kwaya-Kusar')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Biu/Bayo/Shani/Kwaya Kusar')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Borno South')->value('id')
             ],
             [
                 'name' => 'Biu',
                 'state_id' => 8,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Biu/Bayo/Shani/Kwaya-Kusar')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Biu/Bayo/Shani/Kwaya Kusar')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Borno South')->value('id')
             ],
             [
@@ -1201,7 +1201,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Hawul',
                 'state_id' => 8,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Askira-Uba/Hawul')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Askira Uba/Hawul')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Borno South')->value('id')
             ],
             [
@@ -1235,9 +1235,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Borno North')->value('id')
             ],
             [
-                'name' => 'Kwaya-Kusar',
+                'name' => 'Kwaya Kusar',
                 'state_id' => 8,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Biu/Bayo/Shani/Kwaya-Kusar')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Biu/Bayo/Shani/Kwaya Kusar')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Borno South')->value('id')
             ],
             [
@@ -1291,7 +1291,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Shani',
                 'state_id' => 8,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Biu/Bayo/Shani/Kwaya-Kusar')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Biu/Bayo/Shani/Kwaya Kusar')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Borno South')->value('id')
             ],
 
@@ -1339,13 +1339,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Cross River Central')->value('id')
             ],
             [
-                'name' => 'Calabar-Municipal',
+                'name' => 'Calabar Municipal',
                 'state_id' => 9,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Calabar Municipal/Odukpani')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Cross River South')->value('id')
             ],
             [
-                'name' => 'Calabar-South',
+                'name' => 'Calabar South',
                 'state_id' => 9,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Akpabuyo/Bakassi/Calabar South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Cross River South')->value('id')
@@ -1414,7 +1414,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Delta North')->value('id')
             ],
             [
-                'name' => 'Aniocha-South',
+                'name' => 'Aniocha South',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Aniocha/Oshimili')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta North')->value('id')
@@ -1432,49 +1432,49 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Delta South')->value('id')
             ],
             [
-                'name' => 'Ethiope-East',
+                'name' => 'Ethiope East',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ethiope')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta Central')->value('id')
             ],
             [
-                'name' => 'Ethiope-West',
+                'name' => 'Ethiope West',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ethiope')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta Central')->value('id')
             ],
             [
-                'name' => 'Ika-North-East',
+                'name' => 'Ika North East',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ika')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta North')->value('id')
             ],
             [
-                'name' => 'Ika-South',
+                'name' => 'Ika South',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ika')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta North')->value('id')
             ],
             [
-                'name' => 'Isoko-North',
+                'name' => 'Isoko North',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Isoko')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta South')->value('id')
             ],
             [
-                'name' => 'Isoko-South',
+                'name' => 'Isoko South',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Isoko')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta South')->value('id')
             ],
             [
-                'name' => 'Ndokwa-East',
+                'name' => 'Ndokwa East',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ndokwa/Ukwuani')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta North')->value('id')
             ],
             [
-                'name' => 'Ndokwa-West',
+                'name' => 'Ndokwa West',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ndokwa/Ukwuani')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta North')->value('id')
@@ -1486,13 +1486,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Delta Central')->value('id')
             ],
             [
-                'name' => 'Oshimili-North',
+                'name' => 'Oshimili North',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Aniocha/Oshimili')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta North')->value('id')
             ],
             [
-                'name' => 'Oshimili-South',
+                'name' => 'Oshimili South',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Aniocha/Oshimili')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta North')->value('id')
@@ -1516,13 +1516,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Delta Central')->value('id')
             ],
             [
-                'name' => 'Ughelli-North',
+                'name' => 'Ughelli North',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Udu/Ughelli North/Ughelli South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta Central')->value('id')
             ],
             [
-                'name' => 'Ughelli-South',
+                'name' => 'Ughelli South',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Udu/Ughelli North/Ughelli South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta Central')->value('id')
@@ -1540,7 +1540,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Delta Central')->value('id')
             ],
             [
-                'name' => 'Warri South-West',
+                'name' => 'Warri South West',
                 'state_id' => 10,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Warri')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Delta South')->value('id')
@@ -1566,7 +1566,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ebonyi North')->value('id')
             ],
             [
-                'name' => 'Afikpo-North',
+                'name' => 'Afikpo North',
                 'state_id' => 11,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Afikpo North/Afikpo South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ebonyi South')->value('id')
@@ -1584,13 +1584,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ebonyi North')->value('id')
             ],
             [
-                'name' => 'Ezza-North',
+                'name' => 'Ezza North',
                 'state_id' => 11,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ezza North/Ishielu')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ebonyi Central')->value('id')
             ],
             [
-                'name' => 'Ezza-South',
+                'name' => 'Ezza South',
                 'state_id' => 11,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ezza South/Ikwo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ebonyi Central')->value('id')
@@ -1634,55 +1634,55 @@ class LocalGovernmentSeeder extends Seeder
 
             // Edo State
             [
-                'name' => 'Akoko-Edo',
+                'name' => 'Akoko Edo',
                 'state_id' => 12,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Akoko-Edo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Akoko Edo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo North')->value('id')
             ],
             [
                 'name' => 'Egor',
                 'state_id' => 12,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Egor/Ikpoba-Okha')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Egor/Ikpoba Okha')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo South')->value('id')
             ],
             [
-                'name' => 'Esan-Central',
+                'name' => 'Esan Central',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Esan Central/Esan West/Igueben')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo Central')->value('id')
             ],
             [
-                'name' => 'Esan-North-East',
+                'name' => 'Esan North East',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Esan South East/Esan North East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo Central')->value('id')
             ],
             [
-                'name' => 'Esan-South-East',
+                'name' => 'Esan South East',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Esan South East/Esan North East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo Central')->value('id')
             ],
             [
-                'name' => 'Esan-West',
+                'name' => 'Esan West',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Esan Central/Esan West/Igueben')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo Central')->value('id')
             ],
             [
-                'name' => 'Etsako-Central',
+                'name' => 'Etsako Central',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Etsako')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo North')->value('id')
             ],
             [
-                'name' => 'Etsako-East',
+                'name' => 'Etsako East',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Etsako')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo North')->value('id')
             ],
             [
-                'name' => 'Etsako-West',
+                'name' => 'Etsako West',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Etsako')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo North')->value('id')
@@ -1694,9 +1694,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Edo Central')->value('id')
             ],
             [
-                'name' => 'Ikpoba-Okha',
+                'name' => 'Ikpoba Okha',
                 'state_id' => 12,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Egor/Ikpoba-Okha')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Egor/Ikpoba Okha')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo South')->value('id')
             ],
             [
@@ -1712,25 +1712,25 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Edo South')->value('id')
             ],
             [
-                'name' => 'Ovia-North-East',
+                'name' => 'Ovia North East',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ovia')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo South')->value('id')
             ],
             [
-                'name' => 'Ovia-South-West',
+                'name' => 'Ovia South West',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ovia')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo South')->value('id')
             ],
             [
-                'name' => 'Owan-East',
+                'name' => 'Owan East',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Owan')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo North')->value('id')
             ],
             [
-                'name' => 'Owan-West',
+                'name' => 'Owan West',
                 'state_id' => 12,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Owan')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Edo North')->value('id')
@@ -1744,9 +1744,9 @@ class LocalGovernmentSeeder extends Seeder
 
             // Ekiti State
             [
-                'name' => 'Ado-Ekiti',
+                'name' => 'Ado Ekiti',
                 'state_id' => 13,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ado-Ekiti/Irepodun-Ifelodun')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ado Ekiti/Irepodun Ifelodun')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti Central')->value('id')
             ],
             [
@@ -1756,21 +1756,21 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ekiti South')->value('id')
             ],
             [
-                'name' => 'Ekiti-East',
+                'name' => 'Ekiti East',
                 'state_id' => 13,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Emure/Gbonyin/Ekiti East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti South')->value('id')
             ],
             [
-                'name' => 'Ekiti-South-West',
+                'name' => 'Ekiti South West',
                 'state_id' => 13,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ekiti South West/Ijero/Efon')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti South')->value('id')
             ],
             [
-                'name' => 'Ekiti-West',
+                'name' => 'Ekiti West',
                 'state_id' => 13,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ikere/Ise-Orun/Ekiti West')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ikere/Ise Orun/Ekiti West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti South')->value('id')
             ],
             [
@@ -1786,9 +1786,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ekiti South')->value('id')
             ],
             [
-                'name' => 'Ido-Osi',
+                'name' => 'Ido Osi',
                 'state_id' => 13,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ido-Osi/Moba/Ilejemeje')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ido Osi/Moba/Ilejemeje')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti North')->value('id')
             ],
             [
@@ -1800,7 +1800,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Ikere',
                 'state_id' => 13,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ikere/Ise-Orun/Ekiti West')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ikere/Ise Orun/Ekiti West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti South')->value('id')
             ],
             [
@@ -1812,25 +1812,25 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Ilejemeje',
                 'state_id' => 13,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ido-Osi/Moba/Ilejemeje')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ido Osi/Moba/Ilejemeje')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti North')->value('id')
             ],
             [
                 'name' => 'Irepodun/Ifelodun',
                 'state_id' => 13,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ado-Ekiti/Irepodun-Ifelodun')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ado Ekiti/Irepodun Ifelodun')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti Central')->value('id')
             ],
             [
                 'name' => 'Ise/Orun',
                 'state_id' => 13,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ikere/Ise-Orun/Ekiti West')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ikere/Ise Orun/Ekiti West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti South')->value('id')
             ],
             [
                 'name' => 'Moba',
                 'state_id' => 13,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ido-Osi/Moba/Ilejemeje')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ido Osi/Moba/Ilejemeje')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ekiti North')->value('id')
             ],
             [
@@ -1854,19 +1854,19 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Enugu West')->value('id')
             ],
             [
-                'name' => 'Enugu-East',
+                'name' => 'Enugu East',
                 'state_id' => 14,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Enugu North/Enugu South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu East')->value('id')
             ],
             [
-                'name' => 'Enugu-North',
+                'name' => 'Enugu North',
                 'state_id' => 14,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Enugu North/Enugu South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu East')->value('id')
             ],
             [
-                'name' => 'Enugu-South',
+                'name' => 'Enugu South',
                 'state_id' => 14,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Enugu North/Enugu South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu East')->value('id')
@@ -1878,37 +1878,37 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Enugu West')->value('id')
             ],
             [
-                'name' => 'Igbo-Etiti',
+                'name' => 'Igbo Etiti',
                 'state_id' => 14,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo-Etiti/Uzo-Uwani')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo Etiti/Uzo Uwani')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu North')->value('id')
             ],
             [
-                'name' => 'Igbo-Eze-North',
+                'name' => 'Igbo Eze North',
                 'state_id' => 14,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo-Eze North/Igbo-Eze South')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo Eze North/Igbo Eze South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu North')->value('id')
             ],
             [
-                'name' => 'Igbo-Eze-South',
+                'name' => 'Igbo Eze South',
                 'state_id' => 14,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo-Eze North/Igbo-Eze South')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo Eze North/Igbo Eze South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu North')->value('id')
             ],
             [
-                'name' => 'Isi-Uzo',
+                'name' => 'Isi Uzo',
                 'state_id' => 14,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Enugu East/Isi-Uzo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Enugu East/Isi Uzo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu East')->value('id')
             ],
             [
-                'name' => 'Nkanu-East',
+                'name' => 'Nkanu East',
                 'state_id' => 14,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Nkanu East/Nkanu West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu East')->value('id')
             ],
             [
-                'name' => 'Nkanu-West',
+                'name' => 'Nkanu West',
                 'state_id' => 14,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Nkanu East/Nkanu West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu East')->value('id')
@@ -1916,11 +1916,11 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Nsukka',
                 'state_id' => 14,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Nsukka/Igbo-Etiti')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Nsukka/Igbo Etiti')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu North')->value('id')
             ],
             [
-                'name' => 'Oji-River',
+                'name' => 'Oji River',
                 'state_id' => 14,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Awgu/Aninri/Oji River')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu West')->value('id')
@@ -1928,7 +1928,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Udenu',
                 'state_id' => 14,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo-Eze North/Igbo-Eze South')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo Eze North/Igbo Eze South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu North')->value('id')
             ],
             [
@@ -1938,9 +1938,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Enugu West')->value('id')
             ],
             [
-                'name' => 'Uzo-Uwani',
+                'name' => 'Uzo Uwani',
                 'state_id' => 14,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo-Etiti/Uzo-Uwani')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Igbo Etiti/Uzo Uwani')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Enugu North')->value('id')
             ],
 
@@ -2006,27 +2006,27 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Gombe South')->value('id')
             ],
             [
-                'name' => 'Yamaltu-Deba',
+                'name' => 'Yamaltu Deba',
                 'state_id' => 15,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Yamaltu-Deba')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Yamaltu Deba')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Gombe Central')->value('id')
             ],
 
             // Imo State
             [
-                'name' => 'Aboh-Mbaise',
+                'name' => 'Aboh Mbaise',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Aboh Mbaise/Ngor Okpala')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo East')->value('id')
             ],
             [
-                'name' => 'Ahiazu-Mbaise',
+                'name' => 'Ahiazu Mbaise',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ahiazu Mbaise/Ezinihitte')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo East')->value('id')
             ],
             [
-                'name' => 'Ehime-Mbano',
+                'name' => 'Ehime Mbano',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ehime Mbano/Ihitte Uboma/Obowo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo North')->value('id')
@@ -2038,13 +2038,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Imo East')->value('id')
             ],
             [
-                'name' => 'Ideato-North',
+                'name' => 'Ideato North',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ideato North/Ideato South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo West')->value('id')
             ],
             [
-                'name' => 'Ideato-South',
+                'name' => 'Ideato South',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ideato North/Ideato South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo West')->value('id')
@@ -2062,7 +2062,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Imo East')->value('id')
             ],
             [
-                'name' => 'Isiala-Mbano',
+                'name' => 'Isiala Mbano',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Okigwe/Onuimo/Isiala Mbano')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo North')->value('id')
@@ -2080,7 +2080,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Imo East')->value('id')
             ],
             [
-                'name' => 'Ngor-Okpala',
+                'name' => 'Ngor Okpala',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Aboh Mbaise/Ngor Okpala')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo East')->value('id')
@@ -2112,13 +2112,13 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Oguta',
                 'state_id' => 16,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Oguta/Ohaji-Egbema/Oru West')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Oguta/Ohaji Egbema/Oru West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo West')->value('id')
             ],
             [
                 'name' => 'Ohaji/Egbema',
                 'state_id' => 16,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Oguta/Ohaji-Egbema/Oru West')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Oguta/Ohaji Egbema/Oru West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo West')->value('id')
             ],
             [
@@ -2140,31 +2140,31 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Imo West')->value('id')
             ],
             [
-                'name' => 'Oru-East',
+                'name' => 'Oru East',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Orlu/Orsu/Oru East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo West')->value('id')
             ],
             [
-                'name' => 'Oru-West',
+                'name' => 'Oru West',
                 'state_id' => 16,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Oguta/Ohaji-Egbema/Oru West')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Oguta/Ohaji Egbema/Oru West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo West')->value('id')
             ],
             [
-                'name' => 'Owerri-Municipal',
+                'name' => 'Owerri Municipal',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Owerri Municipal/Owerri North/Owerri West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo East')->value('id')
             ],
             [
-                'name' => 'Owerri-North',
+                'name' => 'Owerri North',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Owerri Municipal/Owerri North/Owerri West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo East')->value('id')
             ],
             [
-                'name' => 'Owerri-West',
+                'name' => 'Owerri West',
                 'state_id' => 16,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Owerri Municipal/Owerri North/Owerri West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Imo East')->value('id')
@@ -2176,168 +2176,168 @@ class LocalGovernmentSeeder extends Seeder
                 'name' => 'Auyo',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Hadejia/Auyo/Kafin Hausa')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North East')->value('id')
             ],
             [
                 'name' => 'Babura',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Babura/Garki')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
                 'name' => 'Biriniwa',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Biriniwa/Guri/Kiri Kasama')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North East')->value('id')
             ],
             [
-                'name' => 'Birnin-Kudu',
+                'name' => 'Birnin Kudu',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Birnin Kudu/Buji')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa South-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa South West')->value('id')
             ],
             [
                 'name' => 'Buji',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Birnin Kudu/Buji')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa South-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa South West')->value('id')
             ],
             [
                 'name' => 'Dutse',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Dutse/Kiyawa')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa South-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa South West')->value('id')
             ],
             [
                 'name' => 'Gagarawa',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Gumel/Maigatari/Sule Tankarkar/Gagarawa')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
                 'name' => 'Garki',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Babura/Garki')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
                 'name' => 'Gumel',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Gumel/Maigatari/Sule Tankarkar/Gagarawa')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
                 'name' => 'Guri',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Biriniwa/Guri/Kiri Kasama')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North East')->value('id')
             ],
             [
                 'name' => 'Gwaram',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Gwaram')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa South-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa South West')->value('id')
             ],
             [
                 'name' => 'Gwiwa',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Kazaure/Roni/Gwiwa/Yankwashi')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
                 'name' => 'Hadejia',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Hadejia/Auyo/Kafin Hausa')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North East')->value('id')
             ],
             [
                 'name' => 'Jahun',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Jahun/Miga')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa South-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa South West')->value('id')
             ],
             [
-                'name' => 'Kafin-Hausa',
+                'name' => 'Kafin Hausa',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Hadejia/Auyo/Kafin Hausa')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North East')->value('id')
             ],
             [
                 'name' => 'Kaugama',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Malam Madori/Kaugama')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North East')->value('id')
             ],
             [
                 'name' => 'Kazaure',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Kazaure/Roni/Gwiwa/Yankwashi')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
-                'name' => 'Kiri-Kasama',
+                'name' => 'Kiri Kasama',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Biriniwa/Guri/Kiri Kasama')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North East')->value('id')
             ],
             [
                 'name' => 'Kiyawa',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Dutse/Kiyawa')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa South-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa South West')->value('id')
             ],
             [
                 'name' => 'Maigatari',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Gumel/Maigatari/Sule Tankarkar/Gagarawa')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
-                'name' => 'Malam-Madori',
+                'name' => 'Malam Madori',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Malam Madori/Kaugama')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North East')->value('id')
             ],
             [
                 'name' => 'Miga',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Jahun/Miga')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa South-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa South West')->value('id')
             ],
             [
                 'name' => 'Ringim',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ringim/Taura')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
                 'name' => 'Roni',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Kazaure/Roni/Gwiwa/Yankwashi')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
-                'name' => 'Sule-Tankarkar',
+                'name' => 'Sule Tankarkar',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Gumel/Maigatari/Sule Tankarkar/Gagarawa')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
                 'name' => 'Taura',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ringim/Taura')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
             [
                 'name' => 'Yankwashi',
                 'state_id' => 17,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Kazaure/Roni/Gwiwa/Yankwashi')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Jigawa North-West')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Jigawa North West')->value('id')
             ],
 
             // Kaduna State
             [
-                'name' => 'Birnin-Gwari',
+                'name' => 'Birnin Gwari',
                 'state_id' => 18,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Birnin Gwari/Giwa')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kaduna North')->value('id')
@@ -2385,13 +2385,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kaduna South')->value('id')
             ],
             [
-                'name' => 'Kaduna-North',
+                'name' => 'Kaduna North',
                 'state_id' => 18,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Kaduna North')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kaduna Central')->value('id')
             ],
             [
-                'name' => 'Kaduna-South',
+                'name' => 'Kaduna South',
                 'state_id' => 18,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Kaduna South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kaduna Central')->value('id')
@@ -2445,7 +2445,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kaduna North')->value('id')
             ],
             [
-                'name' => 'Sabon-Gari',
+                'name' => 'Sabon Gari',
                 'state_id' => 18,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Sabon Gari')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kaduna North')->value('id')
@@ -2463,7 +2463,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kaduna North')->value('id')
             ],
             [
-                'name' => 'Zangon-Kataf',
+                'name' => 'Zangon Kataf',
                 'state_id' => 18,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Jaba/Zangon Kataf')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kaduna South')->value('id')
@@ -2525,13 +2525,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kano North')->value('id')
             ],
             [
-                'name' => 'Dawakin-Kudu',
+                'name' => 'Dawakin Kudu',
                 'state_id' => 19,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Dawakin Kudu/Warawa')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kano South')->value('id')
             ],
             [
-                'name' => 'Dawakin-Tofa',
+                'name' => 'Dawakin Tofa',
                 'state_id' => 19,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Dawakin Tofa/Tofa/Rimin Gado')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kano North')->value('id')
@@ -2561,7 +2561,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kano South')->value('id')
             ],
             [
-                'name' => 'Garun-Mallam',
+                'name' => 'Garun Mallam',
                 'state_id' => 19,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Kura/Madobi/Garun Mallam')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kano South')->value('id')
@@ -2597,7 +2597,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kano North')->value('id')
             ],
             [
-                'name' => 'Kano-Municipal',
+                'name' => 'Kano Municipal',
                 'state_id' => 19,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Kano Municipal')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kano Central')->value('id')
@@ -2669,7 +2669,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kano South')->value('id')
             ],
             [
-                'name' => 'Rimin-Gado',
+                'name' => 'Rimin Gado',
                 'state_id' => 19,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Dawakin Tofa/Tofa/Rimin Gado')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kano North')->value('id')
@@ -2717,7 +2717,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kano North')->value('id')
             ],
             [
-                'name' => 'Tudun-Wada',
+                'name' => 'Tudun Wada',
                 'state_id' => 19,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Doguwa/Tudun Wada')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kano South')->value('id')
@@ -2779,7 +2779,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Katsina Central')->value('id')
             ],
             [
-                'name' => 'Dan-Musa',
+                'name' => 'Dan Musa',
                 'state_id' => 20,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Batsari/Safana/Danmusa')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Katsina Central')->value('id')
@@ -2809,9 +2809,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Katsina North')->value('id')
             ],
             [
-                'name' => 'Dutsin-Ma',
+                'name' => 'Dutsin Ma',
                 'state_id' => 20,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Dutsin-Ma/Kurfi')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Dutsin Ma/Kurfi')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Katsina Central')->value('id')
             ],
             [
@@ -2871,7 +2871,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Kurfi',
                 'state_id' => 20,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Dutsin-Ma/Kurfi')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Dutsin Ma/Kurfi')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Katsina Central')->value('id')
             ],
             [
@@ -2955,7 +2955,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kebbi Central')->value('id')
             ],
             [
-                'name' => 'Arewa-Dandi',
+                'name' => 'Arewa Dandi',
                 'state_id' => 21,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Arewa/Dandi')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kebbi North')->value('id')
@@ -2979,7 +2979,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kebbi North')->value('id')
             ],
             [
-                'name' => 'Birnin-Kebbi',
+                'name' => 'Birnin Kebbi',
                 'state_id' => 21,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Birnin Kebbi/Kalgo/Bunza')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kebbi Central')->value('id')
@@ -2999,7 +2999,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Fakai',
                 'state_id' => 21,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Zuru/Fakai/Sakaba/Wasagu-Danko')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Zuru/Fakai/Sakaba/Wasagu Danko')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kebbi South')->value('id')
             ],
             [
@@ -3021,15 +3021,15 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kebbi Central')->value('id')
             ],
             [
-                'name' => 'Koko-Besse',
+                'name' => 'Koko Besse',
                 'state_id' => 21,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Koko-Besse/Maiyama')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Koko Besse/Maiyama')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kebbi North')->value('id')
             ],
             [
                 'name' => 'Maiyama',
                 'state_id' => 21,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Koko-Besse/Maiyama')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Koko Besse/Maiyama')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kebbi North')->value('id')
             ],
             [
@@ -3041,7 +3041,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Sakaba',
                 'state_id' => 21,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Zuru/Fakai/Sakaba/Wasagu-Danko')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Zuru/Fakai/Sakaba/Wasagu Danko')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kebbi South')->value('id')
             ],
             [
@@ -3059,7 +3059,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Wasagu/Danko',
                 'state_id' => 21,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Zuru/Fakai/Sakaba/Wasagu-Danko')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Zuru/Fakai/Sakaba/Wasagu Danko')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kebbi South')->value('id')
             ],
             [
@@ -3071,7 +3071,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Zuru',
                 'state_id' => 21,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Zuru/Fakai/Sakaba/Wasagu-Danko')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Zuru/Fakai/Sakaba/Wasagu Danko')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kebbi South')->value('id')
             ],
 
@@ -3109,31 +3109,31 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Ibaji',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Idah/Ibaji/Igalamela-Odolu/Ofu')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Idah/Ibaji/Igalamela Odolu/Ofu')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi East')->value('id')
             ],
             [
                 'name' => 'Idah',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Idah/Ibaji/Igalamela-Odolu/Ofu')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Idah/Ibaji/Igalamela Odolu/Ofu')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi East')->value('id')
             ],
             [
-                'name' => 'Igalamela-Odolu',
+                'name' => 'Igalamela Odolu',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Idah/Ibaji/Igalamela-Odolu/Ofu')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Idah/Ibaji/Igalamela Odolu/Ofu')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi East')->value('id')
             ],
             [
                 'name' => 'Ijumu',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Kabba-Bunu/Ijumu')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Kabba Bunu/Ijumu')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi West')->value('id')
             ],
             [
                 'name' => 'Kabba/Bunu',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Kabba-Bunu/Ijumu')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Kabba Bunu/Ijumu')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi West')->value('id')
             ],
             [
@@ -3149,21 +3149,21 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kogi West')->value('id')
             ],
             [
-                'name' => 'Mopa-Muro',
+                'name' => 'Mopa Muro',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Yagba East/Yagba West/Mopa-Muro')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Yagba East/Yagba West/Mopa Muro')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi West')->value('id')
             ],
             [
                 'name' => 'Ofu',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Idah/Ibaji/Igalamela-Odolu/Ofu')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Idah/Ibaji/Igalamela Odolu/Ofu')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi East')->value('id')
             ],
             [
                 'name' => 'Ogori/Magongo',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Okene/Ogori-Magongo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Okene/Ogori Magongo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi Central')->value('id')
             ],
             [
@@ -3175,7 +3175,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Okene',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Okene/Ogori-Magongo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Okene/Ogori Magongo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi Central')->value('id')
             ],
             [
@@ -3191,15 +3191,15 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kogi East')->value('id')
             ],
             [
-                'name' => 'Yagba-East',
+                'name' => 'Yagba East',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Yagba East/Yagba West/Mopa-Muro')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Yagba East/Yagba West/Mopa Muro')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi West')->value('id')
             ],
             [
-                'name' => 'Yagba-West',
+                'name' => 'Yagba West',
                 'state_id' => 22,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Yagba East/Yagba West/Mopa-Muro')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Yagba East/Yagba West/Mopa Muro')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kogi West')->value('id')
             ],
 
@@ -3225,7 +3225,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Ekiti',
                 'state_id' => 23,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Irepodun/Isin/Oke-Ero/Ekiti')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Irepodun/Isin/Oke Ero/Ekiti')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kwara South')->value('id')
             ],
             [
@@ -3235,19 +3235,19 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kwara South')->value('id')
             ],
             [
-                'name' => 'Ilorin-East',
+                'name' => 'Ilorin East',
                 'state_id' => 23,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ilorin East/Ilorin South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kwara Central')->value('id')
             ],
             [
-                'name' => 'Ilorin-South',
+                'name' => 'Ilorin South',
                 'state_id' => 23,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ilorin East/Ilorin South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kwara Central')->value('id')
             ],
             [
-                'name' => 'Ilorin-West',
+                'name' => 'Ilorin West',
                 'state_id' => 23,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Asa/Ilorin West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kwara Central')->value('id')
@@ -3255,13 +3255,13 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Irepodun',
                 'state_id' => 23,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Irepodun/Isin/Oke-Ero/Ekiti')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Irepodun/Isin/Oke Ero/Ekiti')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kwara South')->value('id')
             ],
             [
                 'name' => 'Isin',
                 'state_id' => 23,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Irepodun/Isin/Oke-Ero/Ekiti')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Irepodun/Isin/Oke Ero/Ekiti')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kwara South')->value('id')
             ],
             [
@@ -3283,9 +3283,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Kwara South')->value('id')
             ],
             [
-                'name' => 'Oke-Ero',
+                'name' => 'Oke Ero',
                 'state_id' => 23,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Irepodun/Isin/Oke-Ero/Ekiti')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Irepodun/Isin/Oke Ero/Ekiti')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Kwara South')->value('id')
             ],
             [
@@ -3309,9 +3309,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Lagos West')->value('id')
             ],
             [
-                'name' => 'Ajeromi-Ifelodun',
+                'name' => 'Ajeromi Ifelodun',
                 'state_id' => 24,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ajeromi-Ifelodun')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ajeromi Ifelodun')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Lagos West')->value('id')
             ],
             [
@@ -3321,9 +3321,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Lagos West')->value('id')
             ],
             [
-                'name' => 'Amuwo-Odofin',
+                'name' => 'Amuwo Odofin',
                 'state_id' => 24,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Amuwo-Odofin')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Amuwo Odofin')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Lagos West')->value('id')
             ],
             [
@@ -3345,21 +3345,21 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Lagos East')->value('id')
             ],
             [
-                'name' => 'Eti-Osa',
+                'name' => 'Eti Osa',
                 'state_id' => 24,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Eti-Osa')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Eti Osa')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Lagos East')->value('id')
             ],
             [
-                'name' => 'Ibeju-Lekki',
+                'name' => 'Ibeju Lekki',
                 'state_id' => 24,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ibeju-Lekki')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ibeju Lekki')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Lagos East')->value('id')
             ],
             [
-                'name' => 'Ifako-Ijaiye',
+                'name' => 'Ifako Ijaiye',
                 'state_id' => 24,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ifako-Ijaiye')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ifako Ijaiye')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Lagos West')->value('id')
             ],
             [
@@ -3381,13 +3381,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Lagos East')->value('id')
             ],
             [
-                'name' => 'Lagos-Island',
+                'name' => 'Lagos Island',
                 'state_id' => 24,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Lagos Island')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Lagos Central')->value('id')
             ],
             [
-                'name' => 'Lagos-Mainland',
+                'name' => 'Lagos Mainland',
                 'state_id' => 24,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Lagos Mainland')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Lagos Central')->value('id')
@@ -3405,9 +3405,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Lagos West')->value('id')
             ],
             [
-                'name' => 'Oshodi-Isolo',
+                'name' => 'Oshodi Isolo',
                 'state_id' => 24,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Oshodi-Isolo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Oshodi Isolo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Lagos West')->value('id')
             ],
             [
@@ -3427,7 +3427,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Akwanga',
                 'state_id' => 25,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Akwanga/Nasarawa-Eggon/Wamba')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Akwanga/Nasarawa Eggon/Wamba')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Nasarawa North')->value('id')
             ],
             [
@@ -3479,9 +3479,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Nasarawa West')->value('id')
             ],
             [
-                'name' => 'Nasarawa-Eggon',
+                'name' => 'Nasarawa Eggon',
                 'state_id' => 25,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Akwanga/Nasarawa-Eggon/Wamba')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Akwanga/Nasarawa Eggon/Wamba')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Nasarawa North')->value('id')
             ],
             [
@@ -3499,7 +3499,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Wamba',
                 'state_id' => 25,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Akwanga/Nasarawa-Eggon/Wamba')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Akwanga/Nasarawa Eggon/Wamba')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Nasarawa North')->value('id')
             ],
 
@@ -3657,31 +3657,31 @@ class LocalGovernmentSeeder extends Seeder
 
             // Ogun State
             [
-                'name' => 'Abeokuta-North',
+                'name' => 'Abeokuta North',
                 'state_id' => 27,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Abeokuta North/Obafemi-Owode/Odeda')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Abeokuta North/Obafemi Owode/Odeda')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun Central')->value('id')
             ],
             [
-                'name' => 'Abeokuta-South',
+                'name' => 'Abeokuta South',
                 'state_id' => 27,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Abeokuta South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun Central')->value('id')
             ],
             [
-                'name' => 'Ado-Odo/Ota',
+                'name' => 'Ado Odo/Ota',
                 'state_id' => 27,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ado-Odo/Ota')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ado Odo/Ota')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun West')->value('id')
             ],
             [
-                'name' => 'Egbado-North',
+                'name' => 'Egbado North',
                 'state_id' => 27,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Egbado North/Imeko-Afon')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Egbado North/Imeko Afon')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun West')->value('id')
             ],
             [
-                'name' => 'Egbado-South',
+                'name' => 'Egbado South',
                 'state_id' => 27,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Egbado South/Ipokia')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun West')->value('id')
@@ -3699,25 +3699,25 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ogun Central')->value('id')
             ],
             [
-                'name' => 'Ijebu-East',
+                'name' => 'Ijebu East',
                 'state_id' => 27,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ijebu East/Ijebu North/Ogun Waterside')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun East')->value('id')
             ],
             [
-                'name' => 'Ijebu-North',
+                'name' => 'Ijebu North',
                 'state_id' => 27,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ijebu East/Ijebu North/Ogun Waterside')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun East')->value('id')
             ],
             [
-                'name' => 'Ijebu-North-East',
+                'name' => 'Ijebu North East',
                 'state_id' => 27,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ijebu Ode/Odogbolu/Ijebu North East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun East')->value('id')
             ],
             [
-                'name' => 'Ijebu-Ode',
+                'name' => 'Ijebu Ode',
                 'state_id' => 27,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ijebu Ode/Odogbolu/Ijebu North East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun East')->value('id')
@@ -3729,9 +3729,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ogun East')->value('id')
             ],
             [
-                'name' => 'Imeko-Afon',
+                'name' => 'Imeko Afon',
                 'state_id' => 27,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Egbado North/Imeko-Afon')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Egbado North/Imeko Afon')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun West')->value('id')
             ],
             [
@@ -3741,15 +3741,15 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ogun West')->value('id')
             ],
             [
-                'name' => 'Obafemi-Owode',
+                'name' => 'Obafemi Owode',
                 'state_id' => 27,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Abeokuta North/Obafemi-Owode/Odeda')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Abeokuta North/Obafemi Owode/Odeda')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun Central')->value('id')
             ],
             [
                 'name' => 'Odeda',
                 'state_id' => 27,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Abeokuta North/Obafemi-Owode/Odeda')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Abeokuta North/Obafemi Owode/Odeda')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun Central')->value('id')
             ],
             [
@@ -3759,13 +3759,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ogun East')->value('id')
             ],
             [
-                'name' => 'Ogun-Waterside',
+                'name' => 'Ogun Waterside',
                 'state_id' => 27,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ijebu East/Ijebu North/Ogun Waterside')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun East')->value('id')
             ],
             [
-                'name' => 'Remo-North',
+                'name' => 'Remo North',
                 'state_id' => 27,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ikenne/Shagamu/Remo North')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun East')->value('id')
@@ -3777,13 +3777,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ogun East')->value('id')
             ],
             [
-                'name' => 'Yewa-North',
+                'name' => 'Yewa North',
                 'state_id' => 27,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Egbado North/Imeko-Afon')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Egbado North/Imeko Afon')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun West')->value('id')
             ],
             [
-                'name' => 'Yewa-South',
+                'name' => 'Yewa South',
                 'state_id' => 27,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Egbado South/Ipokia')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ogun West')->value('id')
@@ -3791,45 +3791,45 @@ class LocalGovernmentSeeder extends Seeder
 
             // Ondo State
             [
-                'name' => 'Akoko-North-East',
+                'name' => 'Akoko North East',
                 'state_id' => 28,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Akoko North East/Akoko North West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo North')->value('id')
             ],
             [
-                'name' => 'Akoko-North-West',
+                'name' => 'Akoko North West',
                 'state_id' => 28,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Akoko North East/Akoko North West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo North')->value('id')
             ],
             [
-                'name' => 'Akoko-South-East',
+                'name' => 'Akoko South East',
                 'state_id' => 28,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Akoko South East/Akoko South West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo North')->value('id')
             ],
             [
-                'name' => 'Akoko-South-West',
+                'name' => 'Akoko South West',
                 'state_id' => 28,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Akoko South East/Akoko South West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo North')->value('id')
             ],
             [
-                'name' => 'Akure-North',
+                'name' => 'Akure North',
                 'state_id' => 28,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Akure North/Akure South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo Central')->value('id')
             ],
             [
-                'name' => 'Akure-South',
+                'name' => 'Akure South',
                 'state_id' => 28,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Akure North/Akure South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo Central')->value('id')
             ],
             [
-                'name' => 'Ese-Odo',
+                'name' => 'Ese Odo',
                 'state_id' => 28,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ilaje/Ese-Odo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ilaje/Ese Odo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo South')->value('id')
             ],
             [
@@ -3847,13 +3847,13 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Ilaje',
                 'state_id' => 28,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ilaje/Ese-Odo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ilaje/Ese Odo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo South')->value('id')
             ],
             [
-                'name' => 'Ile-Oluji/Okeigbo',
+                'name' => 'Ile Oluji/Okeigbo',
                 'state_id' => 28,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ile-Oluji-Okeigbo/Odigbo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ile Oluji Okeigbo/Odigbo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo South')->value('id')
             ],
             [
@@ -3865,7 +3865,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Odigbo',
                 'state_id' => 28,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ile-Oluji-Okeigbo/Odigbo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ile Oluji Okeigbo/Odigbo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo South')->value('id')
             ],
             [
@@ -3875,13 +3875,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Ondo South')->value('id')
             ],
             [
-                'name' => 'Ondo-East',
+                'name' => 'Ondo East',
                 'state_id' => 28,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ondo East/Ondo West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo Central')->value('id')
             ],
             [
-                'name' => 'Ondo-West',
+                'name' => 'Ondo West',
                 'state_id' => 28,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ondo East/Ondo West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Ondo Central')->value('id')
@@ -3909,17 +3909,17 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Aiyedire',
                 'state_id' => 29,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Iwo/Aiyedire/Ola-Oluwa')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Iwo/Aiyedire/Ola Oluwa')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun West')->value('id')
             ],
             [
-                'name' => 'Atakunmosa-East',
+                'name' => 'Atakunmosa East',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ilesa East/Ilesa West/Atakunmosa East/Atakunmosa West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun East')->value('id')
             ],
             [
-                'name' => 'Atakunmosa-West',
+                'name' => 'Atakunmosa West',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ilesa East/Ilesa West/Atakunmosa East/Atakunmosa West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun East')->value('id')
@@ -3933,17 +3933,17 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Boripe',
                 'state_id' => 29,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Boripe/Ifelodun/Odo-Otin')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Boripe/Ifelodun/Odo Otin')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun Central')->value('id')
             ],
             [
-                'name' => 'Ede-North',
+                'name' => 'Ede North',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ede North/Ede South/Egbedore/Ejigbo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun West')->value('id')
             ],
             [
-                'name' => 'Ede-South',
+                'name' => 'Ede South',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ede North/Ede South/Egbedore/Ejigbo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun West')->value('id')
@@ -3961,25 +3961,25 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Osun West')->value('id')
             ],
             [
-                'name' => 'Ife-Central',
+                'name' => 'Ife Central',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ife Central/Ife East/Ife North/Ife South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun East')->value('id')
             ],
             [
-                'name' => 'Ife-East',
+                'name' => 'Ife East',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ife Central/Ife East/Ife North/Ife South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun East')->value('id')
             ],
             [
-                'name' => 'Ife-North',
+                'name' => 'Ife North',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ife Central/Ife East/Ife North/Ife South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun East')->value('id')
             ],
             [
-                'name' => 'Ife-South',
+                'name' => 'Ife South',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ife Central/Ife East/Ife North/Ife South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun East')->value('id')
@@ -3993,7 +3993,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Ifelodun',
                 'state_id' => 29,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Boripe/Ifelodun/Odo-Otin')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Boripe/Ifelodun/Odo Otin')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun Central')->value('id')
             ],
             [
@@ -4003,13 +4003,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Osun Central')->value('id')
             ],
             [
-                'name' => 'Ilesa-East',
+                'name' => 'Ilesa East',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ilesa East/Ilesa West/Atakunmosa East/Atakunmosa West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun East')->value('id')
             ],
             [
-                'name' => 'Ilesa-West',
+                'name' => 'Ilesa West',
                 'state_id' => 29,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ilesa East/Ilesa West/Atakunmosa East/Atakunmosa West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun East')->value('id')
@@ -4035,7 +4035,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Iwo',
                 'state_id' => 29,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Iwo/Aiyedire/Ola-Oluwa')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Iwo/Aiyedire/Ola Oluwa')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun West')->value('id')
             ],
             [
@@ -4045,15 +4045,15 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Osun East')->value('id')
             ],
             [
-                'name' => 'Odo-Otin',
+                'name' => 'Odo Otin',
                 'state_id' => 29,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Boripe/Ifelodun/Odo-Otin')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Boripe/Ifelodun/Odo Otin')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun Central')->value('id')
             ],
             [
-                'name' => 'Ola-Oluwa',
+                'name' => 'Ola Oluwa',
                 'state_id' => 29,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Iwo/Aiyedire/Ola-Oluwa')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Iwo/Aiyedire/Ola Oluwa')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Osun West')->value('id')
             ],
             [
@@ -4109,59 +4109,59 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Egbeda',
                 'state_id' => 30,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Egbeda/Ona-Ara')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Egbeda/Ona Ara')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Ibadan-Central',
+                'name' => 'Ibadan Central',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ibadan North')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Ibadan-North',
+                'name' => 'Ibadan North',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ibadan North')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Ibadan-North-East',
+                'name' => 'Ibadan North East',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ibadan North East/Ibadan South East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Ibadan-North-West',
+                'name' => 'Ibadan North West',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ibadan North West/Ibadan South West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Ibadan-South-East',
+                'name' => 'Ibadan South East',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ibadan North East/Ibadan South East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Ibadan-South-West',
+                'name' => 'Ibadan South West',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ibadan North West/Ibadan South West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Ibarapa-Central',
+                'name' => 'Ibarapa Central',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ibarapa Central/Ibarapa North')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo South')->value('id')
             ],
             [
-                'name' => 'Ibarapa-East',
+                'name' => 'Ibarapa East',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ibarapa East/Ido')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo South')->value('id')
             ],
             [
-                'name' => 'Ibarapa-North',
+                'name' => 'Ibarapa North',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Ibarapa Central/Ibarapa North')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo South')->value('id')
@@ -4209,21 +4209,21 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Ogbomosho-North',
+                'name' => 'Ogbomosho North',
                 'state_id' => 30,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ogbomosho North/Ogbomosho South/Ori-Ire')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ogbomosho North/Ogbomosho South/Ori Ire')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo North')->value('id')
             ],
             [
-                'name' => 'Ogbomosho-South',
+                'name' => 'Ogbomosho South',
                 'state_id' => 30,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ogbomosho North/Ogbomosho South/Ori-Ire')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ogbomosho North/Ogbomosho South/Ori Ire')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo North')->value('id')
             ],
             [
-                'name' => 'Ogo-Oluwa',
+                'name' => 'Ogo Oluwa',
                 'state_id' => 30,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ogo-Oluwa/Surulere')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ogo Oluwa/Surulere')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo South')->value('id')
             ],
             [
@@ -4239,9 +4239,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Ona-Ara',
+                'name' => 'Ona Ara',
                 'state_id' => 30,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Egbeda/Ona-Ara')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Egbeda/Ona Ara')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
@@ -4251,31 +4251,31 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Oyo North')->value('id')
             ],
             [
-                'name' => 'Ori-Ire',
+                'name' => 'Ori Ire',
                 'state_id' => 30,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ogbomosho North/Ogbomosho South/Ori-Ire')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ogbomosho North/Ogbomosho South/Ori Ire')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo North')->value('id')
             ],
             [
-                'name' => 'Oyo-East',
+                'name' => 'Oyo East',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Afijio/Atiba/Oyo East/Oyo West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Oyo-West',
+                'name' => 'Oyo West',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Afijio/Atiba/Oyo East/Oyo West')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo Central')->value('id')
             ],
             [
-                'name' => 'Saki-East',
+                'name' => 'Saki East',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Saki West/Saki East/Atisbo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo North')->value('id')
             ],
             [
-                'name' => 'Saki-West',
+                'name' => 'Saki West',
                 'state_id' => 30,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Saki West/Saki East/Atisbo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo North')->value('id')
@@ -4283,13 +4283,13 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Surulere',
                 'state_id' => 30,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ogo-Oluwa/Surulere')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ogo Oluwa/Surulere')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Oyo South')->value('id')
             ],
 
             // Plateau State
             [
-                'name' => 'Barkin-Ladi',
+                'name' => 'Barkin Ladi',
                 'state_id' => 31,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Barkin Ladi/Riyom')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Plateau North')->value('id')
@@ -4307,19 +4307,19 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Plateau Central')->value('id')
             ],
             [
-                'name' => 'Jos-East',
+                'name' => 'Jos East',
                 'state_id' => 31,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Jos South/Jos East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Plateau North')->value('id')
             ],
             [
-                'name' => 'Jos-North',
+                'name' => 'Jos North',
                 'state_id' => 31,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Jos North/Bassa')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Plateau North')->value('id')
             ],
             [
-                'name' => 'Jos-South',
+                'name' => 'Jos South',
                 'state_id' => 31,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Jos South/Jos East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Plateau North')->value('id')
@@ -4337,13 +4337,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Plateau Central')->value('id')
             ],
             [
-                'name' => 'Langtang-North',
+                'name' => 'Langtang North',
                 'state_id' => 31,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Langtang North/Langtang South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Plateau South')->value('id')
             ],
             [
-                'name' => 'Langtang-South',
+                'name' => 'Langtang South',
                 'state_id' => 31,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Langtang North/Langtang South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Plateau South')->value('id')
@@ -4367,7 +4367,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Plateau Central')->value('id')
             ],
             [
-                'name' => 'Qua\'An-Pan',
+                'name' => 'Qua\'An Pan',
                 'state_id' => 31,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Shendam/Qua\'an Pan/Mikang')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Plateau South')->value('id')
@@ -4395,50 +4395,50 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Abua/Odual',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Abua-Odual/Ahoada East')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Abua Odual/Ahoada East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Rivers West')->value('id')
             ],
             [
-                'name' => 'Ahoada-East',
+                'name' => 'Ahoada East',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Abua-Odual/Ahoada East')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Abua Odual/Ahoada East')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Rivers West')->value('id')
             ],
             [
-                'name' => 'Ahoada-West',
+                'name' => 'Ahoada West',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ahoada West/Ogba-Egbema-Ndoni')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ahoada West/Ogba Egbema Ndoni')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Rivers West')->value('id')
             ],
             [
-                'name' => 'Akuku-Toru',
+                'name' => 'Akuku Toru',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Akuku-Toru/Asari-Toru')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Rivers South-East')->value('id')
+                'constituency_id' => DB::table('constituencies')->where('name', 'Akuku Toru/Asari Toru')->value('id'),
+                'district_id' => DB::table('districts')->where('name', 'Rivers South East')->value('id')
             ],
             [
                 'name' => 'Andoni',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Andoni/Opobo-Nkoro')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Rivers South-East')->value('id')
+                'constituency_id' => DB::table('constituencies')->where('name', 'Andoni/Opobo Nkoro')->value('id'),
+                'district_id' => DB::table('districts')->where('name', 'Rivers South East')->value('id')
             ],
             [
-                'name' => 'Asari-Toru',
+                'name' => 'Asari Toru',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Akuku-Toru/Asari-Toru')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Rivers South-East')->value('id')
+                'constituency_id' => DB::table('constituencies')->where('name', 'Akuku Toru/Asari Toru')->value('id'),
+                'district_id' => DB::table('districts')->where('name', 'Rivers South East')->value('id')
             ],
             [
                 'name' => 'Bonny',
                 'state_id' => 32,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Bonny/Degema')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Rivers South-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Rivers South East')->value('id')
             ],
             [
                 'name' => 'Degema',
                 'state_id' => 32,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Bonny/Degema')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Rivers South-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Rivers South East')->value('id')
             ],
             [
                 'name' => 'Eleme',
@@ -4462,7 +4462,7 @@ class LocalGovernmentSeeder extends Seeder
                 'name' => 'Gokana',
                 'state_id' => 32,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Khana/Gokana')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Rivers South-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Rivers South East')->value('id')
             ],
             [
                 'name' => 'Ikwerre',
@@ -4474,30 +4474,30 @@ class LocalGovernmentSeeder extends Seeder
                 'name' => 'Khana',
                 'state_id' => 32,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Khana/Gokana')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Rivers South-East')->value('id')
+                'district_id' => DB::table('districts')->where('name', 'Rivers South East')->value('id')
             ],
             [
                 'name' => 'Obio/Akpor',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Obio-Akpor')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Obio Akpor')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Rivers East')->value('id')
             ],
             [
                 'name' => 'Ogba/Egbema/Ndoni',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Ahoada West/Ogba-Egbema-Ndoni')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Ahoada West/Ogba Egbema Ndoni')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Rivers West')->value('id')
             ],
             [
                 'name' => 'Ogu/Bolo',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Okrika/Ogu-Bolo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Okrika/Ogu Bolo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Rivers East')->value('id')
             ],
             [
                 'name' => 'Okrika',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Okrika/Ogu-Bolo')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Okrika/Ogu Bolo')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Rivers East')->value('id')
             ],
             [
@@ -4509,8 +4509,8 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Opobo/Nkoro',
                 'state_id' => 32,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Andoni/Opobo-Nkoro')->value('id'),
-                'district_id' => DB::table('districts')->where('name', 'Rivers South-East')->value('id')
+                'constituency_id' => DB::table('constituencies')->where('name', 'Andoni/Opobo Nkoro')->value('id'),
+                'district_id' => DB::table('districts')->where('name', 'Rivers South East')->value('id')
             ],
             [
                 'name' => 'Oyigbo',
@@ -4519,7 +4519,7 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Rivers East')->value('id')
             ],
             [
-                'name' => 'Port-Harcourt',
+                'name' => 'Port Harcourt',
                 'state_id' => 32,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Port Harcourt')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Rivers East')->value('id')
@@ -4541,13 +4541,13 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Bodinga',
                 'state_id' => 33,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Bodinga/Dange-Shuni/Tureta')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Bodinga/Dange Shuni/Tureta')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Sokoto South')->value('id')
             ],
             [
-                'name' => 'Dange-Shuni',
+                'name' => 'Dange Shuni',
                 'state_id' => 33,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Bodinga/Dange-Shuni/Tureta')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Bodinga/Dange Shuni/Tureta')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Sokoto South')->value('id')
             ],
             [
@@ -4583,7 +4583,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Isa',
                 'state_id' => 33,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Isa/Sabon-Birni')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Isa/Sabon Birni')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Sokoto East')->value('id')
             ],
             [
@@ -4605,9 +4605,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Sokoto East')->value('id')
             ],
             [
-                'name' => 'Sabon-Birni',
+                'name' => 'Sabon Birni',
                 'state_id' => 33,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Isa/Sabon-Birni')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Isa/Sabon Birni')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Sokoto East')->value('id')
             ],
             [
@@ -4623,13 +4623,13 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Sokoto North')->value('id')
             ],
             [
-                'name' => 'Sokoto-North',
+                'name' => 'Sokoto North',
                 'state_id' => 33,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Sokoto North/Sokoto South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Sokoto North')->value('id')
             ],
             [
-                'name' => 'Sokoto-South',
+                'name' => 'Sokoto South',
                 'state_id' => 33,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Sokoto North/Sokoto South')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Sokoto North')->value('id')
@@ -4649,7 +4649,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Tureta',
                 'state_id' => 33,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Bodinga/Dange-Shuni/Tureta')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Bodinga/Dange Shuni/Tureta')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Sokoto South')->value('id')
             ],
             [
@@ -4673,7 +4673,7 @@ class LocalGovernmentSeeder extends Seeder
 
             // Taraba State
             [
-                'name' => 'Ardo-Kola',
+                'name' => 'Ardo Kola',
                 'state_id' => 34,
                 'constituency_id' => DB::table('constituencies')->where('name', 'Jalingo/Yorro/Zing')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Taraba North')->value('id')
@@ -4715,9 +4715,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Taraba North')->value('id')
             ],
             [
-                'name' => 'Karim-Lamido',
+                'name' => 'Karim Lamido',
                 'state_id' => 34,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Karim-Lamido/Lau/Ardo-Kola')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Karim Lamido/Lau/Ardo Kola')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Taraba North')->value('id')
             ],
             [
@@ -4729,7 +4729,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Lau',
                 'state_id' => 34,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Karim-Lamido/Lau/Ardo-Kola')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Karim Lamido/Lau/Ardo Kola')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Taraba North')->value('id')
             ],
             [
@@ -4877,7 +4877,7 @@ class LocalGovernmentSeeder extends Seeder
             [
                 'name' => 'Anka',
                 'state_id' => 36,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Anka/Talata-Mafara')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Anka/Talata Mafara')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Zamfara West')->value('id')
             ],
             [
@@ -4887,9 +4887,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Zamfara West')->value('id')
             ],
             [
-                'name' => 'Birnin-Magaji/Kiyaw',
+                'name' => 'Birnin Magaji/Kiyaw',
                 'state_id' => 36,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Birnin-Magaji/Kaura-Namoda')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Birnin Magaji/Kaura Namoda')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Zamfara North')->value('id')
             ],
             [
@@ -4917,9 +4917,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Zamfara Central')->value('id')
             ],
             [
-                'name' => 'Kaura-Namoda',
+                'name' => 'Kaura Namoda',
                 'state_id' => 36,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Birnin-Magaji/Kaura-Namoda')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Birnin Magaji/Kaura Namoda')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Zamfara North')->value('id')
             ],
             [
@@ -4941,9 +4941,9 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Zamfara North')->value('id')
             ],
             [
-                'name' => 'Talata-Mafara',
+                'name' => 'Talata Mafara',
                 'state_id' => 36,
-                'constituency_id' => DB::table('constituencies')->where('name', 'Anka/Talata-Mafara')->value('id'),
+                'constituency_id' => DB::table('constituencies')->where('name', 'Anka/Talata Mafara')->value('id'),
                 'district_id' => DB::table('districts')->where('name', 'Zamfara West')->value('id')
             ],
             [

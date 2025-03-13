@@ -41,8 +41,7 @@ class HomePageController extends Controller
             }
 
             $criteria = array_merge($criteria, array_filter([
-                'constituency' => $criteria['constituency'] ??  null,
-                'local_government' => $criteria['local_government'] ?? null,
+                'local_government' => $criteria['local_government'] ?? $currentUser->local_government ?? null,
                 'state' => $criteria['state'] ?? $currentUser->state ?? null,
             ]));
 

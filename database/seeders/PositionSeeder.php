@@ -29,7 +29,7 @@ class PositionSeeder extends Seeder
             // State Level Positions
             ['title' => 'Governor', 'level' => 2],
             ['title' => 'Deputy Governor', 'level' => 2],
-            ['title' => 'Senator', 'level' => 2],
+            ['title' => 'Senator', 'level' => 5],
             ['title' => 'State House of Assembly Speaker', 'level' => 2],
             ['title' => 'State House of Assembly Member', 'level' => 2],
             ['title' => 'Chief Judge of the State', 'level' => 2],

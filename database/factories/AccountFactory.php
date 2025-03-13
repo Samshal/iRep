@@ -90,7 +90,7 @@ class AccountFactory
             $sortableAttributes = ['created_at', 'name', 'account_type'];
             $filterableAttributes = [
                 'account_type', 'position', 'constituency', 'party', 'name',
-                'district', 'state', 'local_government', 'id'
+                'district', 'state', 'local_government', 'id', 'position_level'
             ];
 
             $total = app('search')->indexData(

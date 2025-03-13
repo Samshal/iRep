@@ -157,6 +157,31 @@ class HomePageFactory extends PostFactory
         }
     }
 
+    private function getLgDistrictAndConstituency(string $localGovernment, ?int $stateId)
+    {
+        $query = "
+			SELECT
+				d.name AS district_name,
+				c.name AS constituency_name
+			FROM local_governments lg
+			LEFT JOIN districts d ON lg.district_id = d.id
+			LEFT JOIN constituencies c ON lg.constituency_id = c.id
+			WHERE lg.name = ? AND lg.state_id = ?
+			LIMIT 1
+		";
+
+        return DB::selectOne($query, [$localGovernment, $stateId]);
+    }
+
+    private function getStateIdByName(string $stateName): ?int
+    {
+        $query = "SELECT id FROM states WHERE name = ? LIMIT 1";
+
+        $state = DB::selectOne($query, [$stateName]);
+
+        return $state ? (int) $state->id : null;
+    }
+
     public function getRepresentatives(array $criteria = [])
     {
         try {
@@ -167,25 +192,29 @@ class HomePageFactory extends PostFactory
             $sortBy = $criteria['sort_by'] ?? 'created_at';
             $sortOrder = $criteria['sort_order'] ?? 'desc';
 
-
             $filters = [
                 'account_type' => 'representative',
-                'state' => $criteria['state'] ?? null,
-                'local_government' => $criteria['local_government'] ?? null,
-                'position' => $criteria['position'] ?? null,
-                'constituency' => $criteria['constituency'] ?? null,
-                'party' => $criteria['party'] ?? null,
-                'district' => $criteria['district'] ?? null,
             ];
 
-            if (!empty($criteria['state']) && !isset($criteria['all']) &&
-                empty($criteria['local_government']) &&
-                empty($criteria['position']) &&
-                empty($criteria['constituency'])) {
-                $filters['position_level'] = 2;
+            if (!empty($criteria['party'])) {
+                $filters['party'] = $criteria['party'];
             }
 
-            Log::info($criteria);
+            if (!empty($criteria['position'])) {
+                $filters['position'] = $criteria['position'];
+            }
+
+            if (!empty($criteria['local_government'])) {
+                $filters['position_level'] = [3, 4, 5];
+                if (!empty($criteria['state'])) {
+                    $filters['state'] = $criteria['state'];
+                }
+            } elseif (!empty($criteria['state'])) {
+                $filters['state'] = $criteria['state'];
+                $filters['position_level'] = [2, 3, 4, 5];
+            }
+
+            Log::info('Search criteria:', $criteria);
 
             $searchParams = [
                 'filter' => $this->buildFilters($filters),
@@ -196,25 +225,49 @@ class HomePageFactory extends PostFactory
             ];
 
             $results = app('search')->search('accounts', $query, $searchParams);
+            $hits = $results['hits'] ?? [];
 
-            $totalCount = $results['nbHits'] ?? 0;
+            // Post-filtering by district derived from local_government
+            if (!empty($criteria['local_government']) && !empty($criteria['state'])) {
+                $stateId = $this->getStateIdByName($criteria['state']);
+                $targetLgInfo = $this->getLgDistrictAndConstituency($criteria['local_government'], $stateId);
+
+                if ($targetLgInfo && $targetLgInfo->district_name) {
+                    $hits = array_filter($hits, function ($hit) use ($targetLgInfo, $stateId) {
+                        // Skip if hit has no local_government
+                        if (!isset($hit['local_government'])) {
+                            return false;
+                        }
+
+                        // Get district for this hit's local_government from database
+                        $hitLgInfo = $this->getLgDistrictAndConstituency($hit['local_government'], $stateId);
+
+                        if (!$hitLgInfo || !$hitLgInfo->district_name) {
+                            return false;
+                        }
+
+                        // Match only if districts are the same
+                        return $hitLgInfo->district_name === $targetLgInfo->district_name;
+                    });
+                    $hits = array_values($hits); // Re-index array after filtering
+                }
+            }
+
+            $totalCount = count($hits); // Update total count after filtering
             $lastPage = ceil($totalCount / $pageSize);
 
             return [
-                'data' => $results['hits'] ?? [],
+                'data' => array_slice($hits, $offset, $pageSize), // Apply pagination after filtering
                 'total' => $totalCount,
                 'current_page' => $page,
                 'last_page' => $lastPage,
                 'page_size' => (int) $pageSize,
-
             ];
         } catch (\Exception $e) {
-            Log::error('Error fetching representatives from meillisearch: ' . $e->getMessage());
-            $this->getRepresentativesFromDatabase($criteria);
+            Log::error('Error fetching representatives from Meilisearch: ' . $e->getMessage());
+            return $this->getRepresentativesFromDatabase($criteria);
         }
     }
-
-
 
     public function getRepresentativesFromDatabase($criteria)
     {
@@ -277,7 +330,7 @@ class HomePageFactory extends PostFactory
     protected function buildFilters(array $filters): string
     {
         $meiliFilters = [];
-        $specialFields = ['state', 'local_government', 'constituency',
+        $specialFields = ['local_government', 'constituency', 'district',
             'author_state', 'author_local_government', 'author_constituency'];
         $specialFieldFilters = [];
 
