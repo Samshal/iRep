@@ -32,22 +32,7 @@ return new class () extends Migration {
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(255) UNIQUE NOT NULL
             )
-        ");
-
-        // Create the local_governments table
-        DB::statement("
-            CREATE TABLE local_governments (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(255) NOT NULL,
-				state_id INT NOT NULL,
-				constituency_id INT,
-				district_id INT,
-				FOREIGN KEY (state_id) REFERENCES states(id) ON DELETE CASCADE,
-				FOREIGN KEY (constituency_id) REFERENCES constituencies(id) ON DELETE CASCADE,
-				FOREIGN KEY (district_id) REFERENCES districts(id) ON DELETE CASCADE,
-				UNIQUE (name, state_id)
-            )
-        ");
+			");
 
         // Create the constituencies table
         DB::statement("
@@ -70,6 +55,21 @@ return new class () extends Migration {
 				UNIQUE (name, state_id)
 			)
 		");
+
+        // Create the local_governments table
+        DB::statement("
+            CREATE TABLE local_governments (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+				state_id INT NOT NULL,
+				constituency_id INT,
+				district_id INT,
+				FOREIGN KEY (state_id) REFERENCES states(id) ON DELETE CASCADE,
+				FOREIGN KEY (constituency_id) REFERENCES constituencies(id) ON DELETE CASCADE,
+				FOREIGN KEY (district_id) REFERENCES districts(id) ON DELETE CASCADE,
+				UNIQUE (name, state_id)
+            )
+        ");
 
         // Create the positions table
         // Added level column to the positions table

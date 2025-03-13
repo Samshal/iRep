@@ -4391,7 +4391,6 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Plateau South')->value('id')
             ],
 
-            // Rivers state
             // Rivers State
             [
                 'name' => 'Abua/Odual',
@@ -4532,7 +4531,6 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Rivers East')->value('id')
             ],
 
-            // Sokoto state
             // Sokoto State
             [
                 'name' => 'Binji',
@@ -4673,7 +4671,6 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Sokoto South')->value('id')
             ],
 
-            // Taraba state
             // Taraba State
             [
                 'name' => 'Ardo-Kola',
@@ -4876,7 +4873,6 @@ class LocalGovernmentSeeder extends Seeder
                 'district_id' => DB::table('districts')->where('name', 'Yobe North')->value('id')
             ],
 
-            // Zamfara state
             // Zamfara State
             [
                 'name' => 'Anka',
@@ -5010,9 +5006,21 @@ class LocalGovernmentSeeder extends Seeder
                     return !is_null($value);
                 });
 
-                DB::table('local_governments')->insert($filteredLg);
+                DB::statement("
+					INSERT INTO local_governments (name, state_id, constituency_id, district_id)
+					VALUES (?, ?, ?, ?)
+					ON DUPLICATE KEY UPDATE
+						constituency_id = VALUES(constituency_id),
+						district_id = VALUES(district_id)
+				", [
+                    $filteredLg['name'] ?? null,
+                    $filteredLg['state_id'] ?? null,
+                    $filteredLg['constituency_id'] ?? null,
+                    $filteredLg['district_id'] ?? null
+                ]);
+
             } catch (\Exception $e) {
-                Log::error('Failed to insert LG: ' . $e->getMessage(), $lg);
+                Log::error('Failed to insert/update LG: ' . $e->getMessage(), $lg);
             }
         }
     }
