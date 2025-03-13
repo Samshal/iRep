@@ -5006,6 +5006,8 @@ class LocalGovernmentSeeder extends Seeder
                     return !is_null($value);
                 });
 
+                dump('filteredLg: ' . json_encode($filteredLg));
+
                 DB::statement("
 					INSERT INTO local_governments (name, state_id, constituency_id, district_id)
 					VALUES (?, ?, ?, ?)
@@ -5020,7 +5022,8 @@ class LocalGovernmentSeeder extends Seeder
                 ]);
 
             } catch (\Exception $e) {
-                Log::error('Failed to insert/update LG: ' . $e->getMessage(), $lg);
+				Log::error('Failed to insert/update LG: ' . $e->getMessage(), $lg);
+				dump('Failed to insert/update LG: ' . $e->getMessage());
             }
         }
     }
