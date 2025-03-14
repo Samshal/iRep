@@ -283,4 +283,27 @@ Route::get('/districts/{stateId}', function ($stateId) {
     return response()->json($districts, 200);
 });
 
+Route::get('/constituencies/{localGovernmentId}', function ($localGovernmentId) {
+    $constituencies = DB::table('local_governments as lg')
+        ->join('constituencies as c', 'lg.constituency_id', '=', 'c.id')
+        ->select('c.id', 'c.name')
+        ->where('lg.id', $localGovernmentId)
+        ->orderBy('c.name', 'asc')
+        ->get();
+
+    return response()->json($constituencies, 200);
+});
+
+Route::get('/districts/{localGovernmentId}', function ($localGovernmentId) {
+    $districts = DB::table('local_governments as lg')
+        ->join('districts as d', 'lg.district_id', '=', 'd.id')
+        ->select('d.id', 'd.name')
+        ->where('lg.id', $localGovernmentId)
+        ->orderBy('d.name', 'asc')
+        ->get();
+
+    return response()->json($districts, 200);
+});
+
+
 Route::post('/send-notification', [AdminController::class, 'sendPushNotification'])->name('sendPushNotification');
