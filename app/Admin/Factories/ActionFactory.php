@@ -145,17 +145,24 @@ class ActionFactory
         }
     }
 
-    public function updateLocalGovernment(int $localGovernmentId, string $localGovernment, int $stateId): int
-    {
+    public function updateLocalGovernment(
+        int $localGovernmentId,
+        string $localGovernment,
+        int $stateId,
+        int $constituencyId,
+        int $districtId
+    ): int {
         try {
             $query = "
 			UPDATE local_governments
-			SET name = :local_government, state_id = :state_id
+			SET name = :local_government, state_id = :state_id, constituency_id = :constituency_id, district_id = :district_id
 			WHERE id = :local_government_id";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':local_government', $localGovernment);
             $stmt->bindParam(':state_id', $stateId);
             $stmt->bindParam(':local_government_id', $localGovernmentId);
+            $stmt->bindParam(':constituency_id', $constituencyId);
+            $stmt->bindParam(':district_id', $districtId);
             $stmt->execute();
 
             return $stmt->rowCount();

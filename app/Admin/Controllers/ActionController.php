@@ -136,12 +136,16 @@ class ActionController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'state_id' => 'required|integer|exists:states,id',
+            'constituency_id' => 'nullable|integer|exists:constituencies,id',
+            'district_id' => 'nullable|integer|exists:districts,id',
         ]);
 
         $localGovernment = $this->actionFactory->updateLocalGovernment(
             $id,
             $validatedData['name'],
-            $validatedData['state_id']
+            $validatedData['state_id'],
+            $validatedData['constituency_id'],
+            $validatedData['district_id']
         );
 
         if ($localGovernment) {
