@@ -69,8 +69,8 @@ services:
   nginx:
     image: nginx:latest
     container_name: irep_nginx
-	profiles:
-	  - dev
+    profiles:
+      - dev
     ports:
       - "80:80"
       - "443:443"
