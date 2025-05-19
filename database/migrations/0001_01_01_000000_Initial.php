@@ -38,7 +38,9 @@ return new class () extends Migration {
         DB::statement("
             CREATE TABLE constituencies (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(255) NOT NULL,
+				name VARCHAR(255) NOT NULL,
+				code VARCHAR(255),
+				type ENUM('senatorial', 'federal', 'state'),
 				state_id INT NOT NULL,
                 FOREIGN KEY (state_id) REFERENCES states(id) ON DELETE CASCADE,
 				UNIQUE (name, state_id)
@@ -50,6 +52,7 @@ return new class () extends Migration {
 			CREATE TABLE districts (
 				id INT AUTO_INCREMENT PRIMARY KEY,
 				name VARCHAR(255) NOT NULL,
+				code VARCHAR(255),
 				state_id INT NOT NULL,
 				FOREIGN KEY (state_id) REFERENCES states(id) ON DELETE CASCADE,
 				UNIQUE (name, state_id)
@@ -60,7 +63,8 @@ return new class () extends Migration {
         DB::statement("
             CREATE TABLE local_governments (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(255) NOT NULL,
+				name VARCHAR(255) NOT NULL,
+				code VARCHAR(255),
 				state_id INT NOT NULL,
 				constituency_id INT,
 				district_id INT,
@@ -76,7 +80,9 @@ return new class () extends Migration {
         DB::statement("
             CREATE TABLE positions (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-				title VARCHAR(255) UNIQUE NOT NULL
+				title VARCHAR(255) UNIQUE NOT NULL,
+				level INT NOT NULL DEFAULT 4,
+				code VARCHAR(255)
             )
         ");
 
@@ -131,7 +137,9 @@ return new class () extends Migration {
                 social_handles JSON,
 				bio TEXT,
 				proof_of_office JSON DEFAULT NULL,
-                account_id INT NOT NULL UNIQUE,
+				account_id INT NOT NULL UNIQUE,
+				approved BOOLEAN DEFAULT FALSE,
+				status ENUM('pending', 'verified', 'unverified') DEFAULT 'unverified',
                 FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
                 FOREIGN KEY (position_id) REFERENCES positions(id) ON DELETE CASCADE,
                 FOREIGN KEY (constituency_id) REFERENCES constituencies(id) ON DELETE CASCADE,
@@ -161,7 +169,32 @@ return new class () extends Migration {
                 last_activity INT,
                 FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE SET NULL
             )
-        ");
+			");
+
+        DB::statement("
+			CREATE TABLE reports (
+			id INT AUTO_INCREMENT PRIMARY KEY,
+			entity_id INT NOT NULL,
+			entity_type ENUM('post', 'comment', 'account') NOT NULL,
+			reporter_id INT,
+			reason ENUM('spam', 'harassment', 'hate speech', 'violence', 'fake news', 'other') NOT NULL,
+			description TEXT,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			FOREIGN KEY (reporter_id) REFERENCES accounts(id) ON DELETE CASCADE
+			)
+		");
+
+        // Create the password_resets table
+        DB::statement(
+            'CREATE TABLE password_resets (
+				id INT AUTO_INCREMENT PRIMARY KEY,
+				account_id INT UNIQUE,
+				email VARCHAR(255) NOT NULL,
+				token VARCHAR(255) NOT NULL,
+				created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
+			)'
+        );
     }
 
     /**
@@ -177,7 +210,9 @@ return new class () extends Migration {
             DB::statement("DROP TABLE IF EXISTS representatives");
         }
 
+        DB::statement("DROP TABLE IF EXISTS password_resets");
         DB::statement("DROP TABLE IF EXISTS verification_tokens");
+        DB::statement("DROP TABLE IF EXISTS reports");
         DB::statement("DROP TABLE IF EXISTS sessions");
         DB::statement("DROP TABLE IF EXISTS accounts");
         DB::statement("DROP TABLE IF EXISTS parties");

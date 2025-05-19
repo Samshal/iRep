@@ -88,6 +88,8 @@ return new class () extends Migration {
 			post_id INT NOT NULL,
 			account_id INT NOT NULL,
 			comment TEXT NOT NULL,
+			supporter BOOLEAN DEFAULT FALSE,
+			status ENUM('active', 'inactive') DEFAULT 'active',
 			commented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
 			FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
@@ -103,6 +105,7 @@ return new class () extends Migration {
 			entity_type ENUM('post', 'comment') NOT NULL,
 			account_id INT NOT NULL,
 			liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
 			UNIQUE (entity_id, entity_type, account_id)
 			)
@@ -117,6 +120,7 @@ return new class () extends Migration {
 			entity_type ENUM('post', 'comment') NOT NULL,
 			account_id INT NOT NULL,
 			reposted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
 			UNIQUE (entity_id, entity_type, account_id)
 			)
@@ -131,6 +135,7 @@ return new class () extends Migration {
 			entity_type ENUM('post', 'comment') NOT NULL,
 			account_id INT NOT NULL,
 			bookmarked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
 			UNIQUE (entity_id, entity_type, account_id)
 			)

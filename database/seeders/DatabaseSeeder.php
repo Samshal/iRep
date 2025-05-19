@@ -13,12 +13,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PartySeeder::class);
         $this->call(StateSeeder::class);
-        $this->call(DistrictSeeder::class);
+        // $this->call(DistrictSeeder::class);
         $this->call(ConstituencySeeder::class);
-        $this->call(LocalGovernmentSeeder::class);
+        // $this->call(LocalGovernmentSeeder::class);
         $this->call(PositionSeeder::class);
         $this->call(AccountSeeder::class);
-        $this->call(RepresentativeSeeder::class);
+        //  $this->call(RepresentativeSeeder::class);
         $this->call(PostSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(AdminDataSeeder::class);

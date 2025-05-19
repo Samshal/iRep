@@ -22,7 +22,7 @@ return new class () extends Migration {
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
 			)
-			');
+		');
     }
 
     /**
