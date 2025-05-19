@@ -56,6 +56,8 @@ class ActionController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
+            'type' => 'nullable|string',
+            'code' => 'nullable|string',
             'state_id' => 'required|integer|exists:states,id',
         ]);
 
@@ -71,6 +73,7 @@ class ActionController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
+            'code' => 'nullable|string',
             'state_id' => 'required|integer|exists:states,id',
         ]);
 
@@ -86,6 +89,7 @@ class ActionController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|string|unique:positions,title',
+            'code' => 'nullable|string',
         ]);
 
         $position = $this->actionFactory->insertPosition($validatedData['title']);
