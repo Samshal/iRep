@@ -237,7 +237,7 @@ Route::get('/states', function () {
 
 Route::get('/local-governments/{stateId}', function ($stateId) {
     $localGovernments = DB::table('local_governments')
-        ->select('id', 'name', 'constituency_id', 'district_id')
+        ->select('id', 'name', 'constituency_id', 'district_id', 'code')
         ->where('state_id', $stateId)
         ->orderBy('name', 'asc')
         ->get();
@@ -263,18 +263,22 @@ Route::get('/parties', function () {
     return response()->json($parties, 200);
 });
 
-Route::get('/constituencies/{stateId}', function ($stateId) {
-    $constituencies = DB::table('constituencies')
-        ->select('id', 'name')
-        ->where('state_id', $stateId)
-        ->orderBy('name', 'asc')
-        ->get();
+Route::get('/constituencies/{stateId}', function (Request $request, $stateId) {
+    $query = DB::table('constituencies')
+        ->select('id', 'name', 'code', 'type')
+        ->where('state_id', $stateId);
+
+    if ($request->has('type')) {
+        $query->where('type', $request->query('type'));
+    }
+
+    $constituencies = $query->orderBy('name', 'asc')->get();
 
     return response()->json($constituencies, 200);
 });
 
 Route::get('/districts/{stateId}', function ($stateId) {
-    $districts = DB::table('districts')
+    $districts = DB::table('districts', 'code')
         ->select('id', 'name')
         ->where('state_id', $stateId)
         ->orderBy('name', 'asc')

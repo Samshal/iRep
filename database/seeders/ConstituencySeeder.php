@@ -42,12 +42,16 @@ class ConstituencySeeder extends Seeder
         foreach ($constituencies as $constituency) {
             try {
                 DB::statement("
-					INSERT INTO constituencies (name, state_id)
-					VALUES (?, ?)
+					INSERT INTO constituencies (name, code, type, state_id)
+					VALUES (?, ?, ?, ?)
 					ON DUPLICATE KEY UPDATE
-						name = VALUES(name)
+						name = VALUES(name),
+						code = VALUES(code),
+						type = VALUES(type)
 				", [
                     $constituency['name'],
+                    $constituency['code'],
+                    $constituency['type'],
                     $constituency['state_id']
                 ]);
 
