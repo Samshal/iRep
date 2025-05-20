@@ -35,14 +35,16 @@ class ActionController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'state_id' => 'required|integer|exists:states,id',
-            'constituency_id' => 'nullable|integer|exists:constituencies,id',
+            'state_constituency_id' => 'nullable|integer|exists:constituencies,id',
+            'federal_constituency_id' => 'nullable|integer|exists:constituencies,id',
             'district_id' => 'nullable|integer|exists:districts,id',
         ]);
 
         $localGovernment = $this->actionFactory->insertLocalGovernment(
             $validatedData['name'],
             $validatedData['state_id'],
-            $validatedData['constituency_id'],
+            $validatedData['state_constituency_id'],
+            $validatedData['federal_constituency_id'],
             $validatedData['district_id']
         );
 

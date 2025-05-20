@@ -34,17 +34,19 @@ class ActionFactory
     public function insertLocalGovernment(
         string $localGovernment,
         int $stateId,
-        int $constituencyId,
+        int $stateConstituencyId,
+        int $federalConstituencyId,
         int $districtId
     ): int {
         try {
             $query = "
-			INSERT INTO local_governments (name, state_id, constituency_id, district_id)
-			VALUES (:local_government, :state_id, :constituency_id, :district_id)";
+			INSERT INTO local_governments (name, state_id, state_constituency_id, federal_constituency_id, district_id)
+			VALUES (:local_government, :state_id, :state_constituency_id, :federal_constituency_id, :district_id)";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':local_government', $localGovernment);
             $stmt->bindParam(':state_id', $stateId);
-            $stmt->bindParam(':constituency_id', $constituencyId);
+            $stmt->bindParam(':state_constituency_id', $stateConstituencyId);
+            $stmt->bindParam(':federal_constituency_id', $federalConstituencyId);
             $stmt->bindParam(':district_id', $districtId);
             $stmt->execute();
 

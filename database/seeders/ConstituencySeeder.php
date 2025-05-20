@@ -37,6 +37,15 @@ class ConstituencySeeder extends Seeder
             ['name' => 'Umuahia Central', 'state_id' => 1, 'code' => 'SC/01/AB23', 'type' => 'state'],
             ['name' => 'Umuahia South', 'state_id' => 1, 'code' => 'SC/01/AB24', 'type' => 'state'],
 
+            ['name' => 'Aba North/Aba South', 'state_id' => 1, 'code' => 'FC/001/AB', 'type' => 'federal'],
+            ['name' => 'Arochukwu/Ohafia', 'state_id' => 1, 'code' => 'FC/002/AB', 'type' => 'federal'],
+            ['name' => 'Bende', 'state_id' => 1, 'code' => 'FC/003/AB', 'type' => 'federal'],
+            ['name' => 'Isiala Ngwa North/Isiala Ngwa South', 'state_id' => 1, 'code' => 'FC/004/AB', 'type' => 'federal'],
+            ['name' => 'Isuikwuato/Umu-Nneochi', 'state_id' => 1, 'code' => 'FC/005/AB', 'type' => 'federal'],
+            ['name' => 'Obingwa//Ugwunagbo/Osisioma', 'state_id' => 1, 'code' => 'FC/006/AB', 'type' => 'federal'],
+            ['name' => 'Umuahia North/Umuahia South/Ikwuano', 'state_id' => 1, 'code' => 'FC/007/AB', 'type' => 'federal'],
+            ['name' => 'Ukwa East/Ukwa West', 'state_id' => 1, 'code' => 'FC/008/AB', 'type' => 'federal'],
+
         ];
 
         foreach ($constituencies as $constituency) {

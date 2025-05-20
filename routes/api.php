@@ -237,7 +237,7 @@ Route::get('/states', function () {
 
 Route::get('/local-governments/{stateId}', function ($stateId) {
     $localGovernments = DB::table('local_governments')
-        ->select('id', 'name', 'constituency_id', 'district_id', 'code')
+        ->select('id', 'name', 'state_constituency_id', 'federal_constituency_id', 'district_id', 'code')
         ->where('state_id', $stateId)
         ->orderBy('name', 'asc')
         ->get();
@@ -290,7 +290,7 @@ Route::get('/districts/{stateId}', function ($stateId) {
 Route::get('/local-governments/constituencies/{localGovernmentId}', function ($localGovernmentId) {
     $constituencies = DB::table('local_governments as lg')
         ->join('constituencies as c', 'lg.constituency_id', '=', 'c.id')
-        ->select('c.id', 'c.name')
+        ->select('c.id', 'c.name', 'c.code', 'c.type')
         ->where('lg.id', $localGovernmentId)
         ->orderBy('c.name', 'asc')
         ->get();
@@ -301,7 +301,7 @@ Route::get('/local-governments/constituencies/{localGovernmentId}', function ($l
 Route::get('/local-governments/districts/{localGovernmentId}', function ($localGovernmentId) {
     $districts = DB::table('local_governments as lg')
         ->join('districts as d', 'lg.district_id', '=', 'd.id')
-        ->select('d.id', 'd.name')
+        ->select('d.id', 'd.name', 'd.code')
         ->where('lg.id', $localGovernmentId)
         ->orderBy('d.name', 'asc')
         ->get();
