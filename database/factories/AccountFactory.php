@@ -325,7 +325,19 @@ class AccountFactory
         $templateVariables = [
             'otp' => $otp,
         ];
-        app('emailService')->sendNewUserVerification($email, $name, $templateVariables);
+
+        Log::info('Sending verification email', [
+            'account_id' => $accountId,
+            'email' => $email,
+        ]);
+
+        $sent = app('emailService')->sendNewUserVerification($email, $name, $templateVariables);
+
+        Log::info('Verification email send result', [
+            'account_id' => $accountId,
+            'email' => $email,
+            'sent' => $sent,
+        ]);
     }
 
     protected function getAccountType($accountType)

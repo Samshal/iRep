@@ -5008,18 +5008,22 @@ class LocalGovernmentSeeder extends Seeder
 
                 // dump('filteredLg: ' . json_encode($filteredLg));
 
-                DB::statement("
-					INSERT INTO local_governments (name, state_id, constituency_id, district_id)
+                // Map provided `constituency_id` to the correct schema column `state_constituency_id`.
+                DB::statement(
+                    "
+					INSERT INTO local_governments (name, state_id, state_constituency_id, district_id)
 					VALUES (?, ?, ?, ?)
 					ON DUPLICATE KEY UPDATE
-						constituency_id = VALUES(constituency_id),
+						state_constituency_id = VALUES(state_constituency_id),
 						district_id = VALUES(district_id)
-				", [
-                    $filteredLg['name'] ?? null,
-                    $filteredLg['state_id'] ?? null,
-                    $filteredLg['constituency_id'] ?? null,
-                    $filteredLg['district_id'] ?? null
-                ]);
+				",
+                    [
+                        $filteredLg['name'] ?? null,
+                        $filteredLg['state_id'] ?? null,
+                        $filteredLg['constituency_id'] ?? null,
+                        $filteredLg['district_id'] ?? null,
+                    ]
+                );
 
             } catch (\Exception $e) {
                 Log::error('Failed to insert/update LG: ' . $e->getMessage(), $lg);
